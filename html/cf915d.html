@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>iHello | 我的个人主页</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="../assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../assets/css/main.css" />
+        <link rel="stylesheet" href="../assets/css/prism.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="../assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="../assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+		<div id="wrapper"><div id="main">
+    <div class="inner">
+        <header id="header">
+            <a href="index.html" class="logo"><strong>iHello, my World!</strong></a>
+        </header>
+            
+        <section>
+            <header class="main">
+                <h1>Codeforces915D 有向图判环算法的应用</h1>
+            </header>
+            <h2>引出</h2>
+            <p>
+                Codeforces上的教育场（Educational Contest）题目质量一向很优秀，很多题目即使是轻松AC之后，也能引发很深入的思考。前几天Round 36的D题就是一个很好的例子。<br />
+                <a href="http://codeforces.com/contest/915/problem/D">题目链接</a><
+            </p>
+            <h2>题意</h2>
+            <p>
+                给定一张有向图，如果可以任意删去图中的一条边，问是否可以得到一张有向无环图（DAG）。<br />
+                原图不一定联通，得到的图也不一定要联通。原图中可能出现重边、自环。<br />
+                数据范围：点数N ≤ 500，边数M ≤ 10 0000，时间限制1秒。
+            </p>
+            <p>
+                这个问题看上去简洁小巧，最终得到的程序也是精炼优美，但是中间的思考过程比较复杂。我们不妨先从有向图判环的问题开始说起。
+            </p>
+            <h2>有向图判环</h2>
+            <p>
+                一般来说，我们可以使用<a href="https://en.wikipedia.org/wiki/Depth-first_search">深度优先搜索</a>来判断一个有向图是否有环。先任取一个顶点，从该顶点开始进行dfs，每次经过一个节点都将该节点标记为“正在被遍历”。如果发现当前节点出发有一条边连向一个“正在被遍历”的点，那么我们就发现了一个环；当一个节点回溯的时候，说明它所在生成树的子树已经完全被遍历过了，那么我们把它重新标记为“已经结束遍历”状态。一次dfs结束后，如果没有发现环，由于图未必联通，再要任取一个没有被经过过的点进行一次dfs，直到每个点都被经过了。如果没有发现任何环，那么就说明图中不存在环。如果采用邻接表的形式存储图，复杂度是O(M+N)，而如果采用邻接矩阵的形式，复杂度是O(N^2)的。
+            </p>
+            <p>
+                此外，如果一张有向图中没有环，那它顾名思义就是一张有向无环图。而有向无环图具有许多优秀的性质，比如说我们可以对图进行<a href="https://en.wikipedia.org/wiki/Topological_sorting">拓扑排序</a>。对一张图进行拓扑排序有两种经典的算法，一种是利用优先队列或者栈来实现，可以参考<a href="http://blog.csdn.net/fisher_jiang/article/details/941234">这个博客</a>；另一种则是利用深度优先搜索的回溯，在《算法导论》中有详细的介绍。简单地说，就是任取一个点进行一次dfs，在回溯的时候记录每个点返回的时间，然后倒着排序一下就可以得到拓扑序了。当然在这道题里，也同样需要多次dfs直到所有点都被经过过为止，因为图未必联通。这个算法的复杂度是O(M+N)。
+            </p>
+            <h2>两种尝试</h2>
+            <p>
+                回到刚才的问题，我们能不能继续沿用上面的算法呢？读到这里，相信读者容易想到一个朴素、暴力的想法：枚举每一条边，判断删除该边后的图是不是有向无环图。但是，在最坏的情况下这个算法的时间复杂度是O(M*(M+N))，显然不足以通过本题的时间限制。
+            </p>
+            <p>
+                这个思路并不是走不通。事实上，我们可以在使用第一个算法的时候，保存下图中出现的第一个环的所有边。实现方式是同时用一个栈维护当前dfs的路径上的边，在第一次发现返祖边（也就是连向一个“正在被遍历”的点的边）的时候，找到这条边将路径上切割出的那个环，也就是不断出栈直到栈顶节点与当前节点相同。那么这些节点就构成了一个环。
+                在dfs结束后，如果没有找到一个环，那么这张图直接就符合条件；否则，删除的边一定是这个环上的一条边（否则不可能形成无环图）。因此枚举环上的每一条边，判断删除该边后的图是不是有向无环图即可。复杂度为O(N*(N+M))，因为环上至多有N条边。<br />
+                具体AC代码在最后贴出。
+            </p>
+            <p>
+                另一种想法是改造算法。我们回想刚才的第二个算法，如果对一个有环的图使用这种拓扑排序的dfs会怎么样？dfs的时候就会无限递归爆栈。检测是否无限递归显然不行，但是我们可以少许改造一下dfs的顺序，使得当一个点在最后一次被访问的时候才进入递归；对于有向无环图，这样的改造是没有问题的，只是本来是第一次路过家门的时候进去（指进入递归），以后在路过就不进了；现在是最后一次路过家门（即第d[i]次，d[i]表示i点的入度）的时候进去。但是对于有环的图，经过这样的改造以后，本来会无限进入的地方就变成一次都进不了。这样只要再对进了递归的点进行一下计数，看最后进入递归的点数是否等于N即可。<br />
+                具体到这道题目，我们只要枚举要删掉的那条边的终点，将该点的入度-1，然后按照上面的算法进行一次遍历，看得到的图是不是有向无环图即可。也就是说，如果边(u,v)删除后的图是有向无环图，那么我们将原图中的d[v]--，然后从任意点开始拓扑遍历，如果能遍历到所有点，那么这张图就符合条件。那么我们只要枚举每一个点作为删除的终点，如果都不符合条件，则不存在这样的边(u,v)，也就是图不符合条件。<br />实现细节详见代码，这个算法的复杂度也是O(N*(N+M))，但实现相对简单。
+            </p>
+            <h2>殊途同归</h2>
+            <p>
+                上面列举了两种判断有向图是否有环的算法，并分别对他们进行了一些变换，得到了这道题的两种解法。我们不难发现，这两种方法虽然看上去很不相同，但是思想是一样的：枚举图中的一些元素（前者是某一个环上的边，后者是某个顶点的入度），判断图中变化该元素后是否变成了一个有向无环图，从而在原本O(N+M)的判定方法的基础上乘以了一个O(N)的复杂度，得到了O(N*(N+M))的结果。<br />
+                此外，这两种方法都用到了对有向图的<b>深度优先遍历</b>。在第一个方法中，第一次dfs用于寻找图中的一个环，第二次dfs维护每个点的经历情况，用于判环；第二个方法中的dfs经过了改造，只有在有向无环图中才能遍历所有节点，同样用于判环。但其实dfs的威力远远不止如此，在此题中，如果我们综合上面两种方法的思想，我们甚至可以直接通过一次dfs来得出结果。
+            </p>
+            <span class="image right"><img src="../images/cf915d_1.jpg"/></span>
+            <p>
+                回想一下第一个算法的dfs过程。以这张图为例，假设我们选择点1为遍历的起始点，那么我们从1走到2，再从2走到3，再从3走到1。由于1是“正在被遍历”的点，我们就找到了一条返祖边(3,1)，也因此找到了一个环。那么问题来了，环上那么多条边，我们找到的返祖边是哪一条呢？显然是从最晚被经过的点，指向最早被经过的那个点的那条边。也就是说，起点选择不同，找到的返祖边就不同，比如如果以点2为起点遍历，最后找到的返祖边就会是(1,2)。<br />
+                我们再回想第二个算法，核心思想是枚举被删除的边复杂度太高，转而枚举被删除边的终点，也就是枚举(u,v)中的v点。那么这里我们也可以采用同样的思路。注意到题目的要求其实等价于“存在一条边被图中的所有环共用”，那么我们枚举这条边的终点，然后进行上述的dfs，可以发现每次找到的返祖边都是同一条。换句话说，如果存在一条边(u,v)使得删除该边后图中没有环了，那么我们从v点开始dfs，每次找到的返祖边都是(u,v)这条。<br />
+                这样说起来可能有些抽象，我们继续用右边的图为例。在这张图中，(3,1)这条边是符合条件的唯一一条边。那么我们从点1开始遍历，无论是1-2-3-1、1-2-3-4-1、1-3-1这三个环的哪一个，找到的返祖边都是这一条。如果从点2开始遍历，则会找到(1,2)、(1,3)两条不同的返祖边。因此我们只要枚举这个v，对每个点进行一次dfs，如果某一次dfs时发现的所有返祖边都是同一条，那么就符合条件；反之不符合条件。<br />
+                这个算法的复杂度依然是O(N*(N+M))，但实现非常简单，代码非常简洁。由此，我们可以切实感受到dfs的魅力所在。
+            </p>
+            <h2>AC代码</h2>
+            <h4>第一种做法（来自官方题解）</h4>
+            <pre class="line-numbers" data-src="../source/cf915d_1.cpp" style="white-space:pre-swap;"></pre>
+            <h4>第二种做法（来自@ytz123）</h4>
+            <pre class="line-numbers" data-src="../source/cf915d_2.cpp" style="white-space:pre-swap;"></pre>
+            <h4>第三种做法（我的做法）</h4>
+            <pre class="line-numbers" data-src="../source/cf915d_3.cpp" style="white-space:pre-swap;"></pre>
+        </section>
+    </div>
+</div>
+<div id="sidebar">
+    <div class="inner">
+        <section id="search" class="alt">
+            <form onsubmit="alert('啊哈，搜索功能还没做！');return false;">
+                <input type="text" name="query" placeholder="在标签中搜索" />
+            </form>
+        </section>
+
+        <nav id="menu">
+            <header class="major">
+                <h2>文章列表</h2>
+            </header>
+            <ul>
+                <li>
+                    <span class="opener">人工智能与深度学习</span>
+                    <ul><li><a href="devcloud.html">在Intel DevCloud平台上搭建深度学习项目（一）</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="opener">算法与数据结构</span>
+                    <ul><li><a href="cf913e.html">贪心思想与最短路模型</a></li>
+                        <li><a href="cf915d.html">有向图判环算法的应用</a></li>
+                        <li><a href="lisanduishu1.html">离散对数加密（一）</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="opener">随笔与相册</span>
+                    <ul><li><a href="HunterVSHunter.html">猎人内战与一血反杀</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="opener">过往博客搬运</span>
+                    <ul><li><a href="cf765e.html">CF765e dfs</a></li>
+                    </ul>
+                <li><a href="interest.html">有趣数理结论收集</a></li>
+            </ul>
+        </nav>
+
+        <section>
+            <header class="major">
+                <h2>友情链接</h2>
+            </header>
+            <div class="mini-posts">
+                <article>
+                    <a href="http://codeforces.com" class="image"><img src="../images/friend_01.jpg" alt="" /></a>
+                    <p>Codeforces，每周举办高质量的算法比赛，同时承办许多国外知名企业举办的算法竞赛，算法爱好者的交流学习基地。</p>
+                </article>
+                <article>
+                    <a href="https://github.com" class="image"><img src="../images/friend_02.jpg" alt="" /></a>
+                    <p>Github，一个面向开源及私有软件项目的托管平台，在此可以十分轻易地找到海量的开源代码，并与全球程序员合作开发。</p>
+                </article>
+                <article>
+                    <a href="#" class="image"><img src="../images/pic09.jpg" alt="" /></a>
+                    <p>虚位以待。</p>
+                </article>
+            </div>
+            <ul class="actions">
+                <li><a href="#" class="button">More</a></li>
+            </ul>
+        </section>
+
+        <section>
+            <header class="major">
+                <h2>联系方式</h2>
+            </header>
+            <p>如果你有什么问题、意见或者建议，随时欢迎和我发邮件联系！如果对我在博客中提到的项目源码感兴趣，可以去我的github主页看看。</p>
+            <ul class="contact">
+                <li class="fa-envelope-o">Mail: <a href="mailto:cy1818cy@bupt.edu.cn?subject='from iHello.world'">cy1818cy@bupt.edu.cn</a></li>
+                <li class="fa-qq">QQ: 2446629225</li>
+                <li class="fa-train">Github: <a href="https://github.com/BloodmageThalnos">BloodmageThalnos</a></li>
+            </ul>
+        </section>
+
+        <footer id="footer">
+            <p class="copyright">&copy;2018-2028 by 程元. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+        </footer>
+    </div>
+</div>			</div>
+
+        <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script>!window.jQuery&&document.write('<script src="../assets/js/jquery.min.js"><\/script>');</script>
+        <script src="../assets/js/skel.min.js"></script>
+        <script src="../assets/js/util.js"></script>
+        <!--[if lte IE 8]><script src="../assets/js/ie/respond.min.js"></script><![endif]-->
+        <script src="../assets/js/main.js"></script>
+        <script src="../assets/js/prism.js"></script>
+	</body>
+</html>

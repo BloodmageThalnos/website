@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>iHello | 我的个人主页</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="../assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../assets/css/main.css" />
+        <link rel="stylesheet" href="../assets/css/prism.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="../assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="../assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+		<div id="wrapper"><div id="main">
+    <div class="inner">
+        <header id="header">
+            <a href="index.html" class="logo"><strong>iHello, my World!</strong></a>
+        </header>
+            
+        <section>
+            <header class="main">
+                <h1>Codeforces765E dfs</h1>
+            </header>
+            <h2>题意</h2>
+            <p>
+                题意：每次从一棵树中找两根长度相同、起点相同的直链并删去其中一根。重复这个操作，求可以得到的最短直链的长度。如果无法得到直链，输出-1。<br />
+                需要注意的是树即使已经被删成直链了，如果长度是偶数还可以继续删的。 
+            </p>
+            <h2>思路</h2>
+            <p>
+                问题的关键是找到树中的“特殊点”，也就是我上面的图中的所有红点。“特殊点”的特点是它的度>2，且与它相连的直链长度不全相等，即以它为起点，不经过其他度>2的点，到达叶子节点的路径有至少两条，且长度不全相等。<br />
+                容易看出：若特殊点超过1个，结果必是-1；如果上述路径有三种及以上的长度，结果也是-1。不然，结果就是这两种长度之和，然后再除2直到不为偶数。 <br />
+                看出这个结论后就非常简单了：先对任一点建dfs树，用set存起每个点的节点的返回值，如果set.size>=3直接-1，如果==2就说明这个点是特殊点，再以这个点为起点建树做一遍。如果==1说明是普通点，直接+1返回上一层。 <br />
+                此外还需判断没有特殊点的情况。答案不一定直接就是cut(N-1)，比如
+                <blockquote>4 4 1 4 2 4 3
+                </blockquote>
+                这种数据，还得瞎搞一下，不再赘述。
+            </p>
+            <span class="image right"><img src="../images/cf765e.jpg"/></span>
+            <h2>AC代码</h2>
+            <pre class="line-numbers" data-src="../source/cf765e.cpp" style="white-space:pre-swap;"></pre>
+        </section>
+    </div>
+</div>
+<div id="sidebar">
+    <div class="inner">
+        <section id="search" class="alt">
+            <form onsubmit="alert('啊哈，搜索功能还没做！');return false;">
+                <input type="text" name="query" placeholder="在标签中搜索" />
+            </form>
+        </section>
+
+        <nav id="menu">
+            <header class="major">
+                <h2>文章列表</h2>
+            </header>
+            <ul>
+                <li>
+                    <span class="opener">人工智能与深度学习</span>
+                    <ul><li><a href="devcloud.html">在Intel DevCloud平台上搭建深度学习项目（一）</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="opener">算法与数据结构</span>
+                    <ul><li><a href="cf913e.html">贪心思想与最短路模型</a></li>
+                        <li><a href="cf915d.html">有向图判环算法的应用</a></li>
+                        <li><a href="lisanduishu1.html">离散对数加密（一）</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="opener">随笔与相册</span>
+                    <ul><li><a href="HunterVSHunter.html">猎人内战与一血反杀</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="opener">过往博客搬运</span>
+                    <ul><li><a href="cf765e.html">CF765e dfs</a></li>
+                    </ul>
+                <li><a href="interest.html">有趣数理结论收集</a></li>
+            </ul>
+        </nav>
+
+        <section>
+            <header class="major">
+                <h2>友情链接</h2>
+            </header>
+            <div class="mini-posts">
+                <article>
+                    <a href="http://codeforces.com" class="image"><img src="../images/friend_01.jpg" alt="" /></a>
+                    <p>Codeforces，每周举办高质量的算法比赛，同时承办许多国外知名企业举办的算法竞赛，算法爱好者的交流学习基地。</p>
+                </article>
+                <article>
+                    <a href="https://github.com" class="image"><img src="../images/friend_02.jpg" alt="" /></a>
+                    <p>Github，一个面向开源及私有软件项目的托管平台，在此可以十分轻易地找到海量的开源代码，并与全球程序员合作开发。</p>
+                </article>
+                <article>
+                    <a href="#" class="image"><img src="../images/pic09.jpg" alt="" /></a>
+                    <p>虚位以待。</p>
+                </article>
+            </div>
+            <ul class="actions">
+                <li><a href="#" class="button">More</a></li>
+            </ul>
+        </section>
+
+        <section>
+            <header class="major">
+                <h2>联系方式</h2>
+            </header>
+            <p>如果你有什么问题、意见或者建议，随时欢迎和我发邮件联系！如果对我在博客中提到的项目源码感兴趣，可以去我的github主页看看。</p>
+            <ul class="contact">
+                <li class="fa-envelope-o">Mail: <a href="mailto:cy1818cy@bupt.edu.cn?subject='from iHello.world'">cy1818cy@bupt.edu.cn</a></li>
+                <li class="fa-qq">QQ: 2446629225</li>
+                <li class="fa-train">Github: <a href="https://github.com/BloodmageThalnos">BloodmageThalnos</a></li>
+            </ul>
+        </section>
+
+        <footer id="footer">
+            <p class="copyright">&copy;2018-2028 by 程元. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+        </footer>
+    </div>
+</div>			</div>
+
+        <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script>!window.jQuery&&document.write('<script src="../assets/js/jquery.min.js"><\/script>');</script>
+        <script src="../assets/js/skel.min.js"></script>
+        <script src="../assets/js/util.js"></script>
+        <!--[if lte IE 8]><script src="../assets/js/ie/respond.min.js"></script><![endif]-->
+        <script src="../assets/js/main.js"></script>
+        <script src="../assets/js/prism.js"></script>
+	</body>
+</html>

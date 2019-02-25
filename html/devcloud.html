@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>iHello | 我的个人主页</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="../assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../assets/css/main.css" />
+        <link rel="stylesheet" href="../assets/css/prism.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="../assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="../assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+		<div id="wrapper"><div id="main">
+    <div class="inner">
+        <header id="header">
+            <a href="index.html" class="logo"><strong>iHello, my World!</strong></a>
+        </header>
+            
+        <section>
+            <header class="main">
+                <h1>在Intel DevCloud平台上搭建深度学习项目（一）</h1>
+            </header>
+            <h2>Intel Caffe与Intel DevCloud</h2>
+            <p>
+                前段时间因为intel大赛的原因开始学深度学习，发现神经网络的训练实在非常消耗运算资源。在我自己的笔记本上开发深度学习项目的时候就常常受到运算速度的限制，虽然显卡支持cuda，但是gpu加速的效果也非常有限。英特尔提供了一种解决方案，就是只使用cpu的intel caffe（还有一个intel chainer，不过chainer网上学习资料有限，我就选择了caffe），在原来的caffe的基础上面向cpu做了一些优化，尤其是在英特尔的服务器上跑的快很多。<br />
+                Intel®Nervana™ DevCloud 是英特尔提供的一个免费云计算服务器，拥有非常强力的计算资源（260 TFLOP/s of machine learning performance）。对于深度学习的开发来说，上面预装了python、c++等环境、绝大部分深度学习程序需要的库，包括intel caffe和chainer，网速也很快。目前好像比较低调，没有公开的宣传，但是可以免费申请使用。
+            </p>
+            <h2>配置过程</h2>
+            <p>
+                首先得有访问intel devcloud的资格，截至目前在官网上的说法是对Intel AI Academy成员开放。注册intel官网账号后进入<a href="https://software.intel.com/zh-cn/ai-academy/tools/devcloud">这个网址</a>，点击“请求访问”就可以申请访问。<br />
+                <span class="image fit"><img src="../images/devcloud_01.jpg"/></span>
+            </p>
+            <p>
+                申请成功后会收到如下的一封邮件。邮件中包含了你的登录账号名、节点号、过期时间等信息，点击网址进入就会有如何连接devcloud、如何上传下载文件、如何提交任务等的详细文档。<br />
+                <span class="image fit"><img src="../images/devcloud_02.jpg"/></span>
+                <span class="image fit"><img src="../images/devcloud_03.jpg"/></span>
+            </p>
+            <p>
+                进入文档的Connect界面，直接往下拉到第4节，在给出的链接中下载并安装putty，然后按照要求填入各项信息即可。注意其中下载的Windows Access Key建议保存在顺手的位置，因为每次打开时都要用到它。<br />
+                <span class="image fit"><img src="../images/devcloud_04.jpg"/></span>
+                完成后双击Coffax Cluster，就可以进入远程终端了。
+                <span class="image fit"><img src="../images/devcloud_05.jpg"/></span>
+                第一次进入的时候会显示这样的一段话，给出了文档、论坛、技术支持的网址，还特别强调了不允许用服务器挖矿（。。。）。
+                <span class="image fit"><img src="../images/devcloud_06.jpg"/></span>
+            </p>
+            <p>
+                进入以后执行
+                <pre class="language-bash"><code>ls</code></pre>
+                可以看到根目录下只有一个文件README.TXT。<br />
+                用文本编辑器打开查看一下，就可以看到关于权限设置、提交任务等的说明。
+                <pre class="language-bash"><code>vim README.TXT</code></pre>
+            </p>
+        </section>
+    </div>
+</div>
+<div id="sidebar">
+    <div class="inner">
+        <section id="search" class="alt">
+            <form onsubmit="alert('啊哈，搜索功能还没做！');return false;">
+                <input type="text" name="query" placeholder="在标签中搜索" />
+            </form>
+        </section>
+
+        <nav id="menu">
+            <header class="major">
+                <h2>文章列表</h2>
+            </header>
+            <ul>
+                <li>
+                    <span class="opener">人工智能与深度学习</span>
+                    <ul><li><a href="devcloud.html">在Intel DevCloud平台上搭建深度学习项目（一）</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="opener">算法与数据结构</span>
+                    <ul><li><a href="cf913e.html">贪心思想与最短路模型</a></li>
+                        <li><a href="cf915d.html">有向图判环算法的应用</a></li>
+                        <li><a href="lisanduishu1.html">离散对数加密（一）</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="opener">随笔与相册</span>
+                    <ul><li><a href="HunterVSHunter.html">猎人内战与一血反杀</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="opener">过往博客搬运</span>
+                    <ul><li><a href="cf765e.html">CF765e dfs</a></li>
+                    </ul>
+                <li><a href="interest.html">有趣数理结论收集</a></li>
+            </ul>
+        </nav>
+
+        <section>
+            <header class="major">
+                <h2>友情链接</h2>
+            </header>
+            <div class="mini-posts">
+                <article>
+                    <a href="http://codeforces.com" class="image"><img src="../images/friend_01.jpg" alt="" /></a>
+                    <p>Codeforces，每周举办高质量的算法比赛，同时承办许多国外知名企业举办的算法竞赛，算法爱好者的交流学习基地。</p>
+                </article>
+                <article>
+                    <a href="https://github.com" class="image"><img src="../images/friend_02.jpg" alt="" /></a>
+                    <p>Github，一个面向开源及私有软件项目的托管平台，在此可以十分轻易地找到海量的开源代码，并与全球程序员合作开发。</p>
+                </article>
+                <article>
+                    <a href="#" class="image"><img src="../images/pic09.jpg" alt="" /></a>
+                    <p>虚位以待。</p>
+                </article>
+            </div>
+            <ul class="actions">
+                <li><a href="#" class="button">More</a></li>
+            </ul>
+        </section>
+
+        <section>
+            <header class="major">
+                <h2>联系方式</h2>
+            </header>
+            <p>如果你有什么问题、意见或者建议，随时欢迎和我发邮件联系！如果对我在博客中提到的项目源码感兴趣，可以去我的github主页看看。</p>
+            <ul class="contact">
+                <li class="fa-envelope-o">Mail: <a href="mailto:cy1818cy@bupt.edu.cn?subject='from iHello.world'">cy1818cy@bupt.edu.cn</a></li>
+                <li class="fa-qq">QQ: 2446629225</li>
+                <li class="fa-train">Github: <a href="https://github.com/BloodmageThalnos">BloodmageThalnos</a></li>
+            </ul>
+        </section>
+
+        <footer id="footer">
+            <p class="copyright">&copy;2018-2028 by 程元. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+        </footer>
+    </div>
+</div>			</div>
+
+        <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script>!window.jQuery&&document.write('<script src="../assets/js/jquery.min.js"><\/script>');</script>
+        <script src="../assets/js/skel.min.js"></script>
+        <script src="../assets/js/util.js"></script>
+        <!--[if lte IE 8]><script src="../assets/js/ie/respond.min.js"></script><![endif]-->
+        <script src="../assets/js/main.js"></script>
+        <script src="../assets/js/prism.js"></script>
+	</body>
+</html>
