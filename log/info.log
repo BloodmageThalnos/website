@@ -247,3 +247,581 @@ ValueError: The view staticApp.views.showAssets didn't return an HttpResponse ob
 [2019-02-25 11:30:58,842][Thread-1:132092][task_id:staticApp.views][views.py:14][INFO][Accessing Page index.html with showMainPage]
 [2019-02-25 11:31:08,545][Thread-4:134856][task_id:staticApp.views][views.py:14][INFO][Accessing Page cf913e.html with showMainPage]
 [2019-02-25 11:31:08,999][Thread-1:132092][task_id:django.request][log.py:228][WARNING][Not Found: /source/cf913e.cpp]
+[2019-02-25 11:35:07,123][Thread-1:133008][task_id:staticApp.views][views.py:14][INFO][Accessing Page cf913e.html with showMainPage]
+[2019-02-25 11:35:07,573][Thread-7:131652][task_id:django.request][log.py:228][ERROR][Internal Server Error: /source/cf913e.cpp]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 56, in showSource
+    with open('./source/'+path, mode="r") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './source/cf913e.cpp'
+[2019-02-25 11:35:25,234][Thread-7:131652][task_id:staticApp.views][views.py:14][INFO][Accessing Page cf913e.html with showMainPage]
+[2019-02-25 11:46:08,841][Thread-8:128508][task_id:django.security.DisallowedHost][exception.py:77][ERROR][Invalid HTTP_HOST header: 'cqz83p.natappfree.cc'. You may need to add 'cqz83p.natappfree.cc' to ALLOWED_HOSTS.]
+[2019-02-25 11:46:09,030][Thread-8:128508][task_id:django.request][log.py:228][WARNING][Bad Request: /]
+[2019-02-25 11:46:10,777][Thread-9:132424][task_id:django.security.DisallowedHost][exception.py:77][ERROR][Invalid HTTP_HOST header: 'cqz83p.natappfree.cc'. You may need to add 'cqz83p.natappfree.cc' to ALLOWED_HOSTS.]
+[2019-02-25 11:46:10,822][Thread-9:132424][task_id:django.request][log.py:228][WARNING][Bad Request: /favicon.ico]
+[2019-02-25 11:46:44,805][Thread-1:124220][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-25 11:46:45,697][Thread-3:133848][task_id:staticApp.views][views.py:14][INFO][Accessing Page index.html with showMainPage]
+[2019-02-25 11:46:51,757][Thread-17:136148][task_id:django.request][log.py:228][WARNING][Not Found: /favicon.ico]
+[2019-02-25 11:46:54,747][Thread-18:134428][task_id:staticApp.views][views.py:14][INFO][Accessing Page index.html with showMainPage]
+[2019-02-25 11:47:12,014][Thread-22:135564][task_id:staticApp.views][views.py:14][INFO][Accessing Page index.html with showMainPage]
+[2019-02-25 11:47:19,694][Thread-28:127868][task_id:staticApp.views][views.py:14][INFO][Accessing Page index.html with showMainPage]
+[2019-02-25 11:47:22,154][Thread-32:133252][task_id:django.request][log.py:228][WARNING][Not Found: /favicon.ico]
+[2019-02-25 11:47:41,725][Thread-33:132428][task_id:staticApp.views][views.py:14][INFO][Accessing Page cf765e.html with showMainPage]
+[2019-02-25 11:47:43,276][Thread-37:131184][task_id:django.request][log.py:228][WARNING][Not Found: /favicon.ico]
+[2019-02-25 16:29:07,934][Thread-1:138672][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-25 16:29:07,958][Thread-1:138672][task_id:staticApp.views][views.py:14][INFO][Accessing Page index.html with showMainPage]
+[2019-02-25 16:29:15,102][Thread-3:139796][task_id:django.request][log.py:228][WARNING][Not Found: /bin/jquery.js]
+[2019-02-25 16:29:15,107][Thread-6:132000][task_id:django.request][log.py:228][WARNING][Not Found: /bin/bootstrap.min.css]
+[2019-02-25 16:29:47,807][Thread-6:132000][task_id:django.request][log.py:228][WARNING][Not Found: /bin/bootstrap.min.css]
+[2019-02-25 16:34:47,523][Thread-1:139464][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/jquery.js]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 70, in showBin
+    with open('./bin/' + path, encoding='UTF-8') as f:
+FileNotFoundError: [Errno 2] No such file or directory: './bin/jquery.js'
+[2019-02-25 16:34:47,525][Thread-3:139520][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 65, in showBin
+    with open('./bin/' + path, encoding='UTF-8') as f:
+FileNotFoundError: [Errno 2] No such file or directory: './bin/bootstrap.min.css'
+[2019-02-25 16:38:10,707][Thread-4:128244][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-25 16:38:10,749][Thread-4:128244][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-25 16:38:19,099][Thread-4:128244][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-25 16:38:19,103][Thread-4:128244][task_id:staticApp.views][views.py:14][INFO][Accessing Page index.html with showMainPage]
+[2019-02-25 16:40:57,773][Thread-1:139464][task_id:staticApp.views][views.py:14][INFO][Accessing Page index.html with showMainPage]
+[2019-02-25 16:41:39,380][Thread-5:133492][task_id:staticApp.views][views.py:14][INFO][Accessing Page index.html with showMainPage]
+[2019-02-25 16:41:41,081][Thread-1:139464][task_id:staticApp.views][views.py:14][INFO][Accessing Page jsDraw.html with showMainPage]
+[2019-02-25 16:41:43,809][Thread-1:139464][task_id:staticApp.views][views.py:14][INFO][Accessing Page jsDraw.html with showMainPage]
+[2019-02-25 16:42:35,200][Thread-1:139464][task_id:staticApp.views][views.py:14][INFO][Accessing Page jsDraw.html with showMainPage]
+[2019-02-25 16:42:43,384][Thread-1:139464][task_id:staticApp.views][views.py:14][INFO][Accessing Page cf765e.html with showMainPage]
+[2019-02-26 15:27:45,494][Thread-1:221984][task_id:staticApp.views][views.py:14][INFO][Accessing Page index with showMainPage]
+[2019-02-26 15:27:45,688][Thread-1:221984][task_id:django.request][log.py:228][ERROR][Internal Server Error: /s/index]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 15, in showPage
+    with open('./html/' + path, encoding='UTF-8') as f:
+FileNotFoundError: [Errno 2] No such file or directory: './html/index'
+[2019-02-26 15:27:58,939][Thread-1:221736][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-26 15:27:58,977][Thread-1:221736][task_id:staticApp.views][views.py:14][INFO][Accessing Page index.html with showMainPage]
+[2019-02-26 15:28:06,593][Thread-6:220620][task_id:staticApp.views][views.py:14][INFO][Accessing Page devcloud.html with showMainPage]
+[2019-02-26 15:28:13,485][Thread-6:220620][task_id:staticApp.views][views.py:14][INFO][Accessing Page cf765e.html with showMainPage]
+[2019-02-26 17:16:12,305][Thread-8:223268][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-26 17:16:12,339][Thread-8:223268][task_id:staticApp.views][views.py:14][INFO][Accessing Page index.html with showMainPage]
+[2019-02-26 17:17:18,154][Thread-11:224024][task_id:staticApp.views][views.py:14][INFO][Accessing Page cf765e.html with showMainPage]
+[2019-02-26 17:17:36,729][Thread-11:224024][task_id:staticApp.views][views.py:14][INFO][Accessing Page interest.html with showMainPage]
+[2019-02-26 17:18:51,281][Thread-12:108588][task_id:staticApp.views][views.py:14][INFO][Accessing Page cf913e.html with showMainPage]
+[2019-02-27 09:19:30,445][Thread-1:232296][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-27 09:19:30,456][Thread-1:232296][task_id:staticApp.views][views.py:14][INFO][Accessing Page index.html with showMainPage]
+[2019-02-27 09:19:32,746][Thread-5:231072][task_id:django.request][log.py:228][WARNING][Not Found: /favicon.ico]
+[2019-02-27 09:19:34,835][Thread-5:231072][task_id:django.request][log.py:228][WARNING][Not Found: /captcha]
+[2019-02-27 09:19:39,369][Thread-5:231072][task_id:captchaApp.views][views.py:31][INFO][['-4.jpg', '0.5.jpg', '11.jpg', '1120.jpg', '14.75.jpg', '19.jpg', '2-2ln2.jpg', '24.jpg', '6.jpg', 'ln2.jpg', 'n.jpg']]
+[2019-02-27 09:19:39,497][Thread-5:231072][task_id:django.request][log.py:228][ERROR][Internal Server Error: /captcha/index]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view captchaApp.views.showIndex didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:03:14,716][Thread-1:237904][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-27 14:03:14,738][Thread-1:237904][task_id:staticApp.views][views.py:14][INFO][Accessing Page index.html with showMainPage]
+[2019-02-27 14:03:18,139][Thread-5:142300][task_id:django.request][log.py:228][WARNING][Not Found: /favicon.ico]
+[2019-02-27 14:03:23,929][Thread-5:142300][task_id:django.request][log.py:228][ERROR][Internal Server Error: /captcha/index]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view captchaApp.views.showIndex didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:05:33,547][Thread-1:115044][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-27 14:05:33,565][Thread-1:115044][task_id:staticApp.views][views.py:14][INFO][Accessing Page index.html with showMainPage]
+[2019-02-27 14:05:59,016][Thread-1:115044][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:05:59,060][Thread-1:115044][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:06:02,719][Thread-3:121860][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:06:02,785][Thread-3:121860][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:08:46,481][Thread-1:237192][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:08:46,569][Thread-1:237192][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:12:04,140][Thread-3:241268][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:12:04,205][Thread-3:241268][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:15:09,928][Thread-1:223220][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:15:10,014][Thread-1:223220][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:21:49,388][Thread-3:148184][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:21:49,450][Thread-1:227200][task_id:captchaApp.views][views.py:26][INFO][None]
+[2019-02-27 14:21:49,449][Thread-3:148184][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:23:08,963][Thread-3:242332][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:23:09,020][Thread-1:242328][task_id:captchaApp.views][views.py:26][INFO][None]
+[2019-02-27 14:23:09,030][Thread-3:242332][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:23:57,052][Thread-3:234564][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:23:57,119][Thread-1:240532][task_id:captchaApp.views][views.py:26][INFO][jntwa5tbhfn]
+[2019-02-27 14:23:57,126][Thread-3:234564][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:23:57,228][Thread-1:240532][task_id:django.request][log.py:228][ERROR][Internal Server Error: /captcha/get]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\captchaApp\views.py", line 41, in getCaptcha
+    sha.update(ans)
+TypeError: Unicode-objects must be encoded before hashing
+[2019-02-27 14:26:04,068][Thread-3:242372][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:26:04,138][Thread-3:242372][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:26:04,357][Thread-1:239652][task_id:django.request][log.py:228][ERROR][Internal Server Error: /captcha/get]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\utils.py", line 85, in _execute
+    return self.cursor.execute(sql, params)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\sqlite3\base.py", line 298, in execute
+    return Database.Cursor.execute(self, query, params)
+sqlite3.OperationalError: no such table: captchaApp_captcharecord
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\captchaApp\views.py", line 41, in getCaptcha
+    cr.save()
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\base.py", line 718, in save
+    force_update=force_update, update_fields=update_fields)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\base.py", line 748, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\base.py", line 831, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\base.py", line 869, in _do_insert
+    using=using, raw=raw)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\query.py", line 1136, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\sql\compiler.py", line 1289, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\utils.py", line 100, in execute
+    return super().execute(sql, params)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\utils.py", line 68, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\utils.py", line 77, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\utils.py", line 85, in _execute
+    return self.cursor.execute(sql, params)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\utils.py", line 89, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\utils.py", line 85, in _execute
+    return self.cursor.execute(sql, params)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\sqlite3\base.py", line 298, in execute
+    return Database.Cursor.execute(self, query, params)
+django.db.utils.OperationalError: no such table: captchaApp_captcharecord
+[2019-02-27 14:37:50,525][Thread-3:243896][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:37:50,604][Thread-3:243896][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:37:50,654][Thread-1:243972][task_id:django.request][log.py:228][ERROR][Internal Server Error: /captcha/get]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\utils.py", line 85, in _execute
+    return self.cursor.execute(sql, params)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\sqlite3\base.py", line 298, in execute
+    return Database.Cursor.execute(self, query, params)
+sqlite3.IntegrityError: NOT NULL constraint failed: captchaApp_captcharecord.user
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\captchaApp\views.py", line 41, in getCaptcha
+    cr.save()
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\base.py", line 718, in save
+    force_update=force_update, update_fields=update_fields)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\base.py", line 748, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\base.py", line 831, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\base.py", line 869, in _do_insert
+    using=using, raw=raw)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\query.py", line 1136, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\sql\compiler.py", line 1289, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\utils.py", line 100, in execute
+    return super().execute(sql, params)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\utils.py", line 68, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\utils.py", line 77, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\utils.py", line 85, in _execute
+    return self.cursor.execute(sql, params)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\utils.py", line 89, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\utils.py", line 85, in _execute
+    return self.cursor.execute(sql, params)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\sqlite3\base.py", line 298, in execute
+    return Database.Cursor.execute(self, query, params)
+django.db.utils.IntegrityError: NOT NULL constraint failed: captchaApp_captcharecord.user
+[2019-02-27 14:40:19,104][Thread-3:243520][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:40:19,182][Thread-3:243520][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:40:19,242][Thread-1:4936][task_id:django.request][log.py:228][ERROR][Internal Server Error: /captcha/get]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\utils.py", line 85, in _execute
+    return self.cursor.execute(sql, params)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\sqlite3\base.py", line 298, in execute
+    return Database.Cursor.execute(self, query, params)
+sqlite3.IntegrityError: NOT NULL constraint failed: captchaApp_captcharecord.user
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\captchaApp\views.py", line 41, in getCaptcha
+    cr.save()
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\base.py", line 718, in save
+    force_update=force_update, update_fields=update_fields)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\base.py", line 748, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\base.py", line 831, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\base.py", line 869, in _do_insert
+    using=using, raw=raw)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\query.py", line 1136, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\models\sql\compiler.py", line 1289, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\utils.py", line 100, in execute
+    return super().execute(sql, params)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\utils.py", line 68, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\utils.py", line 77, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\utils.py", line 85, in _execute
+    return self.cursor.execute(sql, params)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\utils.py", line 89, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\utils.py", line 85, in _execute
+    return self.cursor.execute(sql, params)
+  File "D:\Project\Website\venv\lib\site-packages\django\db\backends\sqlite3\base.py", line 298, in execute
+    return Database.Cursor.execute(self, query, params)
+django.db.utils.IntegrityError: NOT NULL constraint failed: captchaApp_captcharecord.user
+[2019-02-27 14:41:11,433][Thread-3:229484][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:41:11,499][Thread-3:229484][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:41:13,360][Thread-1:244352][task_id:django.request][log.py:228][WARNING][Not Found: /captcha/captcha/ln2.jpg]
+[2019-02-27 14:49:37,155][Thread-1:243624][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-27 14:49:37,196][Thread-1:243624][task_id:staticApp.views][views.py:14][INFO][Accessing Page index.html with showMainPage]
+[2019-02-27 14:51:47,262][Thread-3:242140][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:51:47,330][Thread-3:242140][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:51:48,840][Thread-1:242416][task_id:django.request][log.py:228][WARNING][Not Found: /captcha/img/dqoeljeq6q4]
+[2019-02-27 14:52:22,358][Thread-1:243008][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:52:22,438][Thread-1:243008][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:54:32,987][Thread-1:243544][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:54:33,059][Thread-1:243544][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:56:51,831][Thread-3:242912][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:56:51,886][Thread-3:242912][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:56:56,359][Thread-1:239112][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:56:56,430][Thread-1:239112][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:57:54,860][Thread-1:239112][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:57:54,904][Thread-1:239112][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:58:04,675][Thread-3:242188][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:58:04,741][Thread-3:242188][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:58:57,780][Thread-3:229572][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:58:57,858][Thread-3:229572][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 14:59:53,503][Thread-1:231764][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 14:59:53,573][Thread-1:231764][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 15:02:43,760][Thread-3:232144][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 15:02:43,826][Thread-3:232144][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 15:03:00,429][Thread-3:232144][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 15:03:00,507][Thread-3:232144][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 15:37:15,886][Thread-3:125556][task_id:django.request][log.py:228][WARNING][Not Found: /captcha/]
+[2019-02-27 15:37:19,630][Thread-3:125556][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 15:37:19,713][Thread-3:125556][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 15:37:36,673][Thread-3:245932][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 15:37:36,731][Thread-3:245932][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 15:38:32,839][Thread-3:246192][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 15:38:32,896][Thread-3:246192][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 15:49:17,420][Thread-7:245404][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 15:49:17,472][Thread-7:245404][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 15:49:18,986][Thread-9:247352][task_id:django.request][log.py:228][WARNING][Not Found: /favicon.ico]
+[2019-02-27 16:13:32,527][Thread-39:250824][task_id:django.request][log.py:228][WARNING][Not Found: /favicon.ico]
+[2019-02-27 16:14:51,417][Thread-40:243112][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 16:14:51,473][Thread-40:243112][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 17:46:15,526][Thread-1:254260][task_id:django.request][log.py:228][ERROR][Internal Server Error: /captcha/index]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\captchaApp\views.py", line 32, in showIndex
+    return HttpResponse(render(context,request))
+  File "D:\Project\Website\venv\lib\site-packages\django\shortcuts.py", line 36, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "D:\Project\Website\venv\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "D:\Project\Website\venv\lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "D:\Project\Website\venv\lib\site-packages\django\template\backends\django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "D:\Project\Website\venv\lib\site-packages\django\template\engine.py", line 144, in get_template
+    template, origin = self.find_template(template_name)
+  File "D:\Project\Website\venv\lib\site-packages\django\template\engine.py", line 126, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "D:\Project\Website\venv\lib\site-packages\django\template\loaders\base.py", line 24, in get_template
+    contents = self.get_contents(origin)
+  File "D:\Project\Website\venv\lib\site-packages\django\template\loaders\filesystem.py", line 23, in get_contents
+    with open(origin.name, encoding=self.engine.file_charset) as fp:
+OSError: [Errno 22] Invalid argument: "D:\\Project\\Website\\templates\\<WSGIRequest: GET '\\captcha\\index?tdsourcetag=s_pctim_aiomsg'>"
+[2019-02-27 18:15:37,256][Thread-5:256332][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-27 18:15:37,365][Thread-6:251892][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-27 18:15:37,371][Thread-7:252956][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-27 18:15:37,394][Thread-8:253732][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-27 18:15:38,231][Thread-10:256380][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-27 18:15:38,255][Thread-12:256224][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-27 18:15:38,271][Thread-13:251484][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-27 18:15:38,280][Thread-14:256732][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-27 18:15:39,646][Thread-16:254724][task_id:django.request][log.py:228][WARNING][Not Found: /favicon.ico]
+[2019-02-27 18:15:39,686][Thread-17:253460][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-27 18:15:40,301][Thread-19:253824][task_id:root][views.py:14][INFO][Accessing Page / with showMainPage]
+[2019-02-27 19:01:26,129][Thread-1:259232][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 19:01:26,184][Thread-1:259232][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 19:01:33,190][Thread-5:259728][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 19:01:33,240][Thread-5:259728][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 19:04:44,393][Thread-5:255736][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 19:04:44,476][Thread-5:255736][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 19:04:53,616][Thread-1:253460][task_id:root][views.py:74][INFO][Accessing /bootstrap.min.css.map with showBin matched nothing.]
+[2019-02-27 19:04:53,694][Thread-1:253460][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/bootstrap.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-02-27 19:09:26,019][Thread-14:242232][task_id:django.request][log.py:228][WARNING][Not Found: /robots.txt]
+[2019-02-27 19:09:28,133][Thread-15:258584][task_id:django.request][log.py:228][WARNING][Not Found: /favicon.ico]
+[2019-02-27 20:21:08,118][Thread-29:262276][task_id:django.request][log.py:228][WARNING][Not Found: /favicon.ico]
+[2019-02-27 21:47:01,220][Thread-42:268556][task_id:django.request][log.py:228][WARNING][Not Found: /favicon.ico]
+[2019-02-27 21:47:50,848][Thread-43:268824][task_id:django.request][log.py:228][WARNING][Not Found: /favicon.ico]

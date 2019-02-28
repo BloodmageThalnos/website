@@ -37,7 +37,7 @@ def showAssets(request, path):
             html = f.read()
         return HttpResponse(html, content_type="application/x-font-ttf")
 
-    logging.info('Accessing asset /%s with showAssets matched nothing.' % path)
+    logging.info('Accessing /%s with showAssets matched nothing.' % path)
     return None
 
 
@@ -47,7 +47,7 @@ def showImages(request, path):
             html = f.read()
         return HttpResponse(html, content_type="image/jpeg")
 
-    logging.info('Accessing asset /%s with showImages matched nothing.' % path)
+    logging.info('Accessing /%s with showImages matched nothing.' % path)
     return None
 
 
@@ -57,5 +57,19 @@ def showSource(request, path):
             html = f.read()
         return HttpResponse(html)
 
-    logging.info('Accessing asset /%s with showSource matched nothing.' % path)
+    logging.info('Accessing /%s with showSource matched nothing.' % path)
+    return None
+
+def showBin(request, path):
+    if path.endswith('css'):
+        with open('./bin/' + path, encoding='UTF-8') as f:
+            html = f.read()
+        return HttpResponse(html, content_type="text/css")
+
+    if path.endswith('js'):
+        with open('./bin/' + path, encoding='UTF-8') as f:
+            html = f.read()
+        return HttpResponse(html, content_type="application/x-javascript")
+
+    logging.info('Accessing /%s with showBin matched nothing.' % path)
     return None

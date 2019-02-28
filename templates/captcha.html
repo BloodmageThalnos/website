@@ -1,0 +1,149 @@
+<script type="text/javascript" src="/bin/jquery.js"></script>
+<link href="/bin/bootstrap.min.css" rel="stylesheet">
+<script>
+    function update(){
+        let id = Math.random().toString(36).substring(2);
+        $('#_Captcha_id').val(id);
+        $.ajax('/captcha/get',{
+            type: 'POST',
+            data: {
+                id: id,
+                user: $('#exampleInput1').val(),
+            },
+            async: true,
+            cache: false,
+            success: function(msg) {
+                msg = JSON.parse(msg);
+                if('true' == msg.success) {
+                    $('#captcha').attr('src', msg.pic_url)
+                }
+                else{
+                    alert('出现未知错误。错误码：1。')
+                }
+            }
+        })
+    }
+    function doita(i){
+        $.ajax('/captcha/check',{
+            type: 'POST',
+            data: new FormData(i),
+            async: true,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function(msg) {
+                msg = JSON.parse(msg);
+                if('true' == msg.success) {
+                    alert('验证码正确！')
+                    update()
+                    $('#exampleInput2').val('')
+                }
+                else{
+                    alert('验证码错误！请重试')
+                }
+            }
+        });
+        return false;
+    }
+    window.onload=update;
+</script>
+<center><h1>邪恶数学验证码api</h1></center>
+<div style="margin:50px 0 0 0; min-width:1000px; display:flex; align-self:center;">
+    <form method="POST" onsubmit="return doita(this);" style="padding:0 10% 0 10%;flex:4;">
+        <div class="form-group">
+            <label for="exampleInput1">用户名：</label>
+            <input class="form-control" id="exampleInput1" name="user">
+        </div>
+        <div class="form-group">
+            <input id="_Captcha_id" name="id" style="display:none;">
+            <label for="exampleInput1">验证码：</label>
+            <input class="form-control" id="exampleInput2" name="ans">
+            <img src="" id="captcha" onclick="update()" />
+            <small id="emailHelp" class="form-text text-muted">请填写上式的计算结果，点击图片可以更换题目。</small>
+        </div>
+        <center><button type="submit" class="btn btn-primary">提交</button></center>
+    </form>
+    <div style="flex:6;">
+        <h3>验证码请求</h3>
+        <ul>
+        <li><b>接口地址：</b> /captcha/get<br /></li>
+        <li><b>请求方式：</b> http POST<br /></li>
+        <li><b>返回格式：</b> json<br /></li>
+        <li><b>接口备注：</b> 每次请求需要生成一个随机id（如当前时间的hash值），用于请求的标识。<br /></li>
+        <li><b>请求方式说明：</b><br /></li>
+        <li>
+            <table class="table">
+            <tbody>
+            <tr class="title">
+                <th width="20"></th>
+                <th width="100">名称</th>
+                <th width="60">必填</th>
+                <th width="80">类型</th>
+                <th>说明</th>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td class="url">id</td>
+                <td class="url">是</td>
+                <td class="url">string</td>
+                <td>不超过32位的随机字符串，用于唯一标识当前请求。</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td class="url">user</td>
+                <td class="url">否</td>
+                <td class="url">string</td>
+                <td>当前请求的用户名，用于统计。</td>
+            </tr>
+            </tbody>
+        </table>
+        </li>
+        </ul>
+
+        <h3>验证码验证</h3>
+        <ul>
+        <li><b>接口地址：</b> /captcha/check<br /></li>
+        <li><b>请求方式：</b> http POST<br /></li>
+        <li><b>返回格式：</b> json<br /></li>
+        <li><b>请求方式说明：</b><br /></li>
+        <li>
+            <table class="table">
+            <tbody>
+            <tr class="title">
+                <th width="20"></th>
+                <th width="100">名称</th>
+                <th width="60">必填</th>
+                <th width="80">类型</th>
+                <th>说明</th>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td class="url">id</td>
+                <td class="url">是</td>
+                <td class="url">string</td>
+                <td>不超过32位的字符串，对应请求时的id。</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td class="url">ans</td>
+                <td class="url">是</td>
+                <td class="url">string</td>
+                <td>当前检查的答案。</td>
+            </tr>
+            </tbody>
+        </table>
+        </li>
+        </ul>
+
+        <h3>风云榜</h3>
+        {% for record in records %}
+            <b>大侠</b>{{ record.user }}
+            对
+            <img src="{{ record.pic }}">
+            问题经过
+            {{ record.wrong_time }}
+            次尝试，给出了正确答案！<br />
+        {% endfor %}
+    </div>
+</div>
+<footer><center>Copyright© 2018-2022 Little Driver Technology</center></footer>

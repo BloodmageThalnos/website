@@ -17,14 +17,29 @@ from django.contrib import admin
 from django.urls import path
 from mainApp import views as mainViews
 from staticApp import views as staticViews
+from TexasAPP import views as texasViews
+from captchaApp import views as captViews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     # old static pages
     path('s/<path:path>', staticViews.showPage),
     path('assets/<path:path>', staticViews.showAssets),
     path('images/<path:path>', staticViews.showImages),
     path('source/<path:path>', staticViews.showSource),
+    path('bin/<path:path>', staticViews.showBin),
 
+    # texas calculator function
+    path('texas/<slug:path>', texasViews.showPages),
+
+    # captcha function
+    path('captcha/index', captViews.showIndex),
+    path('captcha/get', captViews.getCaptcha),
+    path('captcha/check', captViews.checkCaptcha),
+    path('captcha/img/<slug:path>', captViews.showCaptcha),
+    # path('captcha/', captViews.),
+
+    # main page
     path('', mainViews.showMainPage),
 ]
