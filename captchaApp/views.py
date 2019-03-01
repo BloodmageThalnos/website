@@ -11,7 +11,6 @@ from .models import *
 
 logger = logging.getLogger(__name__)
 captchaList = os.listdir("./captcha")
-now = 1
 
 # Create your views here.
 def showIndex(request):
@@ -94,9 +93,6 @@ def checkCaptcha(request):
 
 # return pic_url, answer
 def randomCaptcha():
-    #it = random.choice(captchaList)
-    global now
-    now += 1
-    it = captchaList[now % len(captchaList)]
+    it = random.choice(captchaList)
     ans = it[:-4]
     return './captcha/'+it, ans
