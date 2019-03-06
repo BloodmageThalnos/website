@@ -27,6 +27,7 @@ uwsgi --ini ./website/uwsgi.ini
 
 log文件：
 vi /var/log/nginx/error.log
+vi /var/log/uwsgi/website.log
 
 配置ss：
 pip install shadowsocks
