@@ -15863,7 +15863,7 @@ body.page-template-sidebar-page section[data-type=section-bg] section[data-type=
 
 .panel[data-type=splash-image] #splash--wordmark {
     transition: font-size .5s ease;
-    width: auto;
+    width: fit-content;/* not auto */
     top: 50%;
     left: 50%;
     -webkit-transform: translate(-50%,-50%);
