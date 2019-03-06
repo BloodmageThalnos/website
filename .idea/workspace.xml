@@ -1,35 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="021b16ff-c0b9-4179-95b8-f90c57b34f7b" name="Default Changelist" comment="update website 1">
-      <change afterPath="$PROJECT_DIR$/bin/master.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/root.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Website/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Website/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/master.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/bin/master.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/info.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/info.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mainApp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainApp/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nginx.ini" beforeDir="false" afterPath="$PROJECT_DIR$/nginx.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Stanford University_files/82158-1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Stanford University_files/82224-2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Stanford University_files/82556-2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Stanford University_files/82797-1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Stanford University_files/analytics.js.下载" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Stanford University_files/awesome-weather-widget-frontend.js.下载" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Stanford University_files/awesome-weather.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Stanford University_files/css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Stanford University_files/ge-wang-profile-240x240.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Stanford University_files/gtm.js.下载" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Stanford University_files/jquery-migrate.min.js.下载" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Stanford University_files/jquery.js.下载" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Stanford University_files/js-cookie.js.下载" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Stanford University_files/kalvinparker-resized-240x240.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Stanford University_files/master.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Stanford University_files/master.min.js.下载" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Stanford University_files/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Stanford University_files/wp-embed.min.js.下载" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/stanford.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/stanford.html" afterDir="false" />
-    </list>
+    <list default="true" id="021b16ff-c0b9-4179-95b8-f90c57b34f7b" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +69,7 @@
           <entry key="html" value="2065" />
           <entry key="js" value="29" />
           <entry key="py" value="3896" />
-          <entry key="txt" value="39" />
+          <entry key="txt" value="56" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
@@ -106,7 +78,7 @@
           <entry key="DjangoUrlPath" value="1" />
           <entry key="HTML" value="2065" />
           <entry key="JavaScript" value="29" />
-          <entry key="PLAIN_TEXT" value="39" />
+          <entry key="PLAIN_TEXT" value="56" />
           <entry key="Python" value="3895" />
         </counts>
       </usages-collector>
@@ -431,11 +403,18 @@
       <option name="project" value="LOCAL" />
       <updated>1551840665505</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="homepage 上线">
+      <created>1551859864854</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1551859864854</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="55" y="-7" width="1488" height="878" extended-state="6" />
+    <frame x="55" y="-7" width="1488" height="878" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.285014" />
@@ -507,7 +486,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update views.py" />
     <MESSAGE value="update website 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="update website 1" />
+    <MESSAGE value="homepage 上线" />
+    <option name="LAST_COMMIT_MESSAGE" value="homepage 上线" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/TexasAPP/__init__.py">
