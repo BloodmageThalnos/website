@@ -1,0 +1,39 @@
+<script type="text/javascript" src="/bin/jquery.js"></script>
+<link href="/bin/bootstrap.min.css" rel="stylesheet">
+<script>
+    function doita(i){
+        $.ajax('/captcha/upload',{
+            type: 'POST',
+            data: new FormData(i),
+            async: true,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function(msg) {
+                msg = JSON.parse(msg);
+                if('true' == msg.success) {
+                    alert('提交成功！')
+                }
+                else{
+                    alert('未知错误，请重试。')
+                }
+            }
+        });
+        return false;
+    }
+    window.onload=update;
+</script>
+<center><h1>邪恶数学验证码api</h1></center>
+<div style="margin:50px auto; width:800px; align-self:center;">
+    <form method="POST" onsubmit="return doita(this);" style="padding:0 10% 0 10%;">
+        <div class="form-group">
+            <label for="exampleInput1">图片：</label><br/>
+            <input type="file" name="pic">
+        </div>
+        <div class="form-group">
+            <label for="exampleInput1">答案：</label>
+            <input class="form-control" id="exampleInput2" name="ans">
+        </div>
+        <center><button type="submit" class="btn btn-primary">提交</button></center>
+    </form>
+</div>

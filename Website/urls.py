@@ -38,6 +38,8 @@ urlpatterns = [
     path('captcha/index', captViews.showIndex),
     path('captcha/get', captViews.getCaptcha),
     path('captcha/check', captViews.checkCaptcha),
+    path('captcha/upload', captViews.upload),
+    path('captcha/uploadit', captViews.showUpload),
     path('captcha/img/<slug:path>', captViews.showCaptcha),
     # path('captcha/', captViews.),
 
