@@ -5,6 +5,7 @@ import logging
 import json
 from django.http import *
 from django.template import loader
+from django.db.models import *
 from hashlib import sha256
 
 from .models import *
@@ -18,6 +19,7 @@ def showIndex(request):
     #    html = f.read()
     #    return HttpResponse(html)
 
+    # 提交记录，选择所有成功了且输入了用户名的用户
     records = CaptchaRecord.objects.filter(correct__exact=1).exclude(user__exact='')
     ret = []
     for record in records:
@@ -26,9 +28,23 @@ def showIndex(request):
             'pic': './img/'+record.hash,
             'wrong_time': record.wrong_times+1,
         })
+
+    # 大侠榜，对所有有成功提交记录的用户，
+    heroes = CaptchaRecord.objects.filter(correct__exact=1).exclude(user__exact='')\
+        .values('user','pic').distinct().values('user').annotate(dcount=Count('user')).order_by('-dcount')
+    # logger.info(heroes)
+    het = []
+    for hero in heroes:
+        het.append({
+            'user': hero['user'],
+            'count': hero['dcount'],
+            'caption': ('大侠' if hero['dcount']>=5 else('小侠' if hero['dcount']>=2 else '游客'))
+        })
+
     template = loader.get_template('captcha.html')
     context = {
         'records': ret,
+        'heroes': het,
     }
     return HttpResponse(template.render(context,request))
 

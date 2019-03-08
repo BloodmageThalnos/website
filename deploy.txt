@@ -5,11 +5,11 @@ sudo apt-get install python3-setuptools
 sudo apt-get install python3-dev
 apt install gcc
 pip3 install uwsgi
-pip3 install --upgrade pip
-sudo apt-get remove python-pip
-sudo apt-get install python-pip python-dev build-essential
-rm /usr/bin/pip
-sudo ln -s /usr/local/bin/pip /usr/bin/pip
+// pip3 install --upgrade pip
+// sudo apt-get remove python-pip
+// sudo apt-get install python-pip python-dev build-essential
+// rm /usr/bin/pip
+// sudo ln -s /usr/local/bin/pip /usr/bin/pip
 pip install django
 sudo apt-get install nginx
 git clone https://github.com/BloodmageThalnos/website
