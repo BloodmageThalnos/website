@@ -12,7 +12,7 @@
             success: function(msg) {
                 msg = JSON.parse(msg);
                 if('true' == msg.success) {
-                    alert('提交成功！')
+                    alert('提交成功，等待审核！')
                 }
                 else{
                     alert('未知错误，请重试。')
@@ -23,7 +23,7 @@
     }
     window.onload=update;
 </script>
-<center><h1>邪恶数学验证码api</h1></center>
+<center><h1>邪恶数学验证码上传接口</h1></center>
 <div style="margin:50px auto; width:800px; align-self:center;">
     <form method="POST" onsubmit="return doita(this);" style="padding:0 10% 0 10%;">
         <div class="form-group">
