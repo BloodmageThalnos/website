@@ -12,6 +12,7 @@ from .models import *
 
 logger = logging.getLogger(__name__)
 
+
 # Create your views here.
 def showIndex(request):
     # with open('templates/captcha.html', encoding="UTF-8") as f:
@@ -24,20 +25,20 @@ def showIndex(request):
     for record in records:
         ret.append({
             'user': record.user,
-            'pic': './img/'+record.hash,
-            'wrong_time': record.wrong_times+1,
+            'pic': './img/' + record.hash,
+            'wrong_time': record.wrong_times + 1,
         })
 
-    # 大侠榜，对所有有成功提交记录的用户，
-    heroes = CaptchaRecord.objects.filter(correct__exact=1).exclude(user__exact='')\
-        .values('user','pic').distinct().values('user').annotate(dcount=Count('user')).order_by('-dcount')
+    # 大侠榜，对所有有成功提交记录的用户，统计其做对的题目数量并排序
+    heroes = CaptchaRecord.objects.filter(correct__exact=1).exclude(user__exact='') \
+        .values('user', 'pic').distinct().values('user').annotate(dcount=Count('user')).order_by('-dcount')
     # logger.info(heroes)
     het = []
     for hero in heroes:
         het.append({
             'user': hero['user'],
             'count': hero['dcount'],
-            'caption': ('大侠' if hero['dcount']>=5 else('小侠' if hero['dcount']>=2 else '游客'))
+            'caption': ('大侠' if hero['dcount'] >= 5 else ('小侠' if hero['dcount'] >= 2 else '游客'))
         })
 
     template = loader.get_template('captcha.html')
@@ -45,13 +46,15 @@ def showIndex(request):
         'records': ret,
         'heroes': het,
     }
-    return HttpResponse(template.render(context,request))
+    return HttpResponse(template.render(context, request))
+
 
 def showUpload(request):
     template = loader.get_template('captchaUpload.html')
     context = {
     }
-    return HttpResponse(template.render(context,request))
+    return HttpResponse(template.render(context, request))
+
 
 # get {id, username}
 # return {success, id, ans_hash, pic_url}
@@ -59,22 +62,23 @@ def getCaptcha(request):
     _hash = request.POST.get('id')
     # logger.info(_hash)
     if _hash is None:
-        ret = {'success':'false'}
+        ret = {'success': 'false'}
         return HttpResponse(json.dumps(ret))
     try:
         CaptchaRecord.objects.get(hash=_hash)
     except:
         pass
     else:
-        ret = {'success':'false'}
+        ret = {'success': 'false'}
         return HttpResponse(json.dumps(ret))
     user = request.POST.get('user')
     pic, ans = randomCaptcha()
     cr = CaptchaRecord(hash=_hash, answer=ans, pic=pic, user=(user if user is not None else ''))
     ans_sha = sha256(ans.encode('utf-8')).hexdigest()
     cr.save()
-    ret = {'success':'true', 'id':_hash, 'ans_hash':ans_sha, 'pic_url':'./img/'+_hash}
+    ret = {'success': 'true', 'id': _hash, 'ans_hash': ans_sha, 'pic_url': './img/' + _hash}
     return HttpResponse(json.dumps(ret))
+
 
 def showCaptcha(request, path):
     try:
@@ -82,10 +86,11 @@ def showCaptcha(request, path):
     except:
         return HttpResponse(None)
     else:
-        if record.pic[-5]=='_':
-            return HttpResponse(open(record.pic,mode="rb"), content_type="image-jpeg")
-        else: #兼容旧代码
-            return HttpResponse(open(record.pic[:-4]+'_0001_.jpg',mode="rb"), content_type="image-jpeg")
+        if record.pic[-5] == '_':
+            return HttpResponse(open(record.pic, mode="rb"), content_type="image-jpeg")
+        else:  # 兼容旧代码
+            return HttpResponse(open(record.pic[:-4] + '_0001_.jpg', mode="rb"), content_type="image-jpeg")
+
 
 # get {id, ans}
 # return {success}
@@ -94,7 +99,7 @@ def checkCaptcha(request):
     ans = request.POST.get('ans')
     user = request.POST.get('user')
     if _hash is None:
-        ret = {'success':'false'}
+        ret = {'success': 'false'}
         return HttpResponse(json.dumps(ret))
     try:
         record = CaptchaRecord.objects.get(hash=_hash)
@@ -112,15 +117,17 @@ def checkCaptcha(request):
             ret = {'success': 'false'}
             return HttpResponse(json.dumps(ret))
     except:
-        ret = {'success':'false'}
+        ret = {'success': 'false'}
         return HttpResponse(json.dumps(ret))
+
 
 # return pic_url, answer
 def randomCaptcha():
     captchaList = os.listdir("./captcha")
     it = random.choice(captchaList)
     ans = it[:-10]
-    return './captcha/'+it, ans
+    return './captcha/' + it, ans
+
 
 def upload(request):
     ans = request.POST.get('ans')
@@ -128,7 +135,7 @@ def upload(request):
     if ans is None or pic is None:
         ret = {'success': 'false'}
         return HttpResponse(json.dumps(ret))
-    file_name = './captcha/'+ans+'_'+str(random.randint(1000,9999))+'_.jpg'
+    file_name = './captcha_upload/' + ans + '_' + str(random.randint(1000, 9999)) + '_.jpg'
     logger.info(file_name)
     with open(file_name, 'wb') as f:
         for chunk in pic.chunks():

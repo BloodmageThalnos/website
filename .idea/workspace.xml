@@ -2,25 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="021b16ff-c0b9-4179-95b8-f90c57b34f7b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/captchaUpload.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/Administrator.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Website/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Website/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/captcha/-4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/captcha/0.5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/captcha/11.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/captcha/1120.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/captcha/14.625.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/captcha/19.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/captcha/2-2ln2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/captcha/24.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/captcha/6.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/captcha/ln2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/captcha/n.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/captcha/-1_0001_.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/captcha/-4_0001_.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/captcha/1120_0001_.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/captchaApp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/captchaApp/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/err.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/err.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/info.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/info.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/captchaUpload.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/captchaUpload.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,6 +29,10 @@
       <set />
     </option>
     <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="db" type="feb32156:DbDataSourceImpl" />
+      </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="db.sqlite3" type="feb32156:DbDataSourceImpl" />
@@ -72,24 +65,24 @@
     <session id="743966324">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="6" />
+          <entry key="project.closed" value="7" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.25" value="4" />
-          <entry key="project.open.time.26" value="1" />
+          <entry key="project.open.time.26" value="2" />
           <entry key="project.open.time.29" value="2" />
           <entry key="project.open.time.30" value="1" />
           <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.793" value="1" />
           <entry key="project.open.time.8" value="2" />
-          <entry key="project.opened" value="13" />
+          <entry key="project.opened" value="14" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="30" />
-          <entry key="html" value="2676" />
+          <entry key="html" value="2687" />
           <entry key="js" value="123" />
-          <entry key="py" value="5281" />
+          <entry key="py" value="5324" />
           <entry key="txt" value="56" />
         </counts>
       </usages-collector>
@@ -97,10 +90,10 @@
         <counts>
           <entry key="CSS" value="30" />
           <entry key="DjangoUrlPath" value="1" />
-          <entry key="HTML" value="2676" />
+          <entry key="HTML" value="2687" />
           <entry key="JavaScript" value="123" />
           <entry key="PLAIN_TEXT" value="56" />
-          <entry key="Python" value="5280" />
+          <entry key="Python" value="5323" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -134,7 +127,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Website/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="349">
+            <state relative-caret-position="2640">
               <caret line="210" selection-start-line="210" selection-end-line="210" />
               <folding>
                 <element signature="e#3219#5712#0" />
@@ -164,56 +157,25 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/captchaApp/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="129" column="44" lean-forward="true" selection-start-line="129" selection-start-column="44" selection-end-line="129" selection-end-column="44" />
+            <state relative-caret-position="480">
+              <caret line="129" lean-forward="true" selection-start-line="129" selection-end-line="129" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
-                <marker date="1552047932356" expanded="true" signature="317:322" ph="..." />
-                <marker date="1552047932356" expanded="true" signature="317:1573" ph="..." />
-                <marker date="1552047932356" expanded="true" signature="1439:1573" ph="..." />
-                <marker date="1552047932356" expanded="true" signature="2026:2027" ph="..." />
-                <marker date="1552047932356" expanded="true" signature="2383:2749" ph="..." />
-                <marker date="1552047932356" expanded="true" signature="2810:2811" ph="..." />
-                <marker date="1552047932356" expanded="true" signature="3709:3710" ph="..." />
-                <marker date="1552047932356" expanded="true" signature="4275:4276" ph="..." />
+                <marker date="1552105859301" expanded="true" signature="318:323" ph="..." />
+                <marker date="1552105859301" expanded="true" signature="318:1602" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Website/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="332">
-              <caret line="40" column="45" lean-forward="true" selection-start-line="40" selection-start-column="45" selection-end-line="40" selection-end-column="45" />
-              <folding>
-                <element signature="e#631#663#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/log/info.log">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
-              <caret line="1060" lean-forward="true" selection-start-line="1060" selection-end-line="1060" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/captchaUpload.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="14" column="32" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#form#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="640">
+              <caret line="32" column="32" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -221,13 +183,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/captcha.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
+            <state relative-caret-position="1160">
               <caret line="58" column="51" selection-start-line="58" selection-start-column="51" selection-end-line="59" selection-end-column="70" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#form#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -235,7 +192,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/stanford.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
+            <state relative-caret-position="700">
               <caret line="35" column="8" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="8" />
             </state>
           </provider>
@@ -287,8 +244,8 @@
         <option value="$PROJECT_DIR$/log/err.log" />
         <option value="$PROJECT_DIR$/templates/captcha.html" />
         <option value="$PROJECT_DIR$/Website/urls.py" />
-        <option value="$PROJECT_DIR$/captchaApp/views.py" />
         <option value="$PROJECT_DIR$/templates/captchaUpload.html" />
+        <option value="$PROJECT_DIR$/captchaApp/views.py" />
       </list>
     </option>
   </component>
@@ -298,9 +255,9 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="437" />
-    <option name="y" value="121" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="436" />
+    <option name="y" value="120" />
     <option name="width" value="1060" />
     <option name="height" value="735" />
   </component>
@@ -435,15 +392,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="55" y="-7" width="1488" height="878" extended-state="6" />
-    <editor active="true" />
+    <frame x="55" y="-7" width="1488" height="878" extended-state="7" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16596639" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16806723" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32885906" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32885906" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -602,9 +558,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="32440">
           <caret line="1622" column="1" selection-start-line="1622" selection-start-column="1" selection-end-line="1622" selection-end-column="1" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -615,23 +568,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Website/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="210" selection-start-line="210" selection-end-line="210" />
-          <folding>
-            <element signature="e#3219#5712#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mainApp/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="5" column="2" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/django/core/handlers/base.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -639,42 +575,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/test.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/captchaApp/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/stanford.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="35" column="8" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/captcha.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="58" column="51" selection-start-line="58" selection-start-column="51" selection-end-line="59" selection-end-column="70" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#form#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mainApp/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="13" column="8" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
-          <folding>
-            <marker date="1552039133122" expanded="true" signature="90:95" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -696,37 +600,68 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="332">
           <caret line="40" column="45" lean-forward="true" selection-start-line="40" selection-start-column="45" selection-end-line="40" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2640">
+          <caret line="210" selection-start-line="210" selection-end-line="210" />
           <folding>
-            <element signature="e#631#663#0" expanded="true" />
+            <element signature="e#3219#5712#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/captchaApp/views.py">
+    <entry file="file://$PROJECT_DIR$/mainApp/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="129" column="44" lean-forward="true" selection-start-line="129" selection-start-column="44" selection-end-line="129" selection-end-column="44" />
+        <state relative-caret-position="100">
+          <caret line="5" column="2" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mainApp/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="13" column="8" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
-            <marker date="1552047932356" expanded="true" signature="317:322" ph="..." />
-            <marker date="1552047932356" expanded="true" signature="317:1573" ph="..." />
-            <marker date="1552047932356" expanded="true" signature="1439:1573" ph="..." />
-            <marker date="1552047932356" expanded="true" signature="2026:2027" ph="..." />
-            <marker date="1552047932356" expanded="true" signature="2383:2749" ph="..." />
-            <marker date="1552047932356" expanded="true" signature="2810:2811" ph="..." />
-            <marker date="1552047932356" expanded="true" signature="3709:3710" ph="..." />
-            <marker date="1552047932356" expanded="true" signature="4275:4276" ph="..." />
+            <marker date="1552039133122" expanded="true" signature="90:95" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/captchaUpload.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="14" column="32" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
+        <state relative-caret-position="640">
+          <caret line="32" column="32" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/captcha.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1160">
+          <caret line="58" column="51" selection-start-line="58" selection-start-column="51" selection-end-line="59" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/stanford.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="700">
+          <caret line="35" column="8" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/test.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/captchaApp/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="129" lean-forward="true" selection-start-line="129" selection-end-line="129" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#form#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#0#35#0" expanded="true" />
+            <marker date="1552105859301" expanded="true" signature="318:323" ph="..." />
+            <marker date="1552105859301" expanded="true" signature="318:1602" ph="..." />
           </folding>
         </state>
       </provider>
