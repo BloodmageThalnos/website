@@ -761,3 +761,92 @@ Traceback (most recent call last):
   File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
     "returned None instead." % (callback.__module__, view_name)
 ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 18:47:07,702][Thread-5:384384][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 18:55:02,788][Thread-14:382164][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 19:35:53,578][Thread-4:387456][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 89, in showFont
+    with open('./fonts/' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fonts/fontawesome-webfont.woff2'
+[2019-03-10 19:35:53,781][Thread-4:387456][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 89, in showFont
+    with open('./fonts/' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fonts/fontawesome-webfont.woff'
+[2019-03-10 19:35:53,946][Thread-4:387456][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.ttf]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 94, in showFont
+    with open('./fonts/' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fonts/fontawesome-webfont.ttf'
+[2019-03-10 19:35:56,770][Thread-1:388052][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 19:38:52,044][Thread-5:387460][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 19:40:07,179][Thread-3:387904][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 19:40:15,346][Thread-1:388052][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 19:40:22,577][Thread-3:387904][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 19:40:32,599][Thread-1:388052][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.

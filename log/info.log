@@ -1877,3 +1877,126 @@ ValueError: The view staticApp.views.showBin didn't return an HttpResponse objec
 [2019-03-10 12:04:33,624][Thread-7:357364][task_id:root][views.py:12][INFO][Accessing Page home/ with showHome]
 [2019-03-10 12:04:34,878][Thread-8:354848][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.ttf]
 [2019-03-10 12:04:35,157][Thread-11:358156][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.woff]
+[2019-03-10 18:47:03,091][Thread-1:383736][task_id:root][views.py:15][INFO][Accessing Page / with showMainPage]
+[2019-03-10 18:47:03,413][Thread-1:383736][task_id:django.request][log.py:228][WARNING][Not Found: /favicon.ico]
+[2019-03-10 18:47:04,479][Thread-1:383736][task_id:root][views.py:12][INFO][Accessing Page home/ with showHome]
+[2019-03-10 18:47:04,814][Thread-7:382792][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.ttf]
+[2019-03-10 18:47:05,047][Thread-7:382792][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.woff]
+[2019-03-10 18:47:07,700][Thread-5:384384][task_id:root][views.py:84][INFO][Accessing /master.css.map with showBin matched nothing.]
+[2019-03-10 18:47:07,702][Thread-5:384384][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 18:54:51,536][Thread-8:377240][task_id:root][views.py:12][INFO][Accessing Page home/ with showHome]
+[2019-03-10 18:55:02,787][Thread-14:382164][task_id:root][views.py:84][INFO][Accessing /master.css.map with showBin matched nothing.]
+[2019-03-10 18:55:02,788][Thread-14:382164][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 19:35:49,820][Thread-1:388052][task_id:root][views.py:15][INFO][Accessing Page / with showMainPage]
+[2019-03-10 19:35:51,150][Thread-1:388052][task_id:staticApp.views][views.py:14][INFO][Accessing Page index.html with showMainPage]
+[2019-03-10 19:35:53,301][Thread-6:387464][task_id:root][views.py:12][INFO][Accessing Page home/ with showHome]
+[2019-03-10 19:35:53,577][Thread-5:387460][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.ttf]
+[2019-03-10 19:35:53,578][Thread-4:387456][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 89, in showFont
+    with open('./fonts/' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fonts/fontawesome-webfont.woff2'
+[2019-03-10 19:35:53,777][Thread-4:387456][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.woff]
+[2019-03-10 19:35:53,781][Thread-4:387456][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 89, in showFont
+    with open('./fonts/' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fonts/fontawesome-webfont.woff'
+[2019-03-10 19:35:53,946][Thread-4:387456][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.ttf]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 94, in showFont
+    with open('./fonts/' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fonts/fontawesome-webfont.ttf'
+[2019-03-10 19:35:56,769][Thread-1:388052][task_id:root][views.py:84][INFO][Accessing /master.min.css.map with showBin matched nothing.]
+[2019-03-10 19:35:56,770][Thread-1:388052][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 19:38:51,594][Thread-1:388052][task_id:root][views.py:12][INFO][Accessing Page home/ with showHome]
+[2019-03-10 19:38:51,880][Thread-4:387456][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.ttf]
+[2019-03-10 19:38:52,044][Thread-5:387460][task_id:root][views.py:84][INFO][Accessing /master.min.css.map with showBin matched nothing.]
+[2019-03-10 19:38:52,044][Thread-5:387460][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 19:38:52,228][Thread-5:387460][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.woff]
+[2019-03-10 19:40:06,759][Thread-5:387460][task_id:root][views.py:12][INFO][Accessing Page home/ with showHome]
+[2019-03-10 19:40:07,067][Thread-4:387456][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.ttf]
+[2019-03-10 19:40:07,178][Thread-3:387904][task_id:root][views.py:84][INFO][Accessing /master.min.css.map with showBin matched nothing.]
+[2019-03-10 19:40:07,179][Thread-3:387904][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 19:40:07,277][Thread-3:387904][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.woff]
+[2019-03-10 19:40:14,910][Thread-3:387904][task_id:root][views.py:12][INFO][Accessing Page home/ with showHome]
+[2019-03-10 19:40:15,231][Thread-6:387464][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.ttf]
+[2019-03-10 19:40:15,346][Thread-1:388052][task_id:root][views.py:84][INFO][Accessing /master.min.css.map with showBin matched nothing.]
+[2019-03-10 19:40:15,346][Thread-1:388052][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 19:40:15,440][Thread-1:388052][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.woff]
+[2019-03-10 19:40:22,196][Thread-1:388052][task_id:root][views.py:12][INFO][Accessing Page home/ with showHome]
+[2019-03-10 19:40:22,471][Thread-4:387456][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.ttf]
+[2019-03-10 19:40:22,577][Thread-3:387904][task_id:root][views.py:84][INFO][Accessing /master.min.css.map with showBin matched nothing.]
+[2019-03-10 19:40:22,577][Thread-3:387904][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 19:40:22,701][Thread-3:387904][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.woff]
+[2019-03-10 19:40:32,218][Thread-3:387904][task_id:root][views.py:12][INFO][Accessing Page home/ with showHome]
+[2019-03-10 19:40:32,484][Thread-5:387460][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.ttf]
+[2019-03-10 19:40:32,599][Thread-1:388052][task_id:root][views.py:84][INFO][Accessing /master.min.css.map with showBin matched nothing.]
+[2019-03-10 19:40:32,599][Thread-1:388052][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 19:40:32,730][Thread-1:388052][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.woff]
