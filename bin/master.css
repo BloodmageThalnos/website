@@ -35,7 +35,8 @@ footer,
 header,
 nav,
 section {
-  display: block; }
+  display: block;
+}
 
 /**
  * Correct the font size and margin on `h1` elements within `section` and
@@ -14258,7 +14259,7 @@ body::before {
           flex: 0 0 auto;
           box-sizing: inherit; }
       .flex-grid[data-columns="6"] > * {
-        width: calc(16.6666666667% - 40.8333333333px);
+        width: calc(16.6666667% - 40.8333333px);
         float: left;
         margin-left: 35px;
         margin-bottom: 35px; } }
