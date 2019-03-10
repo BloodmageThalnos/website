@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="021b16ff-c0b9-4179-95b8-f90c57b34f7b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/master.css" beforeDir="false" afterPath="$PROJECT_DIR$/bin/master.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/stanford.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/stanford.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/master.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/bin/master.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -75,27 +75,27 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="css" value="79" />
+          <entry key="css" value="80" />
           <entry key="html" value="2695" />
           <entry key="js" value="123" />
           <entry key="py" value="5617" />
-          <entry key="txt" value="83" />
+          <entry key="txt" value="129" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="CSS" value="79" />
+          <entry key="CSS" value="80" />
           <entry key="DjangoUrlPath" value="1" />
           <entry key="HTML" value="2695" />
           <entry key="JavaScript" value="123" />
-          <entry key="PLAIN_TEXT" value="83" />
+          <entry key="PLAIN_TEXT" value="129" />
           <entry key="Python" value="5616" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="captchaapp_captcharecord" value="4" />
-          <entry key="css" value="5" />
+          <entry key="css" value="8" />
           <entry key="html" value="12" />
           <entry key="js" value="2" />
           <entry key="log" value="6" />
@@ -106,7 +106,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CSS" value="5" />
+          <entry key="CSS" value="8" />
           <entry key="Database Element" value="4" />
           <entry key="HTML" value="12" />
           <entry key="JavaScript" value="2" />
@@ -177,6 +177,24 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bin/master.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="239">
+              <caret line="3878" column="27" selection-end-line="17717" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/bin/master.min.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="11" column="99706" selection-start-line="11" selection-start-column="99706" selection-end-line="11" selection-end-column="99706" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/log/err.log">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-5146">
@@ -185,11 +203,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/stanford.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="30" column="68" lean-forward="true" selection-start-line="30" selection-start-column="68" selection-end-line="30" selection-end-column="68" />
+            <state relative-caret-position="-1175">
+              <caret line="30" column="68" selection-start-line="30" selection-start-column="68" selection-end-line="30" selection-end-column="68" />
             </state>
           </provider>
         </entry>
@@ -221,6 +239,11 @@
       <find>../</find>
       <find>su-brand</find>
       <find>splash--wordmark</find>
+      <find>./</find>
+      <find>1023px)#brand-bar</find>
+      <find>#brand-bar</find>
+      <find>calc(100%+40px)</find>
+      <find>calc(100% + 40px)</find>
     </findStrings>
     <dirStrings>
       <dir>D:\Project\Website</dir>
@@ -248,10 +271,10 @@
         <option value="$PROJECT_DIR$/templates/captchaUpload.html" />
         <option value="$PROJECT_DIR$/captchaApp/views.py" />
         <option value="$PROJECT_DIR$/Website/urls.py" />
-        <option value="$PROJECT_DIR$/bin/master.min.css" />
         <option value="$PROJECT_DIR$/staticApp/views.py" />
-        <option value="$PROJECT_DIR$/bin/master.css" />
         <option value="$PROJECT_DIR$/templates/stanford.html" />
+        <option value="$PROJECT_DIR$/bin/master.css" />
+        <option value="$PROJECT_DIR$/bin/master.min.css" />
       </list>
     </option>
   </component>
@@ -312,7 +335,7 @@
     <property name="NewWatcherDialog.advanced.open" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ShadowInk/appMain" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/node_modules/csso-cli/bin/csso" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.externalTools" />
@@ -407,7 +430,14 @@
       <option name="project" value="LOCAL" />
       <updated>1552187396997</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="compress master.css to master.min.css">
+      <created>1552189484592</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1552189484592</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -419,15 +449,15 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32885906" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32885906" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32885906" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32885906" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32885906" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4992997" visible="true" weight="0.32885906" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5007003" side_tool="true" visible="true" weight="0.32885906" />
       <window_info anchor="bottom" id="Python Console" order="11" weight="0.32885906" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Console" order="13" weight="0.32885906" />
@@ -485,7 +515,8 @@
     <MESSAGE value="update website 1" />
     <MESSAGE value="homepage 上线" />
     <MESSAGE value="change css from homepage" />
-    <option name="LAST_COMMIT_MESSAGE" value="change css from homepage" />
+    <MESSAGE value="compress master.css to master.min.css" />
+    <option name="LAST_COMMIT_MESSAGE" value="compress master.css to master.min.css" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/TexasAPP/__init__.py">
@@ -659,6 +690,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/log/info.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-13126">
+          <caret line="1060" selection-start-line="1060" selection-end-line="1060" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/stanford.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1175">
+          <caret line="30" column="68" selection-start-line="30" selection-start-column="68" selection-end-line="30" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/staticApp/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
@@ -669,31 +714,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/log/info.log">
+    <entry file="file://$PROJECT_DIR$/bin/master.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-13126">
-          <caret line="1060" selection-start-line="1060" selection-end-line="1060" />
+        <state relative-caret-position="239">
+          <caret line="3878" column="27" selection-end-line="17717" selection-end-column="38" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bin/master.min.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="8" column="639566" lean-forward="true" selection-start-line="8" selection-start-column="639566" selection-end-line="8" selection-end-column="639566" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/master.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="3" column="26" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/stanford.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="30" column="68" lean-forward="true" selection-start-line="30" selection-start-column="68" selection-end-line="30" selection-end-column="68" />
+        <state relative-caret-position="220">
+          <caret line="11" column="99706" selection-start-line="11" selection-start-column="99706" selection-end-line="11" selection-end-column="99706" />
         </state>
       </provider>
     </entry>
