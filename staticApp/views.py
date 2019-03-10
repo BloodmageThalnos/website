@@ -53,7 +53,7 @@ def showImages(request, path):
 
 def showSource(request, path):
     if path.endswith('cpp'):
-        with open('./source/'+path, mode="r") as f:
+        with open('./source/'+path, mode="r", encoding='UTF-8') as f:
             html = f.read()
         return HttpResponse(html)
 
@@ -71,5 +71,29 @@ def showBin(request, path):
             html = f.read()
         return HttpResponse(html, content_type="application/x-javascript")
 
+    if path.endswith('woff') or path.endswith('woff2'):
+        with open('./bin/' + path, mode="rb") as f:
+            html = f.read()
+        return HttpResponse(html, content_type="application/x-font-woff")
+
+    if path.endswith('ttf'):
+        with open('./bin/' + path, mode="rb") as f:
+            html = f.read()
+        return HttpResponse(html, content_type="application/x-font-ttf")
+
     logging.info('Accessing /%s with showBin matched nothing.' % path)
+    return None
+
+def showFont(request, path):
+    if path.endswith('woff') or path.endswith('woff2'):
+        with open('./fonts/' + path, mode="rb") as f:
+            html = f.read()
+        return HttpResponse(html, content_type="application/x-font-woff")
+
+    if path.endswith('ttf'):
+        with open('./fonts/' + path, mode="rb") as f:
+            html = f.read()
+        return HttpResponse(html, content_type="application/x-font-ttf")
+
+    logging.info('Accessing /%s with showFont matched nothing.' % path)
     return None
