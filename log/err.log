@@ -112,3 +112,652 @@ Traceback (most recent call last):
   File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
     "returned None instead." % (callback.__module__, view_name)
 ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:02:26,982][Thread-12:307480][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:02:27,242][Thread-9:353016][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:02:27,413][Thread-9:353016][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.ttf]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:12:25,880][Thread-5:291672][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 88, in showFont
+    with open('./bin/' + path, encoding='UTF-8') as f:
+FileNotFoundError: [Errno 2] No such file or directory: './bin/fontawesome-webfont.woff2'
+[2019-03-10 10:12:25,888][Thread-6:284928][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:12:26,113][Thread-5:291672][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 88, in showFont
+    with open('./bin/' + path, encoding='UTF-8') as f:
+FileNotFoundError: [Errno 2] No such file or directory: './bin/fontawesome-webfont.woff'
+[2019-03-10 10:12:26,114][Thread-4:352308][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:12:26,264][Thread-4:352308][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.ttf]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 88, in showFont
+    with open('./bin/' + path, encoding='UTF-8') as f:
+FileNotFoundError: [Errno 2] No such file or directory: './bin/fontawesome-webfont.ttf'
+[2019-03-10 10:12:26,265][Thread-5:291672][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.ttf]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:12:29,050][Thread-6:284928][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:13:34,155][Thread-3:291748][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 88, in showFont
+    with open('./fonts/' + path, encoding='rb') as f:
+LookupError: unknown encoding: rb
+[2019-03-10 10:13:34,156][Thread-4:352884][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:13:34,262][Thread-4:352884][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:13:34,356][Thread-3:291748][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:13:34,358][Thread-4:352884][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 88, in showFont
+    with open('./fonts/' + path, encoding='rb') as f:
+LookupError: unknown encoding: rb
+[2019-03-10 10:13:34,718][Thread-4:352884][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.ttf]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:13:34,719][Thread-3:291748][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.ttf]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 88, in showFont
+    with open('./fonts/' + path, encoding='rb') as f:
+LookupError: unknown encoding: rb
+[2019-03-10 10:14:54,995][Thread-6:350152][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:14:55,099][Thread-6:350152][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:14:55,176][Thread-6:350152][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:14:55,459][Thread-6:350152][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.ttf]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:15:44,684][Thread-4:317848][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:15:44,793][Thread-4:317848][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:15:44,872][Thread-4:317848][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:15:45,190][Thread-4:317848][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.ttf]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:20:33,764][Thread-6:283500][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 88, in showFont
+    with open('./fonts/' + path, mode='rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fonts/fontawesome-webfont.woff2'
+[2019-03-10 10:20:33,765][Thread-5:302212][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:20:33,871][Thread-5:302212][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:20:33,884][Thread-1:347912][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 88, in showFont
+    with open('./fonts/' + path, mode='rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fonts/fontawesome-webfont.woff'
+[2019-03-10 10:20:33,993][Thread-1:347912][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:20:34,096][Thread-1:347912][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.ttf]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 88, in showFont
+    with open('./fonts/' + path, mode='rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fonts/fontawesome-webfont.ttf'
+[2019-03-10 10:20:34,325][Thread-1:347912][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.ttf]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:21:13,490][Thread-6:283500][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:21:13,586][Thread-6:283500][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:21:13,611][Thread-3:275668][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:21:13,723][Thread-3:275668][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.ttf]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:24:58,546][Thread-3:275668][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:24:58,852][Thread-3:275668][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:25:00,201][Thread-3:275668][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:25:00,411][Thread-3:275668][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:25:02,655][Thread-6:283500][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:25:24,669][Thread-1:347912][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:25:24,785][Thread-1:347912][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:25:24,816][Thread-4:317848][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:25:24,917][Thread-4:317848][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.ttf]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:27:48,730][Thread-6:287708][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 75, in showBin
+    with open('./fonts/' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fonts/fonts/weathericons-regular-webfont.woff2'
+[2019-03-10 10:27:49,004][Thread-6:287708][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:27:49,050][Thread-3:353624][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 75, in showBin
+    with open('./fonts/' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fonts/fonts/weathericons-regular-webfont.woff'
+[2019-03-10 10:27:49,186][Thread-3:353624][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.ttf]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 80, in showBin
+    with open('./fonts/' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fonts/fonts/weathericons-regular-webfont.ttf'
+[2019-03-10 10:28:01,773][Thread-1:275992][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 75, in showBin
+    with open('./fonts/' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fonts/fonts/weathericons-regular-webfont.woff2'
+[2019-03-10 10:28:01,892][Thread-6:287708][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 75, in showBin
+    with open('./fonts/' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fonts/fonts/weathericons-regular-webfont.woff'
+[2019-03-10 10:28:01,893][Thread-5:293328][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:28:02,211][Thread-5:293328][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/fonts/weathericons-regular-webfont.ttf]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 80, in showBin
+    with open('./fonts/' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fonts/fonts/weathericons-regular-webfont.ttf'
+[2019-03-10 10:28:44,746][Thread-3:291700][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 75, in showBin
+    with open('./' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fontawesome-webfont.woff2'
+[2019-03-10 10:28:44,840][Thread-1:284476][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:28:44,907][Thread-1:284476][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 75, in showBin
+    with open('./' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fontawesome-webfont.woff'
+[2019-03-10 10:28:45,079][Thread-1:284476][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.ttf]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 80, in showBin
+    with open('./' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fontawesome-webfont.ttf'
+[2019-03-10 10:31:12,910][Thread-6:321668][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 89, in showFont
+    with open('./bin/' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './bin/fontawesome-webfont.woff2'
+[2019-03-10 10:31:13,016][Thread-6:321668][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:31:13,085][Thread-6:321668][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 89, in showFont
+    with open('./bin/' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './bin/fontawesome-webfont.woff'
+[2019-03-10 10:31:13,242][Thread-6:321668][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.ttf]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 94, in showFont
+    with open('./bin/' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './bin/fontawesome-webfont.ttf'
+[2019-03-10 10:31:31,190][Thread-6:289936][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:34:54,177][Thread-3:349392][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:35:06,787][Thread-8:352704][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:46:44,153][Thread-3:353876][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:49:02,740][Thread-6:353864][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:49:34,913][Thread-11:353412][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:53:13,065][Thread-3:354984][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:55:43,633][Thread-8:354352][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:56:22,291][Thread-10:354560][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:56:36,989][Thread-3:354228][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.min.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:57:54,230][Thread-6:354064][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.woff2]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 89, in showFont
+    with open('./fonts/' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fonts/fontawesome-webfont.woff2'
+[2019-03-10 10:57:54,356][Thread-6:354064][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 10:57:54,550][Thread-6:354064][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.woff]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 89, in showFont
+    with open('./fonts/' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fonts/fontawesome-webfont.woff'
+[2019-03-10 10:57:54,698][Thread-6:354064][task_id:django.request][log.py:228][ERROR][Internal Server Error: /fonts/fontawesome-webfont.ttf]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Project\Website\staticApp\views.py", line 94, in showFont
+    with open('./fonts/' + path, mode="rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: './fonts/fontawesome-webfont.ttf'
+[2019-03-10 11:01:03,961][Thread-3:354792][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 11:03:50,535][Thread-3:322764][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 11:04:35,988][Thread-6:342176][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
+[2019-03-10 11:05:43,350][Thread-4:354768][task_id:django.request][log.py:228][ERROR][Internal Server Error: /bin/master.css.map]
+Traceback (most recent call last):
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\Project\Website\venv\lib\site-packages\django\core\handlers\base.py", line 137, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.

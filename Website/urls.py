@@ -24,12 +24,13 @@ from siteApp import views as siteViews
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # old static pages
+    # old static pages, some of them are taken over by nginx
     path('s/<path:path>', staticViews.showPage),
     path('assets/<path:path>', staticViews.showAssets),
     path('images/<path:path>', staticViews.showImages),
     path('source/<path:path>', staticViews.showSource),
     path('bin/<path:path>', staticViews.showBin),
+    path('fonts/<path:path>', staticViews.showFont),
 
     # texas calculator function
     path('texas/<slug:path>', texasViews.showPages),

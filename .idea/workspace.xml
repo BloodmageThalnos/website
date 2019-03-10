@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="021b16ff-c0b9-4179-95b8-f90c57b34f7b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/Administrator.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="021b16ff-c0b9-4179-95b8-f90c57b34f7b" name="Default Changelist" comment="homepage 上线">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/captcha/-1_0001_.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/captcha/-4_0001_.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/captcha/1120_0001_.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/captchaApp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/captchaApp/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/captchaUpload.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/captchaUpload.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Website/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Website/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/master.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/fontawesome-webfont.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/fontawesome-webfont.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/fontawesome-webfont.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/err.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/err.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/info.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/info.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/staticApp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/staticApp/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/stanford.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/stanford.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -69,54 +71,54 @@
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.25" value="4" />
           <entry key="project.open.time.26" value="2" />
-          <entry key="project.open.time.29" value="2" />
+          <entry key="project.open.time.29" value="3" />
           <entry key="project.open.time.30" value="1" />
           <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.793" value="1" />
           <entry key="project.open.time.8" value="2" />
-          <entry key="project.opened" value="14" />
+          <entry key="project.opened" value="15" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="css" value="30" />
-          <entry key="html" value="2687" />
+          <entry key="css" value="74" />
+          <entry key="html" value="2691" />
           <entry key="js" value="123" />
-          <entry key="py" value="5324" />
+          <entry key="py" value="5617" />
           <entry key="txt" value="56" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="CSS" value="30" />
+          <entry key="CSS" value="74" />
           <entry key="DjangoUrlPath" value="1" />
-          <entry key="HTML" value="2687" />
+          <entry key="HTML" value="2691" />
           <entry key="JavaScript" value="123" />
           <entry key="PLAIN_TEXT" value="56" />
-          <entry key="Python" value="5323" />
+          <entry key="Python" value="5616" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="captchaapp_captcharecord" value="4" />
-          <entry key="css" value="2" />
-          <entry key="html" value="11" />
+          <entry key="css" value="4" />
+          <entry key="html" value="12" />
           <entry key="js" value="2" />
-          <entry key="log" value="3" />
+          <entry key="log" value="6" />
           <entry key="md" value="1" />
-          <entry key="py" value="24" />
+          <entry key="py" value="26" />
           <entry key="sql" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CSS" value="2" />
+          <entry key="CSS" value="4" />
           <entry key="Database Element" value="4" />
-          <entry key="HTML" value="11" />
+          <entry key="HTML" value="12" />
           <entry key="JavaScript" value="2" />
           <entry key="Markdown" value="1" />
-          <entry key="PLAIN_TEXT" value="3" />
-          <entry key="Python" value="24" />
+          <entry key="PLAIN_TEXT" value="6" />
+          <entry key="Python" value="26" />
           <entry key="Scratch" value="3" />
         </counts>
       </usages-collector>
@@ -124,18 +126,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Website/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2640">
-              <caret line="210" selection-start-line="210" selection-end-line="210" />
-              <folding>
-                <element signature="e#3219#5712#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mainApp/views.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -157,11 +147,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/captchaApp/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="129" lean-forward="true" selection-start-line="129" selection-end-line="129" />
+            <state relative-caret-position="367">
+              <caret line="129" selection-start-line="129" selection-end-line="129" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
                 <marker date="1552105859301" expanded="true" signature="318:323" ph="..." />
@@ -172,19 +162,31 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/captchaUpload.html">
+        <entry file="file://$PROJECT_DIR$/Website/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="640">
-              <caret line="32" column="32" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
+            <state relative-caret-position="80">
+              <caret line="25" selection-start-line="25" selection-end-line="25" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/captcha.html">
+        <entry file="file://$PROJECT_DIR$/staticApp/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1160">
-              <caret line="58" column="51" selection-start-line="58" selection-start-column="51" selection-end-line="59" selection-end-column="70" />
+            <state relative-caret-position="72">
+              <caret line="25" column="61" selection-start-line="25" selection-start-column="61" selection-end-line="25" selection-end-column="61" />
+              <folding>
+                <marker date="1552186651591" expanded="true" signature="2832:2833" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/log/err.log">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-5146">
+              <caret line="312" column="108" selection-start-line="312" selection-start-column="108" selection-end-line="312" selection-end-column="108" />
             </state>
           </provider>
         </entry>
@@ -192,15 +194,19 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/stanford.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="700">
-              <caret line="35" column="8" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="8" />
+            <state relative-caret-position="463">
+              <caret line="1235" column="13" selection-start-line="1235" selection-start-column="13" selection-end-line="1235" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/test.html">
-          <provider selected="true" editor-type-id="text-editor" />
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/bin/master.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="13119" column="23" lean-forward="true" selection-start-line="13119" selection-start-column="23" selection-end-line="13119" selection-end-column="23" />
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -213,13 +219,27 @@
       <find>breakpoint-helper</find>
       <find>masterm</find>
       <find>Stanford</find>
-      <find>splash--wordmark</find>
       <find>explore</find>
       <find>menu-item</find>
       <find>menu-ite</find>
       <find>stanford</find>
       <find>search</find>
+      <find>wp-content</find>
+      <find>fa-facebook-square</find>
+      <find>../fonts</find>
+      <find>#search-toggle</find>
+      <find>#search-toggle:before</find>
+      <find>#brand-bar #search-toggle</find>
+      <find>.splash-parallax #brand-bar #header--wordmark</find>
+      <find>/bin/</find>
+      <find>.min.</find>
+      <find>../</find>
+      <find>su-brand</find>
+      <find>splash--wordmark</find>
     </findStrings>
+    <dirStrings>
+      <dir>D:\Project\Website</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -228,24 +248,25 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/TexasAPP/views.py" />
-        <option value="$PROJECT_DIR$/staticApp/views.py" />
         <option value="$PROJECT_DIR$/templates/texas.html" />
         <option value="$PROJECT_DIR$/captchaApp/models.py" />
         <option value="$PROJECT_DIR$/html/index.html" />
         <option value="$PROJECT_DIR$/siteApp/views.py" />
         <option value="$PROJECT_DIR$/Website/debug_settings.py" />
         <option value="$PROJECT_DIR$/templates/root.html" />
-        <option value="$PROJECT_DIR$/bin/master.min.css" />
         <option value="$PROJECT_DIR$/bin/master.min.js" />
-        <option value="$PROJECT_DIR$/templates/stanford.html" />
         <option value="$PROJECT_DIR$/Website/settings.py" />
         <option value="$PROJECT_DIR$/mainApp/models.py" />
         <option value="$PROJECT_DIR$/mainApp/views.py" />
         <option value="$PROJECT_DIR$/log/err.log" />
         <option value="$PROJECT_DIR$/templates/captcha.html" />
-        <option value="$PROJECT_DIR$/Website/urls.py" />
         <option value="$PROJECT_DIR$/templates/captchaUpload.html" />
         <option value="$PROJECT_DIR$/captchaApp/views.py" />
+        <option value="$PROJECT_DIR$/Website/urls.py" />
+        <option value="$PROJECT_DIR$/bin/master.min.css" />
+        <option value="$PROJECT_DIR$/staticApp/views.py" />
+        <option value="$PROJECT_DIR$/templates/stanford.html" />
+        <option value="$PROJECT_DIR$/bin/master.css" />
       </list>
     </option>
   </component>
@@ -255,8 +276,8 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="436" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="435" />
     <option name="y" value="120" />
     <option name="width" value="1060" />
     <option name="height" value="735" />
@@ -267,7 +288,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -278,7 +298,12 @@
             <path>
               <item name="Website" type="b2602c69:ProjectViewProjectNode" />
               <item name="Website" type="462c0819:PsiDirectoryNode" />
-              <item name="log" type="462c0819:PsiDirectoryNode" />
+              <item name="bin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Website" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Website" type="462c0819:PsiDirectoryNode" />
+              <item name="staticApp" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Website" type="b2602c69:ProjectViewProjectNode" />
@@ -294,6 +319,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -303,7 +329,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../ShadowInk/appMain" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.django.DjangoModulesConfigurable" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -392,15 +418,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="55" y="-7" width="1488" height="878" extended-state="7" />
+    <frame x="55" y="-7" width="1488" height="878" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16806723" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12955183" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32885906" />
       <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32885906" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -480,13 +507,6 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/TexasAPP/README.md" />
-    <entry file="file://$PROJECT_DIR$/staticApp/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="10" column="36" lean-forward="true" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/captchaApp/migrations/0001_initial.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-28" />
@@ -526,13 +546,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Website/nondebug_settings.py" />
-    <entry file="file://$PROJECT_DIR$/bin/master.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="15865" column="37" selection-start-line="15865" selection-start-column="37" selection-end-line="15865" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Website/debug_settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -582,27 +595,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/log/err.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6">
-          <caret line="77" column="16" lean-forward="true" selection-start-line="77" selection-start-column="16" selection-end-line="77" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/log/info.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="1060" lean-forward="true" selection-start-line="1060" selection-end-line="1060" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Website/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="40" column="45" lean-forward="true" selection-start-line="40" selection-start-column="45" selection-end-line="40" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Website/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2640">
@@ -610,13 +602,6 @@
           <folding>
             <element signature="e#3219#5712#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mainApp/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="5" column="2" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="2" />
         </state>
       </provider>
     </entry>
@@ -644,25 +629,77 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/stanford.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="700">
-          <caret line="35" column="8" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/test.html">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/captchaApp/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="129" lean-forward="true" selection-start-line="129" selection-end-line="129" />
+        <state relative-caret-position="367">
+          <caret line="129" selection-start-line="129" selection-end-line="129" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
             <marker date="1552105859301" expanded="true" signature="318:323" ph="..." />
             <marker date="1552105859301" expanded="true" signature="318:1602" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mainApp/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="5" column="2" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/log/err.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5146">
+          <caret line="312" column="108" selection-start-line="312" selection-start-column="108" selection-end-line="312" selection-end-column="108" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/master.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-379501">
+          <caret line="213" column="1" selection-start-line="213" selection-start-column="1" selection-end-line="213" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/staticApp/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="25" column="61" selection-start-line="25" selection-start-column="61" selection-end-line="25" selection-end-column="61" />
+          <folding>
+            <marker date="1552186651591" expanded="true" signature="2832:2833" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/stanford.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="463">
+          <caret line="1235" column="13" selection-start-line="1235" selection-start-column="13" selection-end-line="1235" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/log/info.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-13126">
+          <caret line="1060" selection-start-line="1060" selection-end-line="1060" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/master.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="13119" column="23" lean-forward="true" selection-start-line="13119" selection-start-column="23" selection-end-line="13119" selection-end-column="23" />
         </state>
       </provider>
     </entry>
