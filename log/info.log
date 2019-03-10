@@ -1867,3 +1867,7 @@ Traceback (most recent call last):
 ValueError: The view staticApp.views.showBin didn't return an HttpResponse object. It returned None instead.
 [2019-03-10 11:05:43,465][Thread-4:354768][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.ttf]
 [2019-03-10 11:05:43,537][Thread-3:353396][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.woff]
+[2019-03-10 11:43:44,142][Thread-1:358384][task_id:root][views.py:15][INFO][Accessing Page / with showMainPage]
+[2019-03-10 11:43:48,828][Thread-1:358384][task_id:root][views.py:12][INFO][Accessing Page home/ with showHome]
+[2019-03-10 11:43:49,083][Thread-6:358012][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.ttf]
+[2019-03-10 11:43:49,323][Thread-5:358068][task_id:django.request][log.py:228][WARNING][Not Found: /wp-content/themes/homesite17/fonts/Stanford.woff]
