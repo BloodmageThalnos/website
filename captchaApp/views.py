@@ -91,7 +91,7 @@ def showCaptcha(request, path):
         else:  # 兼容旧代码
             name = record.pic[:-4] + '_0001_.jpg'
         try:   # 正常返回
-            return HttpResponse(open(record.pic, mode="rb"), content_type="image-jpeg")
+            return HttpResponse(open(name, mode="rb"), content_type="image-jpeg")
         except FileNotFoundError: # 兼容已被删除的题目
             return HttpResponseRedirect('/images/deleted.jpg')
 
