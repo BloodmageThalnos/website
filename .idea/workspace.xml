@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="021b16ff-c0b9-4179-95b8-f90c57b34f7b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/captchaApp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/captchaApp/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -59,7 +58,7 @@
     <session id="743966324">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="9" />
+          <entry key="project.closed" value="10" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.25" value="4" />
           <entry key="project.open.time.26" value="3" />
@@ -79,7 +78,7 @@
           <entry key="html" value="2701" />
           <entry key="js" value="123" />
           <entry key="py" value="5739" />
-          <entry key="txt" value="138" />
+          <entry key="txt" value="151" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
@@ -88,13 +87,13 @@
           <entry key="DjangoUrlPath" value="1" />
           <entry key="HTML" value="2701" />
           <entry key="JavaScript" value="123" />
-          <entry key="PLAIN_TEXT" value="167" />
+          <entry key="PLAIN_TEXT" value="180" />
           <entry key="Python" value="5738" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="captchaapp_captcharecord" value="4" />
+          <entry key="captchaapp_captcharecord" value="5" />
           <entry key="css" value="10" />
           <entry key="gitignore" value="1" />
           <entry key="html" value="13" />
@@ -108,7 +107,7 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CSS" value="10" />
-          <entry key="Database Element" value="4" />
+          <entry key="Database Element" value="5" />
           <entry key="HTML" value="13" />
           <entry key="JavaScript" value="3" />
           <entry key="Markdown" value="1" />
@@ -154,8 +153,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/captchaApp/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="267">
-              <caret line="93" column="41" selection-start-line="93" selection-start-column="41" selection-end-line="93" selection-end-column="41" />
+            <state relative-caret-position="287">
+              <caret line="103" column="35" lean-forward="true" selection-start-line="103" selection-start-column="35" selection-end-line="103" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -277,6 +276,11 @@
               <item name="Website" type="b2602c69:ProjectViewProjectNode" />
               <item name="Website" type="462c0819:PsiDirectoryNode" />
               <item name="bin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Website" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Website" type="462c0819:PsiDirectoryNode" />
+              <item name="captcha" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Website" type="b2602c69:ProjectViewProjectNode" />
@@ -421,19 +425,25 @@
       <option name="project" value="LOCAL" />
       <updated>1552218073356</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="fix captchaAPP">
+      <created>1552294937171</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1552294937171</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="55" y="-7" width="1488" height="878" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12955183" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12955183" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4992997" weight="0.32885906" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49789914" visible="true" weight="0.32885906" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49789914" weight="0.32885906" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -449,7 +459,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" weight="0.32953548" />
-      <window_info anchor="right" id="Database" order="4" weight="0.20938376" />
+      <window_info anchor="right" id="Database" order="4" visible="true" weight="0.18837535" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -502,7 +512,8 @@
     <MESSAGE value="compress master.css to master.min.css" />
     <MESSAGE value="fix master.min.css" />
     <MESSAGE value="fix master.min.css again" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix master.min.css again" />
+    <MESSAGE value="fix captchaAPP" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix captchaAPP" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/TexasAPP/__init__.py">
@@ -531,13 +542,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
           <caret line="10" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://541fd700-97be-4101-99e4-dbde9e380925/schema/main/table/captchaapp_captcharecord">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
@@ -700,10 +704,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="das://541fd700-97be-4101-99e4-dbde9e380925/schema/main/table/captchaapp_captcharecord">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/captchaApp/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="93" column="41" selection-start-line="93" selection-start-column="41" selection-end-line="93" selection-end-column="41" />
+        <state relative-caret-position="287">
+          <caret line="103" column="35" lean-forward="true" selection-start-line="103" selection-start-column="35" selection-end-line="103" selection-end-column="35" />
         </state>
       </provider>
     </entry>
