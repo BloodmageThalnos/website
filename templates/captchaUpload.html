@@ -36,4 +36,22 @@
         </div>
         <center><button type="submit" class="btn btn-primary">提交</button></center>
     </form>
+    <br />
+    <h3>题库列表</h3>
+    <table class="table">
+        <tbody>
+        <tr class="title">
+            <th width="40"></th>
+            <th width="60">题号</th>
+            <th >题目</th>
+        </tr>
+        {% for url in urls %}
+        <tr>
+            <td width="40"> </td>
+            <td width="60">{{ url.id }}</td>
+            <td width="80"><img src="{{ url.u }}" style="max-height: 7em; max-width: 20em;"></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>

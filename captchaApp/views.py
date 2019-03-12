@@ -50,8 +50,22 @@ def showIndex(request):
 
 
 def showUpload(request):
+    global captchaList
+    captchaList = os.listdir("./captcha")
+    urls = []
+    count = 0
+    for captcha in captchaList:
+        it = CaptchaRecord.objects.filter(pic__exact="./captcha/"+captcha).first()
+        if it is None:
+            it = CaptchaRecord.objects.filter(pic__exact="./captcha/"+captcha[:-10]+".jpg").first()
+        if it is None:
+            CaptchaRecord(hash=str(random.randint(0,1e12)), answer='', pic="./captcha/"+captcha, user='').save()
+            it = CaptchaRecord.objects.filter(pic__exact="./captcha/" + captcha).first()
+        urls.append({'id':count, 'u':'./img/'+it.hash})
+        count+=1
     template = loader.get_template('captchaUpload.html')
     context = {
+        'urls': urls,
     }
     return HttpResponse(template.render(context, request))
 
@@ -74,8 +88,8 @@ def getCaptcha(request):
     user = request.POST.get('user')
     pic, ans = randomCaptcha()
     cr = CaptchaRecord(hash=_hash, answer=ans, pic=pic, user=(user if user is not None else ''))
-    ans_sha = sha256(ans.encode('utf-8')).hexdigest()
     cr.save()
+    ans_sha = sha256(ans.encode('utf-8')).hexdigest()
     ret = {'success': 'true', 'id': _hash, 'ans_hash': ans_sha, 'pic_url': './img/' + _hash}
     return HttpResponse(json.dumps(ret))
 
@@ -124,14 +138,12 @@ def checkCaptcha(request):
         ret = {'success': 'false'}
         return HttpResponse(json.dumps(ret))
 
-
+captchaList = os.listdir("./captcha")
 # return pic_url, answer
 def randomCaptcha():
-    captchaList = os.listdir("./captcha")
     it = random.choice(captchaList)
     ans = it[:-10]
     return './captcha/' + it, ans
-
 
 def upload(request):
     ans = request.POST.get('ans')
@@ -145,4 +157,6 @@ def upload(request):
         for chunk in pic.chunks():
             f.write(chunk)
     ret = {'success': 'true'}
+    global captchaList
+    captchaList = os.listdir("./captcha")
     return HttpResponse(json.dumps(ret))
