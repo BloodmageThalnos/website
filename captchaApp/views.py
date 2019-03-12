@@ -51,7 +51,8 @@ def showIndex(request):
 
 def showUpload(request):
     global captchaList
-    captchaList = random.shuffle(os.listdir("./captcha"))
+    captchaList = os.listdir("./captcha")
+    random.shuffle(captchaList)
     urls = []
     count = 0
     for captcha in captchaList:
