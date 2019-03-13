@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.cache import cache
+import pickle
 
 # Create your models here.
 class ArticleModel(models.Model):
@@ -9,9 +11,10 @@ class ArticleModel(models.Model):
     # comments
     # visited
 
-def getRecentArticles_and_cache(num=5):
-    # articles = ArticleModel.objects.order_by()
-    pass
+def getRecentArticles_and_cache(num):
+    articles = ArticleModel.objects.order_by('-create_time')[:num]
+    cache.set('recent_articles', articles.query)
+    return articles
 
 class CommentModel(models.Model):
     pass
