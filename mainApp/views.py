@@ -3,6 +3,7 @@ import json
 from django.http import *
 from django.template import loader
 from django.contrib.auth import login
+from django.core.cache import cache
 # from django import cache
 
 from django.shortcuts import render

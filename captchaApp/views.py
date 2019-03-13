@@ -152,7 +152,7 @@ def upload(request):
     if ans is None or pic is None:
         ret = {'success': 'false'}
         return HttpResponse(json.dumps(ret))
-    file_name = './captcha_upload/' + ans + '_' + str(random.randint(1000, 9999)) + '_.jpg'
+    file_name = './captcha/' + ans + '_' + str(random.randint(1000, 9999)) + '_.jpg'
     logger.info(file_name)
     with open(file_name, 'wb') as f:
         for chunk in pic.chunks():
