@@ -49,6 +49,9 @@ urlpatterns = [
     path('home/', siteViews.showHome),
     path('action/', mainViews.action),
 
+    # showlog
+    path('__debug__/<slug:path>', mainViews.showDebug),
+
     # main page
     # path('', mainViews.showMainPage),
     path('', mainViews.showTestPage),

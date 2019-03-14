@@ -64,3 +64,9 @@ def action(request):
         return HttpResponse(json.dumps({'success': 'true'}))
 
     return HttpResponse(json.dumps({'success': 'false'}))
+
+def showDebug(request, path):
+    if path == 'errlog':
+        with open('./log/err.log', mode='r', encoding='utf-8') as f:
+            return HttpResponse(f.read().replace('\n','<br />'))
+    return HttpResponse('404 error.')
