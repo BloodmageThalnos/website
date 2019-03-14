@@ -17,12 +17,12 @@ from django.shortcuts import render
 logger = logging.getLogger(__name__)
 
 def showMainPage(request):
-    if cache.get('recent_articles_5') is None:
-        getRecentArticles_and_cache(5)
+    if cache.get('recent_articles_6') is None:
+        getRecentArticles_and_cache(6)
 
     # 显示所有文章
     articleQ = QuerySet()
-    articleQ.query = cache.get('recent_articles_5')
+    articleQ.query = cache.get('recent_articles_6')
     articles = []
     for article in articleQ:
         articles.append({
