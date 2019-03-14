@@ -9,6 +9,7 @@ class ArticleModel(models.Model):
     create_time = models.TimeField(auto_now=True)
     author_id = models.IntegerField()
     cover_img = models.CharField(max_length=64)
+    category = models.CharField(max_length=32)
 
     def __str__(self):
         return '【' + self.title + '】 ' + self.content[:min(len(self.content),20)]

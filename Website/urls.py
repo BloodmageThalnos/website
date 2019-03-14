@@ -47,12 +47,12 @@ urlpatterns = [
 
     # new website
     path('home/', mainViews.showMainPage),
-    path('action/', mainViews.action),
+    path('test/action/', mainViews.action),
 
     # showlog
     path('__debug__/<slug:path>', mainViews.showDebug),
     path('test/', mainViews.showTestPage),
 
     # main page
-    path('', mainViews.showMainPage),
+    path('', siteViews.showRoot),
 ]
