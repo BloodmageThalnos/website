@@ -10,7 +10,7 @@ from django.shortcuts import render
 
 def showHome(request):
     logging.info('Accessing Page home/ with showHome')
-    template = loader.get_template('stanford.html')
+    template = loader.get_template('home.html')
     context = {}
     return HttpResponse(template.render(context, request))
 

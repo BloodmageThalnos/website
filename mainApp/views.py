@@ -17,29 +17,43 @@ from django.shortcuts import render
 logger = logging.getLogger(__name__)
 
 def showMainPage(request):
-    logging.info('Accessing Page / with showMainPage')
+    if cache.get('recent_articles_5') is None:
+        getRecentArticles_and_cache(5)
 
-    template = loader.get_template('root.html')
-    context = {}
+    # 显示所有文章
+    articleQ = QuerySet()
+    articleQ.query = cache.get('recent_articles_5')
+    articles = []
+    for article in articleQ:
+        articles.append({
+            'title':article.title,
+            'content':article.content,
+            'time':article.create_time,
+            'img':'/images/upload/'+article.cover_img,
+        })
+
+    template = loader.get_template('home.html')
+    context = {
+        'articles':articles,
+    }
     return HttpResponse(template.render(context, request))
 
 
 def showTestPage(request):
-    # 显示所有文章
-    if getRecentArticles_and_cache(3):
+    if cache.get('recent_articles_3') is None:
+        getRecentArticles_and_cache(3)
 
-        articleQ = QuerySet()
-        articleQ.query = cache.get('recent_articles_3')
-        articles = []
-        for article in articleQ:
-            articles.append({
-                'title':article.title,
-                'content':article.content,
-                'time':article.create_time,
-                'img':'/images/upload/'+article.cover_img,
-            })
-    else:
-        articles = []
+    # 显示所有文章
+    articleQ = QuerySet()
+    articleQ.query = cache.get('recent_articles_3')
+    articles = []
+    for article in articleQ:
+        articles.append({
+            'title':article.title,
+            'content':article.content,
+            'time':article.create_time,
+            'img':'/images/upload/'+article.cover_img,
+        })
 
     template = loader.get_template('test.html')
     context = {
@@ -62,6 +76,7 @@ def action(request):
                 f.write(chunk)
         am=ArticleModel(title=title,content=content,author_id=0,cover_img=pic_name)
         am.save()
+        getRecentArticles_and_cache(3)
         return HttpResponse(json.dumps({'success': 'true'}))
 
     return HttpResponse(json.dumps({'success': 'false'}))
@@ -74,7 +89,8 @@ def showDebug(request, path):
         with open('./log/info.log', mode='r', encoding='utf-8') as f:
             return HttpResponse(f.read().replace('\n','<br />'))
     elif path=='dopullshell':
-        out = subprocess.check
-        return HttpResponse(out)
+        pass
+        # out = subprocess.check
+        # return HttpResponse(out)
 
     return HttpResponse('404 error.')

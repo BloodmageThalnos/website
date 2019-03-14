@@ -46,7 +46,7 @@ urlpatterns = [
     # path('captcha/', captViews.),
 
     # new website
-    path('home/', siteViews.showHome),
+    path('home/', mainViews.showMainPage),
     path('action/', mainViews.action),
 
     # showlog
