@@ -25,18 +25,20 @@ def showMainPage(request):
 
 def showTestPage(request):
     # 显示所有文章
-    getRecentArticles_and_cache(3)
+    if getRecentArticles_and_cache(3):
 
-    articleQ = QuerySet()
-    articleQ.query = cache.get('recent_articles_3')
-    articles = []
-    for article in articleQ:
-        articles.append({
-            'title':article.title,
-            'content':article.content,
-            'time':article.create_time,
-            'img':'/images/upload/'+article.cover_img,
-        })
+        articleQ = QuerySet()
+        articleQ.query = cache.get('recent_articles_3')
+        articles = []
+        for article in articleQ:
+            articles.append({
+                'title':article.title,
+                'content':article.content,
+                'time':article.create_time,
+                'img':'/images/upload/'+article.cover_img,
+            })
+    else:
+        articles = []
 
     template = loader.get_template('test.html')
     context = {

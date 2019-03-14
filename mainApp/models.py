@@ -13,9 +13,12 @@ class ArticleModel(models.Model):
     # comments
     # visited
 
-def getRecentArticles_and_cache(num):
-    articles = ArticleModel.objects.order_by('-create_time')[:num]
-    cache.set('recent_articles_'+str(num), articles.query)
+def getRecentArticles_and_cache(last, first=0):
+    if ArticleModel.objects.count()<last:
+        return False
+    articles = ArticleModel.objects.order_by('-create_time')[first:last]
+    cache.set('recent_articles_'+str(last-first), articles.query)
+    return True
 
 # def saveArticle(title, content, author_id=0):
 #    am = ArticleModel(title=title,content=content,author_id=author_id)
