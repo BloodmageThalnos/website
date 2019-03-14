@@ -20,6 +20,7 @@ from staticApp import views as staticViews
 from TexasAPP import views as texasViews
 from captchaApp import views as captViews
 from siteApp import views as siteViews
+from mainApp import views as mainViews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -46,7 +47,9 @@ urlpatterns = [
 
     # new website
     path('home/', siteViews.showHome),
+    path('action/', mainViews.action),
 
     # main page
-    path('', mainViews.showMainPage),
+    # path('', mainViews.showMainPage),
+    path('', mainViews.showTestPage),
 ]
