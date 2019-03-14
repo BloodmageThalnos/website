@@ -8,9 +8,8 @@ from django.shortcuts import render
 
 # Create your views here.
 
-def showHome(request):
-    logging.info('Accessing Page home/ with showHome')
-    template = loader.get_template('home.html')
+def showRoot(request):
+    template = loader.get_template('root.html')
     context = {}
     return HttpResponse(template.render(context, request))
 

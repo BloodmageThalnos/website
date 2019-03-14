@@ -30,6 +30,7 @@ def showMainPage(request):
             'content':article.content,
             'time':article.create_time,
             'img':'/images/upload/'+article.cover_img,
+            'category':article.category,
         })
 
     template = loader.get_template('home.html')
@@ -53,6 +54,7 @@ def showTestPage(request):
             'content':article.content,
             'time':article.create_time,
             'img':'/images/upload/'+article.cover_img,
+            'category':article.category,
         })
 
     template = loader.get_template('test.html')
@@ -77,6 +79,7 @@ def action(request):
         am=ArticleModel(title=title,content=content,author_id=0,cover_img=pic_name)
         am.save()
         getRecentArticles_and_cache(3)
+        getRecentArticles_and_cache(6)
         return HttpResponse(json.dumps({'success': 'true'}))
 
     return HttpResponse(json.dumps({'success': 'false'}))
