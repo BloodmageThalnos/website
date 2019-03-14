@@ -10,6 +10,9 @@ class ArticleModel(models.Model):
     author_id = models.IntegerField()
     cover_img = models.CharField(max_length=64)
 
+    def __str__(self):
+        return '【' + self.title + '】 ' + self.content[:min(len(self.content),20)]
+
     # comments
     # visited
 
