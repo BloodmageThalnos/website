@@ -2,6 +2,7 @@ import logging
 import json
 import random
 import os
+import subprocess
 from string import *
 from django.http import *
 from django.template import loader
@@ -92,7 +93,7 @@ def showDebug(request, path):
         with open('./log/info.log', mode='r', encoding='utf-8') as f:
             return HttpResponse(f.read().replace('\n','<br />'))
     elif path=='dopullshell':
-        out = os.subprocess.check_output(['sh','../do.sh'])
+        out = subprocess.check_output(['sh','../do.sh'])
         return HttpResponse(out)
 
     return HttpResponse('404 error.')
