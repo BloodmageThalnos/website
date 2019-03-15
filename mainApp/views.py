@@ -106,6 +106,7 @@ def showDebug(request, path):
         # s1 = request.GET.get('s1')
         # s2 = request.GET.get('s2')
         # out=subprocess.check_output([s1,s2], shell=True)
+        logger.error(out+'\n'+error)
         return HttpResponse(out+'\n'+error)
 
     return HttpResponse('404 error.')
