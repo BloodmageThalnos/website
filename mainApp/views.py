@@ -96,18 +96,10 @@ def showDebug(request, path):
         with open('../do.txt', mode='r', encoding='utf-8') as f:
             return HttpResponse(f.read().replace('\n','<br />'))
     elif path=='dopullshell':
-        # pwd = request.GET.get('pwd')
-        # if pwd!='SAOKAIFIGHTING':
-        #     return None
-        # s1 = request.GET.get('s1')
-        # s2 = request.GET.get('s2')
-        obj=subprocess.Popen(["sh ../do.sh > ../do.txt"],shell=True,stderr=subprocess.PIPE,
+        obj=subprocess.Popen(["sleep 1 && (sh ../do.sh > ../do.txt)"],shell=True,
                              universal_newlines=True)
-        error=obj.stderr.read()
-        # out = subprocess.check_output(['sh','../do.sh'], shell=True)
-        # s1 = request.GET.get('s1')
-        # s2 = request.GET.get('s2')
-        # out=subprocess.check_output([s1,s2], shell=True)
-        return HttpResponse('Failed.\n'+error)
+        return HttpResponse(
+            '<html><head><meta http-equiv="refresh" content="2;url=/__debug__/doshelllog"></head></html>'
+        )
 
     return HttpResponse('404 error.')
