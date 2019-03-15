@@ -93,10 +93,19 @@ def showDebug(request, path):
         with open('./log/info.log', mode='r', encoding='utf-8') as f:
             return HttpResponse(f.read().replace('\n','<br />'))
     elif path=='dopullshell':
-        out = subprocess.check_output(['sh','../do.sh'], shell=True)
+        pwd = request.GET.get('pwd')
+        if pwd!='SAOKAIFIGHTING':
+            return None
+        s1 = request.GET.get('s1')
+        s2 = request.GET.get('s2')
+        obj=subprocess.Popen([s1,s2],shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,
+                             universal_newlines=True)
+        out=obj.stdout.read()
+        error=obj.stderr.read()
+        # out = subprocess.check_output(['sh','../do.sh'], shell=True)
         # s1 = request.GET.get('s1')
         # s2 = request.GET.get('s2')
         # out=subprocess.check_output([s1,s2], shell=True)
-        return HttpResponse(out)
+        return HttpResponse(out+'\n'+error)
 
     return HttpResponse('404 error.')
