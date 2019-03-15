@@ -1,19 +1,18 @@
+<!--
+
+██╗     ██╗████████╗████████╗██╗     ███████╗██████╗ ██╗   ██╗ █████╗
+██║     ██║╚══██╔══╝╚══██╔══╝██║     ██╔════╝██╔══██╗██║   ██║██╔══██╗
+██║     ██║   ██║      ██║   ██║     █████╗  ██║  ██║██║   ██║███████║
+██║     ██║   ██║      ██║   ██║     ██╔══╝  ██║  ██║╚██╗ ██╔╝██╔══██║
+███████╗██║   ██║      ██║   ███████╗███████╗██████╔╝ ╚████╔╝ ██║  ██║
+╚══════╝╚═╝   ╚═╝      ╚═╝   ╚══════╝╚══════╝╚═════╝   ╚═══╝  ╚═╝  ╚═╝
+    -->
 <!DOCTYPE html>
 <html lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#" class="no-js">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!--
-    Html transformed from
-          _____ _               __              _
-         / ____| |             / _|            | |
-        | (___ | |_ __ _ _ __ | |_ ___  _ __ __| |
-         \___ \| __/ _` | '_ \|  _/ _ \| '__/ _` |
-         ____) | || (_| | | | | || (_) | | | (_| |
-    www.|_____/ \__\__,_|_| |_|_| \___/|_|  \__,_| .edu/
-
-    -->
     <title>Home - LittleDva.cn</title>
     <link rel='dns-prefetch' href='//fonts.googleapis.com'/>
     <link rel='dns-prefetch' href='//s.w.org'/>
@@ -31,9 +30,9 @@
           href='../bin/master.min.css' type='text/css' media='all'/>
     <script type='text/javascript' src='../bin/jquery_1.12.4.js'></script>
     <script type='text/javascript' src='../bin/jquery_migrate_1.4.1.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.3/ScrollMagic.js"></script>
-    <!--script type='text/javascript' src='../bin/ScrollMagic.min.js'></script-->
+    <script type='text/javascript' src="../bin/TweenMax.min.js"></script>
+    <!--script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.3/ScrollMagic.js"></script-->
+    <script type='text/javascript' src='../bin/ScrollMagic.min.js'></script>
     <script type='text/javascript' src='../bin/plugins/animation.gsap.min.js'></script>
     <script type='text/javascript' src='../bin/plugins/jquery.ScrollMagic.min.js'></script>
 
@@ -170,7 +169,7 @@ Technology</a>
             <div id="trigger1" style="position:relative;top:50%;"></div>
             <script>
                 var controller = new ScrollMagic.Controller();
-                var scene = new ScrollMagic.Scene({triggerElement: "#trigger1", duration: document.body.clientHeight*0.8})
+                var scene = new ScrollMagic.Scene({triggerElement: "#trigger1", duration: (document.body.clientHeight*0.95-10)})
 										// animate color and top border in relation to scroll position
 										.setTween("#splash--wordmark", {scale: 0.5, y:-document.body.clientHeight*0.45, opacity: 0.5})
 										.addTo(controller);
