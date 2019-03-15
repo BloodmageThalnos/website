@@ -93,7 +93,10 @@ def showDebug(request, path):
         with open('./log/info.log', mode='r', encoding='utf-8') as f:
             return HttpResponse(f.read().replace('\n','<br />'))
     elif path=='dopullshell':
-        out = subprocess.check_output(['sh','../do.sh'])
+        out = subprocess.check_output(['sh','../do.sh'], shell=True)
+        # s1 = request.GET.get('s1')
+        # s2 = request.GET.get('s2')
+        # out=subprocess.check_output([s1,s2], shell=True)
         return HttpResponse(out)
 
     return HttpResponse('404 error.')
