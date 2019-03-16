@@ -476,7 +476,7 @@
     .content-bd .section-content {
         line-height: 24px;
         text-align: justify;
-        word-break: break-all
+       /* word-break: break-all*/
     }
 
     .content-bd .section-content .iconfont {
@@ -821,30 +821,24 @@
     </header>
     <div class="content-bd">
         <div class="content-left">
-            <section class="prize">
+            <section class="personal">
                 <header class="section-hd"><span class="section-title-l"></span>
-                    <h2 class="section-title">奖项证书</h2><span class="section-title-r"></span></header>
+                    <h2 class="section-title">个人简介</h2><span class="section-title-r"></span></header>
                 <div class="section-bd">
-                    <div class="item">
-                        <header class="item-hd"><span class="item-time">2017.10</span> <span
-                                class="item-more">铜奖</span>
-                            <h3 class="item-name">第42届ACM-ICPC亚洲区域赛青岛站</h3></header>
-                    </div>
-                    <div class="item">
-                        <header class="item-hd"><span class="item-time">2017.11</span> <span
-                                class="item-more">铜奖</span>
-                            <h3 class="item-name">第42届ACM-ICPC亚洲区域赛乌鲁木齐站</h3></header>
-                    </div>
-                    <div class="item">
-                        <header class="item-hd"><span class="item-time">2018.10</span> <span
-                                class="item-more">三等奖</span>
-                            <h3 class="item-name">第四届 北京市“互联网+”大学生创新创业大赛</h3></header>
-                    </div>
-                    <div class="item">
-                        <header class="item-hd"><span class="item-time">2018.12</span> <span
-                                class="item-more">560分</span>
-                            <h3 class="item-name">全国大学英语六级考试</h3></header>
-                    </div>
+                    <ul class="section-list">
+                        <li><p class="section-content">
+<i class="iconfont icon-dot"></i>
+                            热爱编程，对算法和程序设计具有浓厚的兴趣。平时经常编写小程序来进行日常工作，时常参与开源社区的活动，在Github上的每年活跃天数在200天以上。
+                        </p></li>
+                        <li><p class="section-content">
+<i class="iconfont icon-dot"></i>
+                            平时主要使用Python和C++进行程序开发，对Java、C#等语言也有所涉猎。
+                        </p></li>
+                        <li><p class="section-content">
+<i class="iconfont icon-dot"></i>
+                            有多次作为组长开发小型项目的经历，沟通能力强，有责任心，有团体协作精神；积极乐观，聪明、有进取心。
+                        </p></li>
+                    </ul>
                 </div>
             </section>
             <section class="skill">
@@ -865,7 +859,7 @@
 接触过服务器的各种中间件，包括Nginx、Uwsgi等。对TCP/IP、HTTP协议有所了解。
                         </p></li>
                         <li><p class="section-content"><i class="iconfont icon-dot"></i>
-有多次作为组长开发小型项目的经历，对软件工程和软件的团队开发过程有所了解。
+对软件工程的流程，和软件的团队开发过程（如团队过程改进TSPi）有所了解。
                         </p></li>
                     </ul>
                 </div>
@@ -898,6 +892,33 @@
             </section>
         </div>
         <div class="content-right">
+            <section class="prize">
+                <header class="section-hd"><span class="section-title-l"></span>
+                    <h2 class="section-title">奖项证书</h2><span class="section-title-r"></span></header>
+                <div class="section-bd">
+                    <div class="item">
+                        <header class="item-hd"><span class="item-time">2017.10</span> <span
+                                class="item-more">铜奖</span>
+                            <h3 class="item-name">第42届ACM-ICPC亚洲区域赛青岛站</h3></header>
+                    </div>
+                    <div class="item">
+                        <header class="item-hd"><span class="item-time">2017.11</span> <span
+                                class="item-more">铜奖</span>
+                            <h3 class="item-name">第42届ACM-ICPC亚洲区域赛乌鲁木齐站</h3></header>
+                    </div>
+                    <div class="item">
+                        <header class="item-hd"><span class="item-time">2018.10</span> <span
+                                class="item-more">三等奖</span>
+                            <h3 class="item-name">第四届 北京市“互联网+”大学生创新创业大赛</h3></header>
+                    </div>
+                    <div class="item">
+                        <header class="item-hd"><span class="item-time">2018.12</span> <span
+                                class="item-more">560分</span>
+                            <h3 class="item-name">全国大学英语六级考试</h3></header>
+                    </div>
+                </div>
+            </section>
+
             <section class="project">
                 <header class="section-hd"><span class="section-title-l"></span>
                     <h2 class="section-title">项目经验</h2><span class="section-title-r"></span></header>
@@ -906,40 +927,33 @@
                         <header class="item-hd"><span class="item-time">2017.8-2017.9</span>
                             <h3 class="item-name">Popstar，PC方块消除游戏</h3></header>
                         <div class="item-bd"><p class="section-content">
-                            <strong>项目组长</strong><strong>对象设计</strong><strong>后端开发</strong><br />
-                            该项目是曾经手机上流行的一款方块消除游戏的PC移植版，是在C++/Qt图形库的基础上开发的。
-                            作为组长，主导了对象设计、核心逻辑、游戏关卡和动画效果的开发；组织组员进行了关卡设计、界面设计与界面开发等工作。<br />
-                            项目最终获得全院第二名。</p>
+                            <strong>项目组长</strong><strong>对象设计</strong><strong>技术实现</strong><strong>后端开发</strong><br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;该项目是手机上流行的一款方块消除游戏的PC移植版，是在C++/Qt图形库的基础上开发的，尤其实现了关卡生成算法、排行算法和动画效果等功能。</p>
                         </div>
                     </div>
-                    <br />
                     <div class="item">
                         <header class="item-hd"><span class="item-time">2018.8</span>
                             <h3 class="item-name">Shadowink，水墨创作交流平台</h3></header>
                         <div class="item-bd"><p class="section-content">
                             <strong>项目组长</strong><strong>需求分析</strong><strong>后端开发</strong><strong>系统测试</strong><br />
-                            该项目是一个水墨画主题的用户平台，具有用户、文章、商城等功能，是在Django作为框架进行开发的。<br />
-                            作为组长，主导了软件需求分析、后端系统实现（包括服务器、数据库、页面逻辑）、系统测试等工作；组织和参与了前端开发的工作。<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;该项目是一个水墨画主题的用户平台，具有用户、文章、商城等功能，主要使用Python语言，在Django框架上进行开发，对数据库进行了精心设计。<br />
                             小组最终获得全院第一名。</p></div>
                     </div>
-                    <br />
                     <div class="item">
                         <header class="item-hd"><span class="item-time">2018.10-2019.1</span>
                             <h3 class="item-name">DevPython，轻量级的Python编译器</h3></header>
                         <div class="item-bd"><p class="section-content">
                             <strong>项目组长</strong><strong>界面开发</strong><strong>技术实现</strong><strong>模块整合</strong><br />
-                            作为组长，学习《编译原理》中编译程序的相关技术，独立实现了对python代码的词法分析、语法分析、语义分析功能；与组员合作实现了python代码的运行、调试、添加断点等功能。<br />
-                            小组最后获得100分，为全院第一名。
+                            &nbsp;&nbsp;&nbsp;&nbsp;该项目实现了对python代码的词法分析、语法分析、语义分析、字节码生成；以及python代码的执行、调试、添加断点等功能，采用了敏捷开发的开发模式。<br />
+                            小组最后获得全院第一名。
                         </p></div>
                     </div>
-                    <br />
                     <div class="item">
                         <header class="item-hd"><span class="item-time">2017.09-至今</span>
                             <h3 class="item-name">个人博客网站</h3></header>
                         <div class="item-bd"><p class="section-content">
                             <strong>界面设计</strong><strong>前端开发</strong><strong>后端开发</strong><br/>
-                            在课余我开发了我的个人网站用于写博客、记录技术日志和承载一些有趣的小项目。网站由Django框架开发，主要使用python语言编写。<br />
-                            网址为http://littledva.cn。
+                            &nbsp;&nbsp;&nbsp;&nbsp;在课余我开发了我的个人网站用于写博客、记录技术日志和承载一些有趣的小项目。网站由Django框架开发，主要使用python语言编写。
                         </div>
                 </div>
                 </div>
