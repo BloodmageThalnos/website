@@ -6,13 +6,18 @@ import pickle
 class ArticleModel(models.Model):
     title = models.TextField()
     content = models.TextField()
+    excerpt = models.TextField(default="")
     create_time = models.TimeField(auto_now=True)
+    edit_time = models.TimeField(auto_now_add=True)
     author_id = models.IntegerField()
-    cover_img = models.CharField(max_length=64)
+    author_name = models.CharField(max_length=32, default="")
     category = models.CharField(max_length=32)
+    cover_img = models.CharField(max_length=64)
+    # url = models.CharField(max_length=64, default="")
+    # related_img
 
     def __str__(self):
-        return '【' + self.title + '】 ' + self.content[:min(len(self.content),20)]
+        return '【' + (self.title if len(self.title)<=10 else (self.title[:11]+'...')) + '】 ' + self.content[:min(len(self.content),20)]
 
     # comments
     # visited

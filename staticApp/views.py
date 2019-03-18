@@ -46,6 +46,11 @@ def showImages(request, path):
         with open('./images/'+path, mode="rb") as f:
             html = f.read()
         return HttpResponse(html, content_type="image/jpeg")
+    if path.endswith('png'):
+        with open('./images/'+path, mode="rb") as f:
+            html = f.read()
+        return HttpResponse(html, content_type="image/png")
+
 
     logging.info('Accessing /%s with showImages matched nothing.' % path)
     return None

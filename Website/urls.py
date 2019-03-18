@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from mainApp import views as mainViews
 from staticApp import views as staticViews
 from TexasAPP import views as texasViews
@@ -47,7 +47,9 @@ urlpatterns = [
 
     # new website
     path('home/', mainViews.showMainPage),
-    path('test/action/', mainViews.action),
+    re_path(r'^article-(?P<id>[0-9]+)/$',mainViews.showArticle),
+    path('action/', mainViews.action),
+    path('uploadArticle/', siteViews.showUploadArticle),
 
     # showlog
     path('__debug__/<slug:path>', mainViews.showDebug),
