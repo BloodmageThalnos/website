@@ -32,11 +32,26 @@ def showMainPage(request):
             'time':article.create_time,
             'img':'/images/upload/'+article.cover_img,
             'category':article.category,
+            'url':'/article-'+str(article.id),
         })
 
     template = loader.get_template('home.html')
     context = {
         'articles':articles,
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def showArticle(request, id):
+    articleId = int(id)
+    article = ArticleModel.objects.get(id=articleId)
+
+    template = loader.get_template('readarticle.html')
+    context = {
+        'author':article.author_name,
+        'title':article.title,
+        'excerpt':article.excerpt,
+        'content':article.content,
     }
     return HttpResponse(template.render(context, request))
 
@@ -56,6 +71,7 @@ def showTestPage(request):
             'time':article.create_time,
             'img':'/images/upload/'+article.cover_img,
             'category':article.category,
+            'url':'/article-'+str(article.id),
         })
 
     template = loader.get_template('test.html')
@@ -71,17 +87,26 @@ def action(request):
     elif act == 'up_article':
         title = request.POST.get('t')
         content = request.POST.get('c')
-        pic = request.FILES.get('p')
+        pic = request.FILES.get('p')    # 封面图片
+        excerpt = request.POST.get('e')
+        arthur = request.POST.get('a')
         pic_name = 'acp_' + ''.join(random.choice(ascii_lowercase+ascii_uppercase+digits) for _ in range(5)) + pic.name[-6:]
         pic_url = './images/upload/'+pic_name
         with open(pic_url, mode='wb') as f:
             for chunk in pic.chunks():
                 f.write(chunk)
-        am=ArticleModel(title=title,content=content,author_id=0,cover_img=pic_name)
+        am=ArticleModel(title=title,content=content,author_id=0,cover_img=pic_name,author_name=arthur,excerpt=excerpt)
         am.save()
-        getRecentArticles_and_cache(3)
         getRecentArticles_and_cache(6)
         return HttpResponse(json.dumps({'success': 'true'}))
+    elif act == 'up_image':
+        pic=request.FILES.get('p')  # 封面图片
+        pic_name='acp_'+''.join(random.choice(ascii_lowercase+ascii_uppercase+digits) for _ in range(5))+pic.name[-6:]
+        pic_url='./images/upload/'+pic_name
+        with open(pic_url,mode='wb') as f:
+            for chunk in pic.chunks():
+                f.write(chunk)
+        return HttpResponse(json.dumps({'success': 'true', 'url':'.'+pic_url}))
 
     return HttpResponse(json.dumps({'success': 'false'}))
 

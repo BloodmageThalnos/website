@@ -18,3 +18,10 @@ def showCv(request):
     template = loader.get_template('cv.html')
     context = {}
     return HttpResponse(template.render(context, request))
+
+
+def showUploadArticle(request):
+    template = loader.get_template('editarticle.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
+
