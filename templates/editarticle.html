@@ -113,12 +113,42 @@
     <script type='text/javascript'
             src='../bin/picturefill_3.0.2.js'></script>
     <script>
+        (function ($) {
+	"use strict";
+            $.fn.extend({
+                insertAtCaret : function (myValue) {
+                    var $t = $(this)[0];
+                    if (document.selection) {
+                        this.focus();
+                        var sel = document.selection.createRange();
+                        sel.text = myValue;
+                        this.focus();
+                    } else
+                        if ($t.selectionStart || $t.selectionStart == '0') {
+                            var startPos = $t.selectionStart;
+                            var endPos = $t.selectionEnd;
+                            var scrollTop = $t.scrollTop;
+                            $t.value = $t.value.substring(0, startPos) + myValue + $t.value.substring(endPos, $t.value.length);
+                            this.focus();
+                            $t.selectionStart = startPos + myValue.length;
+                            $t.selectionEnd = startPos + myValue.length;
+                            $t.scrollTop = scrollTop;
+                        } else {
+                            this.value += myValue;
+                            this.focus();
+                        }
+                }
+            });
+        })(jQuery);
         function doit(){
             $('#story-title').text($('#exampleInput1').val())
             $('#story-content').html($('#exampleInput2').val())
             $('#story-author').text('BY '+$('#exampleInput3').val())
             $('#story-excerpt').text($('#exampleInput4').val())
             return false;
+        }
+        function doita(){
+
         }
     </script>
     <style>.post-thumbnail img[src$='.svg'] {
@@ -129,7 +159,7 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
           type="text/css"/>
     <!--[if lt IE 9]>
-<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
 </head>
 <body class="post-template-default single single-post postid-26689 single-format-standard">
