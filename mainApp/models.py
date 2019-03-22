@@ -17,7 +17,7 @@ class ArticleModel(models.Model):
     # related_img
 
     def __str__(self):
-        return '【' + (self.title if len(self.title)<=10 else (self.title[:11]+'...')) + '】 ' + self.content[:min(len(self.content),20)]
+        return '【' + (self.title if len(self.title)<=20 else (self.title[:21]+'...')) + '】 ' + self.content[:min(len(self.content),30)]
 
     # comments
     # visited
