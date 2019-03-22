@@ -30,7 +30,7 @@ def showMainPage(request):
             'title':article.title,
             'content':article.content,
             'time':article.create_time,
-            'img':'/images/upload/'+article.cover_img,
+            'img':article.cover_img,
             'category':article.category,
             'url':'/article-'+str(article.id),
         })
@@ -69,7 +69,7 @@ def showTestPage(request):
             'title':article.title,
             'content':article.content,
             'time':article.create_time,
-            'img':'/images/upload/'+article.cover_img,
+            'img':article.cover_img,
             'category':article.category,
             'url':'/article-'+str(article.id),
         })
@@ -87,21 +87,16 @@ def action(request):
     elif act == 'up_article':
         title = request.POST.get('t')
         content = request.POST.get('c')
-        pic = request.FILES.get('p')    # 封面图片
+        pic = request.POST.get('p')    # 封面图片
         excerpt = request.POST.get('e')
         arthur = request.POST.get('a')
-        pic_name = 'acp_' + ''.join(random.choice(ascii_lowercase+ascii_uppercase+digits) for _ in range(5)) + pic.name[-6:]
-        pic_url = './images/upload/'+pic_name
-        with open(pic_url, mode='wb') as f:
-            for chunk in pic.chunks():
-                f.write(chunk)
-        am=ArticleModel(title=title,content=content,author_id=0,cover_img=pic_name,author_name=arthur,excerpt=excerpt)
+        am=ArticleModel(title=title,content=content,author_id=0,cover_img=pic,author_name=arthur,excerpt=excerpt)
         am.save()
         getRecentArticles_and_cache(6)
         return HttpResponse(json.dumps({'success': 'true'}))
-    elif act == 'up_image':
+    elif act == 'up_img':
         pic=request.FILES.get('p')  # 封面图片
-        pic_name='acp_'+''.join(random.choice(ascii_lowercase+ascii_uppercase+digits) for _ in range(5))+pic.name[-6:]
+        pic_name='img'+''.join(random.choice(ascii_lowercase+ascii_uppercase+digits) for _ in range(8))+pic.name[-6:]
         pic_url='./images/upload/'+pic_name
         with open(pic_url,mode='wb') as f:
             for chunk in pic.chunks():

@@ -148,7 +148,37 @@
             return false;
         }
         function doita(){
-
+            url = $('#image_url').val()
+            $('#exampleInput2').insertAtCaret('' +
+                '<div class="pull-right pull-right-narrow">' +
+                '<a href="'+url+'">' +
+                '<img class="size-medium wp-image-26939 img-responsive" src="'+url+'" alt=" ">' +
+                '</a>' +
+                '<br/><p class="media-caption"> </p>\n' +
+                '</div>')
+            return false;
+        }
+        var u="";
+        function doitat() {
+            var formData = new FormData();
+            formData.append("act", "up_img");
+            formData.append("p", $("#pic_uploads")[0].files[0]);
+            $.ajax({
+                url: '/action',
+                type: 'post',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (msg) {
+                    msg = JSON.parse(msg);
+                    if(msg.success) {
+                        $('#upload_info').text(msg.url);
+                        u = msg.url;
+                    }else{
+                        alert(msg)
+                    }
+                }
+            });
         }
     </script>
     <style>.post-thumbnail img[src$='.svg'] {
@@ -165,7 +195,7 @@
 <body class="post-template-default single single-post postid-26689 single-format-standard">
 
 <div style="min-height:500px;padding:20px 10% 0 10%;">
-    <form method="POST" enctype="multipart/form-data" action="../action/" onsubmit="">
+    <form method="POST" enctype="multipart/form-data" action="/action" onsubmit="if(!$('#front-image_url').val()){alert('请选择至少一张封面图片！');return false;}return true;">
         <label>
         <input type="radio" name="act" value="up_article" checked="checked">
         上传新的文章
@@ -193,14 +223,29 @@
             </textarea>
         </div>
         <div class="form-group">
+            <label>图片地址：</label><br/>
+            <input class="form-control" id="image_url" value="/" style="width: 200px;">
+            <button type="button" class="btn-u" onclick="doita();" style="margin:20px 0 0 20px;">插入图片</button>
+        </div>
+        <div class="form-group">
             <label >封面图片：</label><br/>
-            <input type="file" name="p" value="">
+            <input class="form-control" name="p" id="front-image_url" value="" style="width: 200px;">
         </div>
         <center>
-            <button class="btn btn-primary" onclick="doit();">预览</button>
-            <button type="submit" class="btn btn-primary">提交</button>
+            <button type="button" class="btn-u" onclick="doit();">预览</button><br />
+            <button type="submit" class="btn-u">提交</button>
         </center>
     </form>
+<br />
+    <label >上传图片：</label><br/>
+    <input type="file" id="pic_uploads" value="">
+    <button type="submit" class="btn-u" onclick="doitat();">提交</button>
+    <button type="submit" class="btn-u" onclick="$('#image_url').val(u);">复制到插入图片</button>
+    <button type="submit" class="btn-u" onclick="$('#front-image_url').val(u);">复制到封面图片</button>
+<br />
+    <label id="upload_info"></label>
+<br />
+<br />
 </div>
 
 <div id="su-wrap"> <!-- used to force footer to bottom of short pages -->

@@ -48,7 +48,7 @@ urlpatterns = [
     # new website
     path('home/', mainViews.showMainPage),
     re_path(r'^article-(?P<id>[0-9]+)/$',mainViews.showArticle),
-    path('action/', mainViews.action),
+    path('action', mainViews.action),
     path('uploadArticle/', siteViews.showUploadArticle),
 
     # showlog
