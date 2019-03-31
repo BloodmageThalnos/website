@@ -26,7 +26,8 @@ def showMainPage(request):
     # getRecentArticles_and_cache(6)
     #articleQ = QuerySet()
     #articleQ.query = cache.get('recent_articles_6')
-    articleQ = random.shuffle(ArticleModel.objects.filter(type__exact=1).order_by('-create_date')[0:6])
+    articleQ = list(ArticleModel.objects.filter(type__exact=1).order_by('-create_date')[0:6])
+    random.shuffle(articleQ)
     articles = []
     for article in articleQ:
         articles.append({
