@@ -1,0 +1,71 @@
+<div>
+    <script>
+        var u="";
+        function doit(a,b){
+            var formData = new FormData();
+            formData.append("act", "doimg_"+a);
+            if(a==='repl') formData.append("p", $("#pic_uploads")[0].files[0]);
+            formData.append("id", b)
+            $.ajax({
+                url: '/action',
+                type: 'post',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (msg) {
+                    msg = JSON.parse(msg);
+                    if(msg.success) {
+                        alert(msg.msg)
+                    }else{
+                        alert(msg.msg)
+                    }
+                }
+            });
+        }
+        function doitat() {
+            var formData = new FormData();
+            formData.append("act", "up_img");
+            formData.append("p", $("#pic_uploads")[0].files[0]);
+            $.ajax({
+                url: '/action',
+                type: 'post',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (msg) {
+                    msg = JSON.parse(msg);
+                    if(msg.success) {
+                        $('#upload_info').text(msg.url);
+                        u = msg.url;
+                    }else{
+                        alert(msg)
+                    }
+                }
+            });
+        }
+    </script>
+    <label >上传或替换图片：</label><br/>
+    <input type="file" id="pic_uploads" value="" style="margin:20px 0 0 20px;">
+    <button class="btn-u" onclick="doitat();">上传</button>
+    <button class="btn-u" onclick="$('#image_url').val(u);">复制到插入图片</button>
+    <button class="btn-u" onclick="$('#front-image_url').val(u);">复制到封面图片</button>
+    <table class="table">
+        <tbody>
+        {% for img in imgs %}
+        <tr>
+            <td width="600">
+                <img src="{{ img.url }}" style="max-width:500px;margin:auto;">
+            </td>
+            <td>
+                图片地址：<input type="text" value="{{ img.url }}" size="60">
+                <button class="btn-u" onclick="doit('repl','{{ img.id }}')">替换图片</button><br/>
+                <button class="btn-u" onclick="doit('del','{{ img.id }}')">删除图片</button><br/>
+                <button class="btn-u" onclick="doit('find','{{ img.id }}')">查找引用位置</button><br/>
+                <button class="btn-u" onclick="$('#image_url').val('{{ img.url }}');">复制到插入图片</button><br/>
+                <button class="btn-u" onclick="$('#front-image_url').val('{{ img.url }}');">复制到封面图片</button><br/>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

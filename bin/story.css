@@ -758,10 +758,6 @@ article #media-contact h2 {
     font-size: 2em;
     margin-bottom: -5px;
   }
-  #signature #site-name a[href^="/"]:after {
-    font-size: 10px !important;
-    content: " (http://news.stanford.edu" attr(href) ") ";
-  }
   article {
     margin-top: 0;
     font-size: 0.8em;

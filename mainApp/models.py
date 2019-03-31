@@ -13,6 +13,7 @@ class ArticleModel(models.Model):
     author_name = models.CharField(max_length=32, default="")
     category = models.CharField(max_length=32)
     cover_img = models.CharField(max_length=64)
+    type = models.IntegerField(default=1) # 1为正常文章，2为待审核，3为已删除
     # url = models.CharField(max_length=64, default="")
     # related_img
 
@@ -23,9 +24,9 @@ class ArticleModel(models.Model):
     # visited
 
 def getRecentArticles_and_cache(last, first=0):
-    if ArticleModel.objects.count()<last:
+    if ArticleModel.objects.filter(type__exact=1).count()<last:
         return False
-    articles = ArticleModel.objects.order_by('-create_time')[first:last]
+    articles = ArticleModel.objects.filter(type__exact=1).order_by('-create_time')[first:last]
     cache.set('recent_articles_'+str(last-first), articles.query)
     return True
 
