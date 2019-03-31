@@ -25,11 +25,12 @@ class ArticleModel(models.Model):
 
 # deprecated
 def getRecentArticles_and_cache(last, first=0):
-    if ArticleModel.objects.filter(type__exact=1).count()<last:
-        last = ArticleModel.objects.filter(type__exact=1).count()
-    articles = ArticleModel.objects.filter(type__exact=1).order_by('-create_date')[first:last]
-    cache.set('recent_articles_'+str(last-first), articles.query)
-    return True
+    pass
+    # if ArticleModel.objects.filter(type__exact=1).count()<last:
+    #     last = ArticleModel.objects.filter(type__exact=1).count()
+    # articles = ArticleModel.objects.filter(type__exact=1).order_by('-create_date')[first:last]
+    # cache.set('recent_articles_'+str(last-first), articles.query)
+    # return True
 
 # def saveArticle(title, content, author_id=0):
 #    am = ArticleModel(title=title,content=content,author_id=author_id)
