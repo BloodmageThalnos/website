@@ -177,6 +177,23 @@
                 }
             });
         }
+        loaded = false;
+        function load_edit_article(){
+            if(loaded)return;
+            loaded = true;
+            var formData = new FormData();
+            formData.append("act", "load_list");
+            $.ajax({
+                url: '/action',
+                type: 'post',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (msg) {
+                    $('#loadart_div').html(msg);
+                }
+            });
+        }
     </script>
     <style>.post-thumbnail img[src$='.svg'] {
         width: 100%;
@@ -198,9 +215,11 @@
         上传新的文章
         </label><br />
         <label>
-        <input type="radio" name="act" value="edit_article" disabled="disabled">
+        <input type="radio" name="act" value="edit_article" onchange="load_edit_article()">
         修改现有文章
         </label><br />
+        <div id="loadart_div"></div>
+        <br />
         <div class="form-group">
             <label for="exampleInput1">标题：</label>
             <input class="form-control" id="exampleInput1" name="t" value="Stanford research predicts overlap of tunas, sharks and ships at sea">
@@ -222,7 +241,7 @@
         <div class="form-group">
             <label>图片代码生成：</label><br/>
             src = <input id="image_url" value="/" size="50"><br/>
-            class = <input type="text" list="imgcls" id="image_cls" placeholder="pull-right pull-right-narrow" size="30">
+            class = <input type="text" list="imgcls" id="image_cls" placeholder="" size="30">
             <datalist id="imgcls">
                 <option>pull-right pull-right-narrow</option>
                 <option>pull-right pull-right-wide</option>
@@ -235,8 +254,9 @@
             <br />style =
             <input type="text" list="imgstyle" id="image_style" size="50">
             <datalist id="imgstyle">
-                <option> </option>
+                <option>margin:auto;</option>
                 <option>margin:auto;width:80%;</option>
+                <option>margin:auto;height:20px;</option>
             </datalist>
             <br />
             <button type="button" class="btn-u" onclick="doita();" style="margin:10px 0 10px 10px;">插入图片</button>

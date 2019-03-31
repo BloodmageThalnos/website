@@ -104,7 +104,7 @@ def action(request):
                 'id': img,
             })
 
-        template=loader.get_template('manageImgs.html')
+        template=loader.get_template('doimg.html')
         context={
             'imgs': imgs,
         }
@@ -150,6 +150,33 @@ def action(request):
         if output == '':
             output = '没有找到相关信息。'
         return HttpResponse(json.dumps({'success':'true', 'msg': output}))
+    elif act == 'load_list':
+        articles=ArticleModel.objects.filter(type__lt=3).order_by('-create_date')
+        arts = []
+        for article in articles:
+            arts.append({
+                'title': article.title[:18]+'...',
+                'id': article.id,
+            })
+        context={
+            'articles':arts,
+        }
+        template=loader.get_template('loadlst.html')
+        return HttpResponse(template.render(context,request))
+    elif act == 'load_load':
+        id = request.POST.get('id')
+        try:
+            article = ArticleModel.objects.get(id=id)
+        except:
+            return HttpResponse(json.dumps({'success': 'false', 'msg': 'you bad bad.'}))
+        return HttpResponse(json.dumps({
+            'success': 'true',
+            'title': article.title,
+            'content': article.content,
+            'excerpt': article.excerpt,
+            'author': article.author_name,
+            'cover': article.cover_img,
+        }))
 
     return HttpResponse(json.dumps({'success': 'false'}))
 

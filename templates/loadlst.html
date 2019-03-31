@@ -1,0 +1,34 @@
+选择文章：<input type="text" list="artloader" id="artinput" placeholder="" size="30">
+<datalist id="artloader">
+    {% for article in articles %}
+    <option value="{{ article.id }}">{{ article.title }}</option>
+    {% endfor %}
+</datalist>
+<button type="button" id="load_article" onclick="dothat()">加载</button>
+<script>
+    function dothat(){
+        var formData = new FormData();
+            formData.append("act", "load_load");
+            formData.append("id", $('#artinput').val());
+            $.ajax({
+                url: '/action',
+                type: 'post',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (msg) {
+                    msg = JSON.parse(msg);
+                    if(msg.success) {
+                        $('#exampleInput1').val(msg.title)
+                        $('#exampleInput2').val(msg.content)
+                        $('#exampleInput3').val(msg.author)
+                        $('#exampleInput4').val(msg.excerpt)
+                        $('#front-image_url').val(msg.cover)
+                        alert('加载成功。')
+                    }else{
+                        alert(msg.msg)
+                    }
+                }
+            });
+    }
+</script>
