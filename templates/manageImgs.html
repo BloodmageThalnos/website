@@ -1,7 +1,7 @@
 <div>
     <script>
         var u="";
-        function doit(a,b){
+        function doitatitat(a,b){
             var formData = new FormData();
             formData.append("act", "doimg_"+a);
             if(a==='repl') formData.append("p", $("#pic_uploads")[0].files[0]);
@@ -60,9 +60,9 @@
             </td>
             <td>
                 图片地址：<input type="text" value="{{ img.url }}" size="60">
-                <button class="btn-u" onclick="if(confirm('确定要替换这张图片吗？！此操作只能在服务器端恢复。'))doit('repl','{{ img.id }}')">替换图片</button><br/>
-                <button class="btn-u" onclick="if(confirm('确定要删除这张图片吗？！此操作只能在服务器端恢复。'))doit('del','{{ img.id }}')">删除图片</button><br/>
-                <button class="btn-u" onclick="doit('find','{{ img.id }}')">查找引用位置</button><br/>
+                <button class="btn-u" onclick="if(confirm('确定要替换这张图片吗？！此操作只能在服务器端恢复。'))doitatitat('repl','{{ img.id }}')">替换图片</button><br/>
+                <button class="btn-u" onclick="if(confirm('确定要删除这张图片吗？！此操作只能在服务器端恢复。'))doitatitat('del','{{ img.id }}')">删除图片</button><br/>
+                <button class="btn-u" onclick="doitatitat('find','{{ img.id }}')">查找引用位置</button><br/>
                 <button class="btn-u" onclick="$('#image_url').val('{{ img.url }}');">复制到插入图片</button><br/>
                 <button class="btn-u" onclick="$('#front-image_url').val('{{ img.url }}');">复制到封面图片</button><br/>
             </td>
