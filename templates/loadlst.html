@@ -1,4 +1,4 @@
-选择文章：<input type="text" list="artloader" id="artinput" placeholder="" size="30">
+选择文章：<input type="text" list="artloader" id="artinput" placeholder="" size="30" name="i">
 <datalist id="artloader">
     {% for article in articles %}
     <option value="{{ article.id }}">{{ article.title }}</option>
