@@ -63,6 +63,30 @@ def action(request):
     act = request.POST.get('act')
     if act is None:
         return HttpResponse(json.dumps({'success':'false'}))
+    elif act == 'edit_article':
+        title=request.POST.get('t')
+        content=request.POST.get('c')
+        pic=request.POST.get('p')  # 封面图片
+        excerpt=request.POST.get('e')
+        arthur=request.POST.get('a')
+        id=request.POST.get('i')
+        supercode=request.POST.get('supercode')
+        if supercode==SUPERCODE:
+            type=1
+        else:
+            type=2
+        try:
+            am=ArticleModel.objects.get(id=int(id))
+        except:
+            return HttpResponse(json.dumps({'success':'false', 'msg':'id error.'}))
+        am.title=title
+        am.content=content
+        am.cover_img=pic
+        am.excerpt=excerpt
+        am.author=arthur
+        am.save()
+        getRecentArticles_and_cache(6)
+        return HttpResponse(json.dumps({'success': 'true'}))
     elif act == 'up_article':
         title = request.POST.get('t')
         content = request.POST.get('c')
