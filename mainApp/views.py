@@ -20,8 +20,8 @@ from django.shortcuts import render
 logger = logging.getLogger(__name__)
 
 def showMainPage(request):
-    if cache.get('recent_articles_6') is None:
-        getRecentArticles_and_cache(6)
+    #if cache.get('recent_articles_6') is None:
+    getRecentArticles_and_cache(6)
 
     # 显示所有文章
     articleQ = QuerySet()
