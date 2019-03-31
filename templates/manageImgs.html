@@ -45,7 +45,7 @@
         }
     </script>
     <label >上传或替换图片：</label><br/>
-    <input type="file" id="pic_uploads" value="" style="margin:20px 0 0 20px;">
+    <input type="file" id="pic_uploads" value="" style="margin:10px 0 20px 10px;">
     <button class="btn-u" onclick="doitat();">上传</button>
     <button class="btn-u" onclick="$('#image_url').val(u);">复制到插入图片</button>
     <button class="btn-u" onclick="$('#front-image_url').val(u);">复制到封面图片</button>
@@ -54,12 +54,12 @@
         {% for img in imgs %}
         <tr>
             <td width="600">
-                <img src="{{ img.url }}" style="max-width:500px;margin:auto;">
+                <img src="{{ img.url }}" style="max-width:500px;max-height:350px;margin:auto;">
             </td>
             <td>
                 图片地址：<input type="text" value="{{ img.url }}" size="60">
-                <button class="btn-u" onclick="doit('repl','{{ img.id }}')">替换图片</button><br/>
-                <button class="btn-u" onclick="doit('del','{{ img.id }}')">删除图片</button><br/>
+                <button class="btn-u" onclick="if(confirm('确定要替换这张图片吗？！此操作只能在服务器端恢复。'))doit('repl','{{ img.id }}')">替换图片</button><br/>
+                <button class="btn-u" onclick="if(confirm('确定要删除这张图片吗？！此操作只能在服务器端恢复。'))doit('del','{{ img.id }}')">删除图片</button><br/>
                 <button class="btn-u" onclick="doit('find','{{ img.id }}')">查找引用位置</button><br/>
                 <button class="btn-u" onclick="$('#image_url').val('{{ img.url }}');">复制到插入图片</button><br/>
                 <button class="btn-u" onclick="$('#front-image_url').val('{{ img.url }}');">复制到封面图片</button><br/>

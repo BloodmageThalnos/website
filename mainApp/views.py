@@ -20,18 +20,19 @@ from django.shortcuts import render
 logger = logging.getLogger(__name__)
 
 def showMainPage(request):
-    #if cache.get('recent_articles_6') is None:
-    getRecentArticles_and_cache(6)
 
     # 显示所有文章
-    articleQ = QuerySet()
-    articleQ.query = cache.get('recent_articles_6')
+    # if cache.get('recent_articles_6') is None:
+    # getRecentArticles_and_cache(6)
+    #articleQ = QuerySet()
+    #articleQ.query = cache.get('recent_articles_6')
+    articleQ=ArticleModel.objects.filter(type__exact=1).order_by('-create_date')[0:6]
     articles = []
     for article in articleQ:
         articles.append({
             'title':article.title,
             'content':article.content,
-            'time':article.create_time,
+            'time':article.create_date,
             'img':article.cover_img,
             'category':article.category,
             'url':'/article-'+str(article.id),
@@ -79,6 +80,8 @@ def action(request):
         return HttpResponse(json.dumps({'success': 'true'}))
     elif act == 'up_img':
         pic=request.FILES.get('p')  # 封面图片
+        if pic==None:
+            return HttpResponse(json.dumps({'success': 'false'}))
         pic_name='img'+''.join(random.choice(ascii_lowercase+ascii_uppercase+digits) for _ in range(8))+pic.name[-6:]
         pic_url='./images/upload/'+pic_name
         with open(pic_url,mode='wb') as f:
@@ -115,6 +118,8 @@ def action(request):
             return HttpResponse(json.dumps({'success': 'false', 'msg': 'you idiot.'}))
     elif act == 'doimg_repl':
         pic=request.FILES.get('p')  # 封面图片
+        if pic==None:
+            return HttpResponse(json.dumps({'success': 'false', 'msg': '没有选择图片！'}))
         id = request.POST.get('id')
         if os.path.isfile('./images/upload/'+id):
             pic_url='./images/upload/'+id
@@ -124,7 +129,27 @@ def action(request):
             return HttpResponse(json.dumps({'success': 'true', 'msg': 'replace ok.'}))
         else:
             return HttpResponse(json.dumps({'success': 'false', 'msg': 'you fool.'}))
+    elif act == 'doimg_find':
+        id = request.POST.get('id')
+        output = ''
+        # in articles
+        articles=ArticleModel.objects.filter(type__lt=3).order_by('-create_date')
+        for article in articles:
+            if article.content.find(id)!=-1:
+                output += '在文章【'+article.title[:15]+'】中使用 1 次；\n'
+            if article.cover_img.find(id)!=-1:
+                output += '作为文章【'+article.title[:15]+'】的封面图片；\n'
 
+        # in static files
+        files = os.listdir('./html')
+        for file in files:
+            with open('./html/'+file, encoding='utf-8') as f:
+                if f.read().find(id)!=-1:
+                    output += 'In static file '+file+'；\n'
+
+        if output == '':
+            output = '没有找到相关信息。'
+        return HttpResponse(json.dumps({'success':'true', 'msg': output}))
 
     return HttpResponse(json.dumps({'success': 'false'}))
 
