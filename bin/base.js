@@ -168,34 +168,6 @@ $(function() {
   });
   $(window).trigger('resizeEnd');
 
-  if (typeof ga == 'function') {
-    // add function to send an event to Google Analytics when a link is clicked
-    var trackClick = function(elem) {
-      var $elem    = $(elem)
-          , category = $elem.data('ga-category') || (elem.hostname.match(/stanford\.edu$/) ? 'stanfordLink' : 'externalLink')
-          , action   = $elem.data('ga-action')   || ($elem.is('a') && elem.hostname) || 'click'
-          , label    = $elem.data('ga-label')    || elem.href
-          ;
-      //console.debug('tracking click on external link');
-      ga('send', 'event', category, action, label);
-    };
-    $('a:external')
-        .click(function(){ trackClick(this); })
-        //.bind('contextmenu', function(){ trackClick(this); }) // track right-clicks (for open in new tab)
-        ;
-    // track clicks on elements with class 'ga' (Google Analytics)
-    $('.ga').click(function () { trackClick(this); });
-    $('[data-ga-category] a, a[data-ga-category]').on( 'click', function() { // consider 'click contextmenu' events
-      var $this    = $(this)
-        , category = $this.closest('[data-ga-category]').data('ga-category')
-        , action   = $this.closest('[data-ga-action]').data('ga-action') || 'click'
-        , label    = $this.data('ga-label') || this.href
-        ;
-      //console.debug( 'tracking click: category=' + category + ', action=' + action + ', label=' + label );
-      ga('send', 'event', category, action, label);
-    })
-  }
-
   // don't add skip links to browser history
   $('#skip > a').click(function(e){
     var href = $(this).attr('href').substr(1); // remove the #

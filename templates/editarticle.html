@@ -6,7 +6,7 @@
 <html lang="en">
 <!--<![endif]-->
 <head>
-    <title>Tunas, sharks and ships at sea | Stanford News</title>
+    <title>Tunas, sharks and ships at sea | Example Article</title>
 
     <!-- Meta -->
     <meta charset="utf-8"/>
@@ -31,13 +31,13 @@
 
     <link rel='dns-prefetch' href='//s.w.org'/>
     <script type="text/javascript">
-        window._wpemojiSettings = {
+        /*window._wpemojiSettings = {
             "baseUrl": "https:\/\/s.w.org\/images\/core\/emoji\/11\/72x72\/",
             "ext": ".png",
             "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/",
             "svgExt": ".svg",
-            "source": {"concatemoji": "https:\/\/news.stanford.edu\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.10"}
-        };
+            "source": {"concatemoji": "https:\/\/news.sta.edu\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.10"}
+        };*/
         !function (a, b, c) {
             function d(a, b) {
                 var c = String.fromCharCode;
@@ -124,7 +124,7 @@
                         sel.text = myValue;
                         this.focus();
                     } else
-                        if ($t.selectionStart || $t.selectionStart == '0') {
+                        if ($t.selectionStart || $t.selectionStart == 0) {
                             var startPos = $t.selectionStart;
                             var endPos = $t.selectionEnd;
                             var scrollTop = $t.scrollTop;
@@ -149,20 +149,21 @@
         }
         function doita(){
             url = $('#image_url').val()
+            cls = $('#image_class').val()
+            sty = $('#image_style').val()
             $('#exampleInput2').insertAtCaret('' +
-                '<div class="pull-right pull-right-narrow">' +
-                '<a href="'+url+'">' +
-                '<img class="size-medium wp-image-26939 img-responsive" src="'+url+'" alt=" ">' +
-                '</a>' +
-                '<br/><p class="media-caption"> </p>\n' +
+                '<div class="'+cls+'" style="' + sty +'">\n' +
+                '\t<img src="'+url+'" alt=" ">\n'+
+                '\t<br/><p class="media-caption"> </p>\n' +
                 '</div>')
             return false;
         }
-        var u="";
-        function doitat() {
+        page = 1;
+        function doitata(){
             var formData = new FormData();
-            formData.append("act", "up_img");
-            formData.append("p", $("#pic_uploads")[0].files[0]);
+            formData.append("act", "manage_img");
+            formData.append("sc", $('#sc').val());
+            formData.append("page", String(page));
             $.ajax({
                 url: '/action',
                 type: 'post',
@@ -170,13 +171,9 @@
                 processData: false,
                 contentType: false,
                 success: function (msg) {
-                    msg = JSON.parse(msg);
-                    if(msg.success) {
-                        $('#upload_info').text(msg.url);
-                        u = msg.url;
-                    }else{
-                        alert(msg)
-                    }
+                    msg==='_'?
+                        alert('Please check the supercode and try again.'):
+                    $('#upload_div').html(msg);
                 }
             });
         }
@@ -223,13 +220,35 @@
             </textarea>
         </div>
         <div class="form-group">
-            <label>图片地址：</label><br/>
-            <input class="form-control" id="image_url" value="/" style="width: 200px;">
-            <button type="button" class="btn-u" onclick="doita();" style="margin:20px 0 0 20px;">插入图片</button>
+            <label>图片代码生成：</label><br/>
+            src = <input id="image_url" value="/" size="50"><br/>
+            class = <input type="text" list="imgcls" id="image_cls" placeholder="pull-right pull-right-narrow" size="30">
+            <datalist id="imgcls">
+                <option>pull-right pull-right-narrow</option>
+                <option>pull-right pull-right-wide</option>
+                <option>pull-right pull-right-portrait</option>
+                <option>align-center</option>
+                <option>pull-left pull-left-narrow</option>
+                <option>pull-left pull-left-wide</option>
+                <option>pull-left pull-left-portrait</option>
+            </datalist>
+            <br />style =
+            <input type="text" list="imgstyle" id="image_style" size="50">
+            <datalist id="imgstyle">
+                <option> </option>
+                <option>margin:auto;width:80%;</option>
+            </datalist>
+            <br />
+            <button type="button" class="btn-u" onclick="doita();" style="margin:10px 0 20px 10px;">插入图片</button>
         </div>
         <div class="form-group">
             <label >封面图片：</label><br/>
             <input class="form-control" name="p" id="front-image_url" value="" style="width: 200px;">
+        </div>
+        <div class="form-group">
+            <label >Superuser code：</label><br/>
+            <input class="form-control" name="supercode" id="sc" value="" style="width: 150px;">
+            <small class="form-text text-muted">用户系统的暂时替代品。目前只有Superuser可以直接发表文章，其他用户可以将此处留空，则文章会进入待审核区域。</small>
         </div>
         <center>
             <button type="button" class="btn-u" onclick="doit();">预览</button><br />
@@ -237,11 +256,8 @@
         </center>
     </form>
 <br />
-    <label >上传图片：</label><br/>
-    <input type="file" id="pic_uploads" value="">
-    <button type="submit" class="btn-u" onclick="doitat();">提交</button>
-    <button type="submit" class="btn-u" onclick="$('#image_url').val(u);">复制到插入图片</button>
-    <button type="submit" class="btn-u" onclick="$('#front-image_url').val(u);">复制到封面图片</button>
+    <button onclick="doitata()">加载图片管理器</button>
+    <div id="upload_div"></div>
 <br />
     <label id="upload_info"></label>
 <br />
