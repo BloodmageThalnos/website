@@ -7,8 +7,8 @@ class ArticleModel(models.Model):
     title = models.TextField()
     content = models.TextField()
     excerpt = models.TextField(default="")
-    create_time = models.DateTimeField(auto_now_add=True)
-    edit_time = models.DateTimeField(auto_now=True)
+    create_date = models.DateTimeField(auto_now_add=True)
+    edit_date = models.DateTimeField(auto_now=True)
     author_id = models.IntegerField()
     author_name = models.CharField(max_length=32, default="")
     category = models.CharField(max_length=32)
@@ -23,10 +23,11 @@ class ArticleModel(models.Model):
     # comments
     # visited
 
+# deprecated
 def getRecentArticles_and_cache(last, first=0):
     if ArticleModel.objects.filter(type__exact=1).count()<last:
-        return False
-    articles = ArticleModel.objects.filter(type__exact=1).order_by('-create_time')[first:last]
+        last = ArticleModel.objects.filter(type__exact=1).count()
+    articles = ArticleModel.objects.filter(type__exact=1).order_by('-create_date')[first:last]
     cache.set('recent_articles_'+str(last-first), articles.query)
     return True
 
