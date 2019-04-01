@@ -4,3 +4,4 @@ db.sqlite3
 *.pyc
 /images/upload/*
 /images/deleted/*
+/source/*
