@@ -3,7 +3,6 @@ import json
 import random
 import os
 import shutil
-import subprocess
 from string import *
 from django.http import *
 from django.template import loader
@@ -15,17 +14,12 @@ from Website.settings import SUPERCODE
 
 from django.shortcuts import render
 
-# Create your views here.
-
 logger = logging.getLogger(__name__)
 
-def showMainPage(request):
 
-    # 显示所有文章
-    # if cache.get('recent_articles_6') is None:
-    # getRecentArticles_and_cache(6)
-    #articleQ = QuerySet()
-    #articleQ.query = cache.get('recent_articles_6')
+# 显示主页
+def showMainPage(request):
+    # 主页文章，显示最近6篇并随机排序
     articleQ = list(ArticleModel.objects.filter(type__exact=1).order_by('-create_date')[0:6])
     random.shuffle(articleQ)
     articles = []
@@ -46,6 +40,8 @@ def showMainPage(request):
     return HttpResponse(template.render(context, request))
 
 
+# 显示单篇文章
+# /article-(?P<id>[0-9]+)
 def showArticle(request, id):
     articleId = int(id)
     article = ArticleModel.objects.get(id=articleId)
@@ -59,23 +55,31 @@ def showArticle(request, id):
     }
     return HttpResponse(template.render(context, request))
 
-
+###
+# action 集成了各种后台操作，POST请求中act字段表示具体的操作类型：
+#  edit_article 编辑文章（需要supercode，否则文章type=2）
+#  up_article 上传文章（需要supercode，否则文章type=2）
+#  up_img  上传图片
+#  manage_img 显示图片管理器（需要supercode，否则返回_）
+#  doimg_del 删除图片
+#  doimg_repl 替换图片
+#  doimg_find 查找引用位置（从封面图片和内容两个字段搜索）
+#  load_list 显示文章列表（编辑文章功能使用）
+#  load_load 加载单篇文章（编辑文章功能使用）
+###
 def action(request):
     act = request.POST.get('act')
     if act is None:
         return HttpResponse(json.dumps({'success':'false'}))
     elif act == 'edit_article':
-        title=request.POST.get('t')
-        content=request.POST.get('c')
-        pic=request.POST.get('p')  # 封面图片
-        excerpt=request.POST.get('e')
-        arthur=request.POST.get('a')
-        id=request.POST.get('i')
+        title=request.POST.get('t')   # 标题
+        content=request.POST.get('c') # 内容
+        pic=request.POST.get('p')     # 封面图片
+        excerpt=request.POST.get('e') # 摘要
+        arthur=request.POST.get('a')  # 作者
+        id=request.POST.get('i')      # 文章id
         supercode=request.POST.get('supercode')
-        if supercode==SUPERCODE:
-            type=1
-        else:
-            type=2
+        type = 1 if supercode==SUPERCODE else 2
         try:
             am=ArticleModel.objects.get(id=int(id))
         except:
@@ -85,8 +89,8 @@ def action(request):
         am.cover_img=pic
         am.excerpt=excerpt
         am.author=arthur
+        am.type=type
         am.save()
-        getRecentArticles_and_cache(6)
         return HttpResponse(json.dumps({'success': 'true'}))
     elif act == 'up_article':
         title = request.POST.get('t')
@@ -95,13 +99,9 @@ def action(request):
         excerpt = request.POST.get('e')
         arthur = request.POST.get('a')
         supercode = request.POST.get('supercode')
-        if supercode==SUPERCODE:
-            type = 1
-        else:
-            type = 2
+        type = 1 if supercode==SUPERCODE else 2
         am=ArticleModel(title=title,content=content,author_id=0,cover_img=pic,author_name=arthur,excerpt=excerpt,type=type)
         am.save()
-        getRecentArticles_and_cache(6)
         return HttpResponse(json.dumps({'success': 'true'}))
     elif act == 'up_img':
         pic=request.FILES.get('p')  # 封面图片
@@ -204,22 +204,3 @@ def action(request):
         }))
 
     return HttpResponse(json.dumps({'success': 'false'}))
-
-def showDebug(request, path):
-    if path == 'errlog':
-        with open('./log/err.log', mode='r', encoding='utf-8') as f:
-            return HttpResponse(f.read().replace('\n','<br />'))
-    elif path=='infolog':
-        with open('./log/info.log', mode='r', encoding='utf-8') as f:
-            return HttpResponse(f.read().replace('\n','<br />'))
-    elif path=='doshelllog':
-        with open('../do.txt', mode='r', encoding='utf-8') as f:
-            return HttpResponse(f.read().replace('\n','<br />'))
-    elif path=='dopullshell':
-        obj=subprocess.Popen(["sleep 0.1 && sh ../do.sh > ../do.txt 2>&1"]
-                             , shell=True, universal_newlines=True)
-        return HttpResponse(
-            '<html><head><meta http-equiv="refresh" content="2;url=/__debug__/doshelllog"></head></html>'
-        )
-
-    return HttpResponse('404 error.')
