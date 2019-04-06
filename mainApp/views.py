@@ -33,9 +33,15 @@ def showMainPage(request):
             'url':'/article-'+str(article.id),
         })
 
+    # 主页message board
+
+    disquses = getDisqus(4)
+
     template = loader.get_template('home.html')
     context = {
         'articles':articles,
+        'disquses':disquses,
+
     }
     return HttpResponse(template.render(context, request))
 
@@ -204,3 +210,87 @@ def action(request):
         }))
 
     return HttpResponse(json.dumps({'success': 'false'}))
+
+
+def getDisqus(num=0):
+    dm = DisqusModel.objects.order_by('-c_date','-c_time')
+    if num>=dm.count():
+        dm = dm[:num]
+    ret = []
+    for d in dm:
+        now = {
+            'id': 'disq_'+str(d.id),
+            'nickname': d.nickname,
+            'username': d.username,
+            'content': d.content,
+            'hasimg': d.picture!='',
+            'picture': '/images/upload/'+d.picture,
+            'time': d.c_date.__str__()+' '+d.c_time.__str__(),
+        }
+        if d.avatar!='':
+            now['avatar']='/images/upload/'+d.avatar
+        else:
+            avatars = os.listdir('./images/avatar')
+            hash = sum(ord(x) for x in d.nickname)
+            now['avatar']='/images/avatar/'+avatars[hash%len(avatars)]
+            # 从系统中随机选择图片作为头像
+        ret.append(now)
+    return ret
+
+
+def showDisqus(request):
+    disquses = getDisqus()
+    template=loader.get_template('Disqus.html')
+    context={
+        'disquses': disquses,
+    }
+    return HttpResponse(template.render(context,request))
+
+
+def postDisqus(request):
+    userid = 0 # TODO: 用户系统上线后修改
+    avatar = request.FILES.get('avatar')
+    nickname = request.POST.get('nickname')
+    if userid == 0:
+        ip=request.META['HTTP_X_FORWARDED_FOR']if request.META.__contains__('HTTP_X_FORWARDED_FOR')else request.META['REMOTE_ADDR']
+        username = '游客 from '+ip
+    else:
+        username = '...'
+    content = request.POST.get('content')
+    pic = request.FILES.get('pic')
+    reply_to = 0 # TODO: 回复功能待添加
+    # TODO: 判断上传的是不是图片
+
+    if len(content)>50 or sum(1 for x in content if x=='\n')>3:
+        return HttpResponse(json.dumps({
+            'success': 'false',
+            'msg': '字数太长或换行过多！',
+        }))
+
+    pic_name = ''
+    if pic != None:
+        pic_name='disq'+''.join(random.choice(ascii_lowercase+ascii_uppercase) for _ in range(6))+pic.name[-6:]
+        pic_url='./images/upload/'+pic_name
+        with open(pic_url,mode='wb') as f:
+            for chunk in pic.chunks():
+                f.write(chunk)
+    ava_name = ''
+    if avatar != None:
+        ava_name='disq'+''.join(random.choice(ascii_lowercase+ascii_uppercase) for _ in range(6))+avatar.name[-6:]
+        ava_url='./images/upload/'+ava_name
+        with open(ava_url,mode='wb') as f:
+            for chunk in avatar.chunks():
+                f.write(chunk)
+    dm = DisqusModel(
+        user_id = userid,
+        avatar = ava_name,
+        nickname = nickname,
+        username = username,
+        content = content,
+        picture = pic_name,
+        reply_to = reply_to
+    )
+    dm.save()
+    return HttpResponse(json.dumps({
+        'success': 'true',
+    }))

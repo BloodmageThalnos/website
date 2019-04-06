@@ -25,12 +25,69 @@
     <link rel='dns-prefetch' href='//s.w.org'/>
     <link rel='stylesheet' id='awesome-weather-css'
           href='../bin/awesome-weather.css' type='text/css' media='all'/>
-    <style id='awesome-weather-inline-css' type='text/css'>
+    <link rel="stylesheet" href="../bin/bootstrap.css" type="text/css">
+    <style type='text/css'>
         .awesome-weather-wrap {
             font-family: 'Open Sans', sans-serif;
             font-weight: 400;
             font-size: 14px;
             line-height: 14px;
+        }
+
+        .disqus_block {
+            margin-bottom: 10px;
+        }
+
+        .avatar_container {
+            float: left;
+            margin-right: 12px;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+        }
+
+        .dispic {
+            max-width: 65%;
+            max-height: 150px;
+            margin-left: 10%;
+        }
+
+        .disqus_body {
+            margin-top: 5px;
+        }
+
+        .disqus_header {
+            line-height: 12px;
+        }
+
+        .disqus_nickname {
+            color: rgb(255, 120, 58);
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .disqus_username {
+            color: #e1e1e1;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .disqus_time {
+            color: #abb6cc;
+            font-weight: 500;
+            font-size: 12px;
+        }
+
+        .disqus_content {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .disqus_picture {
+            margin-left: 20px;
         }
     </style>
     <link rel='stylesheet' id='homesite17-master-style-css'
@@ -209,24 +266,104 @@ Technology</a>
 {% endfor %}
                 </div>
 
-            </section><!-- panel News Stories -->
-
-
-            <!--section class="panel" data-type="call-to-action">
-
-
-                <a href="http://news.stanford.edu" data-ga-category="Call to action"
-                   data-ga-action="More Stanford News">More Stanford News</a>
-
-            </section><!-- panel News CTA -->
-
+            </section>
 
         </section><!-- panel Stanford Today -->
 
+        <section class="panel theme--choco" data-type="section" data-modular-content data-js="panel" data-index="6">
+
+            <header>
+
+                <h2 class="center">Message board</h2>
+                <p>这里有点冷清，路过请留句“到此一游”。</p>
+
+            </header>
+
+            <section class="panel">
+                <div class="col-lg-5 col-lg-offset-1 disqus_block">
+                    <ul style="margin:0;padding-right:20px;">
+                        {% for disqus in disquses %}
+                            <li>
+                                <div class="avatar_container">
+                                    <img src="{{ disqus.avatar }}" class="avatar">
+                                </div>
+                                <div class="disqus_body">
+                                    <div class="disqus_header">
+                                        <span class="disqus_nickname">{{ disqus.nickname }}</span>
+                                        <span class="disqus_username">（{{ disqus.username }}）</span><br/>
+                                        <span class="disqus_time">{{ disqus.time }}</span>
+                                    </div>
+                                    <div class="disqus_content">
+                                        {{ disqus.content | linebreaks }}
+                                    {% if disqus.hasimg %}
+                                        <a onclick="$('#{{ disqus.id }}').css('display','initial'), $(this).remove();">显示图片</a>
+                                    {% endif %}
+                                    </div>
+                                    {% if disqus.hasimg %}
+                                        <div class="disqus_picture">
+                                            <img src="{{ disqus.picture }}" class="dispic" id="{{ disqus.id }}" style="display:none;">
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <form method="POST" onsubmit="$.ajax('/postDisqus', {
+                                type: 'POST',
+                                data: new FormData(this),
+                                async: true,
+                                cache: false,
+                                processData: false,
+                                contentType: false,
+                                success: function (msg) {
+                                    msg = JSON.parse(msg);
+                                    if ('true' === msg.success) {
+                                        alert('提交成功')
+                                        window.location.reload(true)
+                                    }
+                                }
+                            });
+                            return false;" enctype="multipart/form-data" style="padding-left:10%;padding-right:10%;">
+                        <div class="form-group">
+                            <label for="exampleInput1">Nickname:</label>
+                            <input class="form-control" id="exampleInput1" name="nickname" style="color:black;">
+                        </div>
+                        <div class="form-group">
+                            <label>Content:</label>
+                            <textarea id="contenta" name="content" rows="8" style="width:100%;color:black;"></textarea>
+                        </div>
+                        <a onclick="$('#advanced_form').css('display','initial'), $(this).remove();">Show advanced options</a>
+                        <div id="advanced_form" style="display:none;">
+                            <div class="form-group">
+                                <label>Choose avatar:</label>
+                                <input type="file" name="avatar">
+                            </div>
+                            <div class="form-group">
+                                <label>Add picture:</label>
+                                <input type="file" name="pic">
+                            </div>
+                        </div>
+                        <center>
+                            <button type="submit" class="btn btn-primary" style="font-weight: 600;font-size: 20px;">Submit</button>
+                        </center>
+                    </form>
+                </div>
+                <div style="clear:both;"></div> <!-- 清除浮动 -->
+            </section>
+
+            <section class="panel" data-type="call-to-action">
+
+                <a href="/disqus">More messages on board...</a>
+
+            </section><!-- panel  -->
+
+
+        </section><!-- panel Stanford Events -->
 
 
     </section><!-- panel-collection -->
-
 
 </main><!-- #main -->
 
@@ -267,85 +404,6 @@ Technology</a>
         </div>
     </section>
 
-<!--
-    <section id="footer__content" data-ga-action="Fat footer">
-        <div>
-            <div>
-                <div>
-                    <h3>Schools</h3>
-                    <ul>
-                        <li><a href="https://www.gsb.stanford.edu/">Business</a></li>
-                        <li><a href="https://earth.stanford.edu/">Earth, Energy & Environmental Sciences</a></li>
-                        <li><a href="https://ed.stanford.edu/">Education</a></li>
-                        <li><a href="https://engineering.stanford.edu/">Engineering</a></li>
-                        <li><a href="https://humsci.stanford.edu/">Humanities & Sciences</a></li>
-                        <li><a href="https://law.stanford.edu/">Law</a></li>
-                        <li><a href="https://med.stanford.edu/">Medicine</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3>Departments</h3>
-                    <ul>
-                        <li><a href="/list/academic/">Departments A&nbsp;<span aria-hidden="true">-</span><span
-                                class="sr-only-text"> to </span>&nbsp;Z</a></li>
-                        <li><a href="/list/interdisc/">Interdisciplinary Programs</a></li>
-                    </ul>
-                    <h3>Research</h3>
-                    <ul>
-                        <li><a href="/list/research/">Research Centers A&nbsp;<span aria-hidden="true">-</span><span
-                                class="sr-only-text"> to </span>&nbsp;Z</a></li>
-                        <li><a href="https://interdisciplinary.stanford.edu/">Interdisciplinary Research</a></li>
-                        <li><a href="http://library.stanford.edu/">Libraries</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div>
-                <div>
-                    <h3>Health Care</h3>
-                    <ul>
-                        <li><a href="https://stanfordhealthcare.org/">Stanford Health Care</a></li>
-                        <li><a href="https://www.stanfordchildrens.org/">Stanford Children's Health</a></li>
-                    </ul>
-                    <h3>Online Learning</h3>
-                    <ul>
-                        <li><a href="https://online.stanford.edu/">Stanford Online</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3>About Stanford</h3>
-                    <ul>
-                        <li><a href="https://facts.stanford.edu/">Facts</a></li>
-                        <li><a href="/about/history">History</a></li>
-                        <li><a href="https://wasc.stanford.edu/">Accreditation</a></li>
-                    </ul>
-                    <h3>Admission</h3>
-                    <ul>
-                        <li><a href="https://admission.stanford.edu/">Undergraduate</a></li>
-                        <li><a href="https://gradadmissions.stanford.edu">Graduate</a></li>
-                        <li><a href="https://financialaid.stanford.edu/">Financial Aid</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3>Resources</h3>
-                    <ul>
-                        <li><a href="/atoz/">A&nbsp;<span aria-hidden="true">-</span><span
-                                class="sr-only-text"> to </span>&nbsp;Z Index</a></li>
-                        <li><a href="https://campus-map.stanford.edu/">Campus Map</a></li>
-                        <li><a href="https://stanfordwho.stanford.edu/">Directory</a></li>
-                        <li><a href="https://profiles.stanford.edu/">Stanford Profiles</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <ul class="connect">
-            <li><a href="/contact">Contact</a></li>
-            <li><a href="/donate">Donate</a></li>
-        </ul>
-    </section>
--->
-
     <section id="footer__global-footer" data-ga-action="Global footer">
         <div id="global-footer__brand">
             <a href="/" class="su-brand">
@@ -362,8 +420,7 @@ Technology</a>
             </ul>
         </nav>
         <div id="global-footer__info">
-            <p class="copyright vcard">&copy; <span class="fn org">2018-2028 by Cheng Yuan</span>, All rights reserved.</p>
-          </span>
+            <p class="copyright vcard">&copy; <span class="fn org">2018-2028 by Cheng Yuan</span>, All rights reserved.
             </p>
         </div>
     </section>

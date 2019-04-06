@@ -1,0 +1,132 @@
+<script type="text/javascript" src="/bin/jquery.js"></script>
+<link href="/bin/bootstrap.min.css" rel="stylesheet">
+<link href="/bin/master.min.css" rel="stylesheet">
+<script>
+    function doita(i) {
+        $.ajax('/postDisqus', {
+            type: 'POST',
+            data: new FormData(i),
+            async: true,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (msg) {
+                msg = JSON.parse(msg);
+                if ('true' === msg.success) {
+                    alert('提交成功')
+                    window.location.reload(true)
+                }
+            }
+        });
+        return false;
+    }
+</script>
+<center><h1>留言板</h1></center>
+<div style="margin:50px auto; width:800px; align-self:center;">
+    <form method="POST" onsubmit="doita(this);" enctype="multipart/form-data" style="padding:0 10% 0 10%;">
+        <div class="form-group">
+            <label for="exampleInput1">Nickname:</label>
+            <input class="form-control" id="exampleInput1" name="nickname">
+        </div>
+        <div class="form-group">
+            <label>Avatar:</label>
+            <input type="file" name="avatar">
+        </div>
+        <div class="form-group">
+            <label>Content:</label>
+            <textarea id="contenta" name="content" rows="8" style="width:100%;"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Add picture:</label>
+            <input type="file" name="pic">
+        </div>
+        <center>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </center>
+    </form>
+    <br/>
+    <h3>Disqus List</h3>
+
+    <style type="text/css">
+        .avatar_container {
+            float: left;
+            margin-right: 12px;
+            border-radius: 3px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+        }
+
+        .dispic {
+            max-width: 60%;
+            max-height: 160px;
+            margin-left: 10%;
+        }
+
+        .disqus_body {
+
+        }
+
+        .disqus_header {
+
+        }
+
+        .disqus_nickname {
+            color: rgb(171, 51, 0);
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .disqus_username {
+            color: #1e1e1e;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .disqus_time {
+            color: #656c7a;
+            font-weight: 500;
+            font-size: 12px;
+        }
+
+        .disqus_content {
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+
+        .disqus_picture {
+
+        }
+    </style>
+    <ul>
+        {% for disqus in disquses %}
+            <li>
+                <div class="avatar_container">
+                    <img src="{{ disqus.avatar }}" class="avatar">
+                </div>
+                <div class="disqus_body">
+                    <div class="disqus_header">
+                        <span class="disqus_nickname">{{ disqus.nickname }}</span>
+                        <span class="disqus_username">({{ disqus.username }})</span><br/>
+                        <span class="disqus_time">{{ disqus.time }}</span>
+                    </div>
+                    <div class="disqus_content">
+                        {{ disqus.content | linebreaks }}
+                    </div>
+                    {% if disqus.hasimg %}
+                        <div class="disqus_picture">
+                            <img src="{{ disqus.picture }}" class="dispic">
+                        </div>
+                    {% endif %}
+                    <div style="font-family: FontAwesome; font-style: initial; text-align:right;">
+                        <span class="fa-thumbs-o-up"></span>
+                        <span class="fa-commenting-o"></span>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+</div>
