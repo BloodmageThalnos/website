@@ -1,3 +1,4 @@
+import datetime
 import logging
 import json
 import random
@@ -225,7 +226,7 @@ def getDisqus(num=0):
             'content': d.content,
             'hasimg': d.picture!='',
             'picture': '/images/upload/'+d.picture,
-            'time': d.c_date.__str__()+' '+d.c_time.__str__(),
+            'time': d.c_time.__str__(),
         }
         if d.avatar!='':
             now['avatar']='/images/upload/'+d.avatar
@@ -248,6 +249,12 @@ def showDisqus(request):
 
 
 def postDisqus(request):
+    if DisqusModel.objects.all()[-1].c_time > datetime.datetime.now()-datetime.timedelta(seconds=15):
+        return HttpResponse(json.dumps({
+            'success': 'false',
+            'msg': '发送留言间隔太短，请稍后再试！',
+        }))
+
     userid = 0 # TODO: 用户系统上线后修改
     avatar = request.FILES.get('avatar')
     nickname = request.POST.get('nickname')
@@ -259,7 +266,7 @@ def postDisqus(request):
     content = request.POST.get('content')
     pic = request.FILES.get('pic')
     reply_to = 0 # TODO: 回复功能待添加
-    # TODO: 判断上传的是不是图片
+    # TODO: 判断上传的是不是图片、头像大小太大时进行压缩
 
     if len(content)>50 or sum(1 for x in content if x=='\n')>3:
         return HttpResponse(json.dumps({
