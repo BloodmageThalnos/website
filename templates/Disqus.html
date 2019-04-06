@@ -147,17 +147,20 @@ Technology</a>
                                 </div>
                                 <div class="disqus_body">
                                     <div class="disqus_header">
-                                        <span class="disqus_nickname">{{ disqus.nickname }}</span>
+                                        <span class="disqus_nickname" style="color:{{ disqus.color }};">{{ disqus.nickname }}</span>
                                         <span class="disqus_username">（{{ disqus.username }}）</span><br/>
                                         <span class="disqus_time">{{ disqus.time }}</span>
                                     </div>
                                     <div class="disqus_content">
                                         {{ disqus.content | linebreaks }}
+                                    {% if disqus.hasimg %}
+                                        <a onclick="$('#{{ disqus.id }}').css('display','initial'), $(this).remove();">显示图片</a>
+                                    {% endif %}
                                     </div>
                                     {% if disqus.hasimg %}
-                                    <div class="disqus_picture">
-                                        <img src="{{ disqus.picture }}" class="dispic" id="{{ disqus.id }}">
-                                    </div>
+                                        <div class="disqus_picture">
+                                            <img src="{{ disqus.picture }}" class="dispic" id="{{ disqus.id }}" style="display:none;">
+                                        </div>
                                     {% endif %}
                                 </div>
                             </li>
@@ -200,6 +203,10 @@ Technology</a>
                             <div class="form-group">
                                 <label>Add picture:(Optional)</label>
                                 <input type="file" name="pic">
+                            </div>
+                            <div class="form-group">
+                                <label>Nickname color:(Optional)</label>
+                                <input type="color" name="color" value="#ff9911">
                             </div>
                         </div>
                         <center>
