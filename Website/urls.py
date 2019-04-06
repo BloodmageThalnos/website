@@ -35,6 +35,8 @@ urlpatterns = [
     path('home/', mainViews.showMainPage),
     re_path(r'^article-(?P<id>[0-9]+)/$',mainViews.showArticle),
     path('action', mainViews.action),
+    path('postDisqus', mainViews.postDisqus),
+    path('disqus/', mainViews.showDisqus),
 
     # site management
     path('uploadArticle/', siteViews.showUploadArticle),

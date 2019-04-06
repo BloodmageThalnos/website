@@ -28,3 +28,14 @@ class CommentModel(models.Model):
 
 class VisitModel(models.Model):
     pass
+
+class DisqusModel(models.Model):
+    user_id = models.IntegerField()
+    avatar = models.CharField(max_length=64, default="")
+    c_date = models.DateField(auto_now_add=True)
+    c_time = models.TimeField(auto_now_add=True)
+    nickname = models.CharField(max_length=32)
+    username = models.CharField(max_length=32)
+    content = models.TextField()
+    picture = models.CharField(max_length=64, default="")
+    reply_to = models.IntegerField()
