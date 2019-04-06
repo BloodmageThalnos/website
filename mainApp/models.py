@@ -32,8 +32,7 @@ class VisitModel(models.Model):
 class DisqusModel(models.Model):
     user_id = models.IntegerField()
     avatar = models.CharField(max_length=64, default="")
-    c_date = models.DateField(auto_now_add=True)
-    c_time = models.TimeField(auto_now_add=True)
+    c_time = models.DateTimeField(auto_now_add=True)
     nickname = models.CharField(max_length=32)
     username = models.CharField(max_length=32)
     content = models.TextField()

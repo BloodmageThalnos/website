@@ -320,8 +320,10 @@ Technology</a>
                                 success: function (msg) {
                                     msg = JSON.parse(msg);
                                     if ('true' === msg.success) {
-                                        alert('提交成功')
+                                        alert('提交成功');
                                         window.location.reload(true)
+                                    } else {
+                                        alert(msg.msg);
                                     }
                                 }
                             });
