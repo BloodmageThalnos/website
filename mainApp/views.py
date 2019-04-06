@@ -217,7 +217,7 @@ def action(request):
 
 def getDisqus(num=0):
     dm = DisqusModel.objects.order_by('-c_time')
-    if num>=dm.count():
+    if num>0 and num<=dm.count():
         dm = dm[:num]
     ret = []
     for d in dm:
