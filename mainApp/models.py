@@ -38,6 +38,7 @@ class DisqusModel(models.Model):
     content = models.TextField()
     picture = models.CharField(max_length=64, default="")
     reply_to = models.IntegerField()
+    color = models.CharField(max_length=8, default='#ff9911')
 
     def __str__(self):
         return '【'+self.nickname+'】 '+self.content

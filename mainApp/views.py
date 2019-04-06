@@ -57,10 +57,10 @@ def showArticle(request, id):
 
     template = loader.get_template('readarticle.html')
     context = {
-        'author':article.author_name,
-        'title':article.title,
-        'excerpt':article.excerpt,
-        'content':article.content,
+        'author': article.author_name,
+        'title': article.title,
+        'excerpt': article.excerpt,
+        'content': article.content,
     }
     return HttpResponse(template.render(context, request))
 
@@ -229,6 +229,7 @@ def getDisqus(num=0):
             'hasimg': d.picture!='',
             'picture': '/images/upload/'+d.picture,
             'time': d.c_time.isoformat(' '),
+            'color': d.color,
         }
         if d.avatar!='':
             now['avatar']='/images/upload/'+d.avatar
@@ -260,6 +261,7 @@ def postDisqus(request):
     userid = 0 # TODO: 用户系统上线后修改
     avatar = request.FILES.get('avatar')
     nickname = request.POST.get('nickname')
+    color = request.POST.get('color')
     if userid == 0:
         ip=request.META['HTTP_X_FORWARDED_FOR']if request.META.__contains__('HTTP_X_FORWARDED_FOR')else request.META['REMOTE_ADDR']
         username = '游客 from '+ip
@@ -274,6 +276,12 @@ def postDisqus(request):
         return HttpResponse(json.dumps({
             'success': 'false',
             'msg': '昵称太长！',
+        }))
+
+    if len(content)<2 or len(nickname)<2:
+        return HttpResponse(json.dumps({
+            'success': 'false',
+            'msg': '字数太少或昵称太短！',
         }))
 
     if len(content)>50 or sum(1 for x in content if x=='\n')>3:
@@ -303,7 +311,8 @@ def postDisqus(request):
         username = username,
         content = content,
         picture = pic_name,
-        reply_to = reply_to
+        color = color,
+        reply_to = reply_to,
     )
     dm.save()
     return HttpResponse(json.dumps({
