@@ -214,7 +214,7 @@ def action(request):
 
 
 def getDisqus(num=0):
-    dm = DisqusModel.objects.order_by('-c_date','-c_time')
+    dm = DisqusModel.objects.order_by('-c_time')
     if num>=dm.count():
         dm = dm[:num]
     ret = []
@@ -226,7 +226,7 @@ def getDisqus(num=0):
             'content': d.content,
             'hasimg': d.picture!='',
             'picture': '/images/upload/'+d.picture,
-            'time': d.c_time.__str__(),
+            'time': d.c_time.isoformat(' '),
         }
         if d.avatar!='':
             now['avatar']='/images/upload/'+d.avatar
