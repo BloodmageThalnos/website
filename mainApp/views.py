@@ -268,6 +268,12 @@ def postDisqus(request):
     reply_to = 0 # TODO: 回复功能待添加
     # TODO: 判断上传的是不是图片、头像大小太大时进行压缩
 
+    if len(nickname)>12:
+        return HttpResponse(json.dumps({
+            'success': 'false',
+            'msg': '昵称太长！',
+        }))
+
     if len(content)>50 or sum(1 for x in content if x=='\n')>3:
         return HttpResponse(json.dumps({
             'success': 'false',
