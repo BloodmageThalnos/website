@@ -10,6 +10,8 @@ from django.template import loader
 from django.contrib.auth import login
 from django.core.cache import cache
 from django.db.models import *
+from django.utils import timezone
+
 from .models import *
 from Website.settings import SUPERCODE
 
@@ -249,7 +251,7 @@ def showDisqus(request):
 
 
 def postDisqus(request):
-    if DisqusModel.objects.all()[-1].c_time > datetime.datetime.now()-datetime.timedelta(seconds=15):
+    if DisqusModel.objects.last().c_time > timezone.now()-datetime.timedelta(seconds=15):
         return HttpResponse(json.dumps({
             'success': 'false',
             'msg': '发送留言间隔太短，请稍后再试！',
