@@ -7,7 +7,7 @@ class ArticleModel(models.Model):
     title = models.TextField()
     content = models.TextField()
     excerpt = models.TextField(default="")
-    create_date = models.DateTimeField(auto_now_add=True)
+    create_date = models.DateTimeField(auto_now_add=True, db_index=True)
     edit_date = models.DateTimeField(auto_now=True)
     author_id = models.IntegerField()
     author_name = models.CharField(max_length=32, default="")
@@ -23,11 +23,10 @@ class ArticleModel(models.Model):
     # comments
     # visited
 
+
 class CommentModel(models.Model):
     pass
 
-class VisitModel(models.Model):
-    pass
 
 class DisqusModel(models.Model):
     user_id = models.IntegerField()

@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'captchaApp',
     'django_extensions',
-    'mainApp',
+    'mainApp','siteApp',
 ]
 
 MIDDLEWARE = [
