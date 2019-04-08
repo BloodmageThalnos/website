@@ -32,15 +32,19 @@ urlpatterns = [
     path('cv', siteViews.showCv),
 
     # new website
+    path('home', mainViews.showMainPage),
     path('home/', mainViews.showMainPage),
     re_path(r'^article-(?P<id>[0-9]+)/$',mainViews.showArticle),
     path('action', mainViews.action),
     path('postDisqus', mainViews.postDisqus),
+    path('disqus', mainViews.showDisqus),
     path('disqus/', mainViews.showDisqus),
 
     # site management
-    path('uploadArticle/', siteViews.showUploadArticle),
+    path('__admin__/upload', siteViews.showUploadArticle),
     path('__debug__/<slug:path>', siteViews.showDebug),
+    path('__admin__/statics', siteViews.showStatistics),
+    path('visit',siteViews.doVisit),
 
     # main page
     path('', siteViews.showRoot),

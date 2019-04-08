@@ -4,10 +4,9 @@ from django.http import *
 from django.template import loader
 from django.contrib.auth import login
 import subprocess
+from .models import *
 
 from django.shortcuts import render
-
-# Create your views here.
 
 def showRoot(request):
     template = loader.get_template('root.html')
@@ -25,6 +24,37 @@ def showUploadArticle(request):
     template = loader.get_template('editarticle.html')
     context = {}
     return HttpResponse(template.render(context, request))
+
+
+def showStatistics(request):
+    pass
+
+
+# /visit
+# 用于统计页面访问信息，如访问者user、ip、浏览页面、时间等
+# 相关参数：
+#  a: 1 首次访问 2 更新访问时间
+def doVisit(request):
+    act = request.POST.get("a")
+    if act == '1':
+        ip = request.META['HTTP_X_FORWARDED_FOR']if request.META.__contains__('HTTP_X_FORWARDED_FOR')else request.META['REMOTE_ADDR']
+        url = request.POST.get("u")
+        user_id = 0 # TODO: 用户系统上线后修改此处
+        vm = VisitModel(user_id=user_id, user_ip=ip, url=url, duration=0)
+        vm.save()
+        return HttpResponse(str(vm.id))
+    elif act == '2':
+        id = request.POST.get('i')
+        time = int(request.POST.get('t')) # millisecond
+        vm = VisitModel.objects.get(id=int(id))
+        if time - vm.duration > 60 + vm.duration**0.5: # perhaps attack, ignore it
+            pass
+        vm.duration = max(vm.duration, time)
+        vm.save()
+        return HttpResponse(vm.id)
+    else:
+        pass # error.
+
 
 # /debug/<slug:path>
 # 显示debug用的一些页面，包括errlog、infolog、doshelllog
