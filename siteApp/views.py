@@ -31,7 +31,7 @@ def showStatistics(request):
 
 
 # /visit
-# 用于统计页面访问信息，如访问者user、ip、浏览页面、时间等
+# 用于统计页面访问信息，如访问者user、浏览页面、时间等
 # 相关参数：
 #  a: 1 首次访问 2 更新访问时间
 def doVisit(request):

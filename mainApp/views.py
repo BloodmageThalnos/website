@@ -37,7 +37,6 @@ def showMainPage(request):
         })
 
     # 主页message board
-
     disquses = getDisqus(4)
 
     template = loader.get_template('home.html')
@@ -215,6 +214,15 @@ def action(request):
     return HttpResponse(json.dumps({'success': 'false'}))
 
 
+# 从数据库中提取、处理并返回聊天版页面的内容，包括：
+#  id：html中div的id
+#  nickname：昵称
+#  username：用户名
+#  content：内容
+#  hasimg：布尔，是否有图片
+#  picture：如果有图片，图片的url
+#  time：消息发送时间
+#  color：消息颜色
 def getDisqus(num=0):
     dm = DisqusModel.objects.order_by('-c_time')
     if num>0 and num<=dm.count():
@@ -242,6 +250,8 @@ def getDisqus(num=0):
     return ret
 
 
+# 显示留言板详情页面
+# /disqus
 def showDisqus(request):
     disquses = getDisqus()
     template=loader.get_template('Disqus.html')
@@ -251,6 +261,7 @@ def showDisqus(request):
     return HttpResponse(template.render(context,request))
 
 
+# 发表留言
 def postDisqus(request):
     if DisqusModel.objects.last().c_time > timezone.now()-datetime.timedelta(seconds=15):
         return HttpResponse(json.dumps({
