@@ -73,7 +73,7 @@ def showDebug(request, path):
         obj=subprocess.Popen(["sleep 0.1 && sh ../do.sh > ../do.txt 2>&1"]
                              , shell=True, universal_newlines=True)
         return HttpResponse(
-            '<html><head><meta http-equiv="refresh" content="2;url=/__debug__/doshelllog"></head></html>'
+            '<html><head><meta http-equiv="refresh" content="3;url=/__debug__/doshelllog"></head></html>'
         )
 
     return HttpResponse('502 error.')
