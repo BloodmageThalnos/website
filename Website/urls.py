@@ -16,6 +16,7 @@ urlpatterns = [
     path('source/<path:path>', staticViews.showSource),
     path('bin/<path:path>', staticViews.showBin),
     path('fonts/<path:path>', staticViews.showFont),
+    path('static/<path:path>', staticViews.showStatic),
 
     # texas calculator function
     path('texas/<slug:path>', texasViews.showPages),

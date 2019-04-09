@@ -89,6 +89,30 @@ def showBin(request, path):
     logging.info('Accessing /%s with showBin matched nothing.' % path)
     return None
 
+def showStatic(request, path):
+    if path.endswith('css'):
+        with open('./static/' + path, encoding='UTF-8') as f:
+            html = f.read()
+        return HttpResponse(html, content_type="text/css")
+
+    if path.endswith('js'):
+        with open('./static/' + path, encoding='UTF-8') as f:
+            html = f.read()
+        return HttpResponse(html, content_type="application/x-javascript")
+
+    if path.endswith('woff') or path.endswith('woff2'):
+        with open('./static/' + path, mode="rb") as f:
+            html = f.read()
+        return HttpResponse(html, content_type="application/x-font-woff")
+
+    if path.endswith('ttf'):
+        with open('./static/' + path, mode="rb") as f:
+            html = f.read()
+        return HttpResponse(html, content_type="application/x-font-ttf")
+
+    logging.info('Accessing /%s with showBin matched nothing.' % path)
+    return None
+
 def showFont(request, path):
     if path.endswith('woff') or path.endswith('woff2'):
         with open('./fonts/' + path, mode="rb") as f:
