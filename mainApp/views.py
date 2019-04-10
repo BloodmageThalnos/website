@@ -23,8 +23,8 @@ logger = logging.getLogger(__name__)
 # 显示主页
 def showMainPage(request):
     # 主页文章，显示最近6篇并随机排序
-    articleQ = list(ArticleModel.objects.filter(type__exact=1).order_by('-create_date')[0:6])
-    random.shuffle(articleQ)
+    articleQ = list(ArticleModel.objects.filter(type__exact=1).order_by('-edit_date')[0:6])
+    # random.shuffle(articleQ)
     articles = []
     for article in articleQ:
         articles.append({
