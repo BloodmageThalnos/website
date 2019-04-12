@@ -121,11 +121,11 @@
     </script>
 </head>
 
-<body class="home page-template page-template-homepage page-template-homepage-php page page-id-64 splash-parallax normal-home">
+<body class="home page-template page-template-homepage page-template-homepage-php page page-id-64 splash-parallax normal-home" style="background-color: black;">
 <header role="banner">
     <a id="skiplinks" href="#main-content" data-ga-category="Skip links" data-ga-action="header"
        data-ga-label="Skip to content">Skip to content</a>
-    <section id="brand-bar" data-ga-category="Brand bar" data-ga-action="Gateway nav">
+    <section id="brand-bar" data-ga-category="Brand bar" data-ga-action="Gateway nav" style="background:transparent;">
         <a href="http://littledva.cn/home" class="su-brand" rel="home" id="header--wordmark" data-ga-action="Wordmark">LittleDva
 Technology</a>
         <nav id="gateway" class="menu-gateway-nav-container">
@@ -166,7 +166,7 @@ Technology</a>
                 <input id="search-field" type="text" name="q" title="Search string" class="input-medium"
                        value="" size="15" maxlength="128"/>
                 <div id="search-type">
-                    <h2>Search Website:</h2>
+                    <span style="font-weight: 700;padding-right: 20px;">Search Website:</span>
                     <input id="search-web" name="search_type" type="radio" value="web" checked="checked"
                            class="radio-search"/>
                     <label for="search-websearch-field">Title</label>
@@ -203,10 +203,9 @@ Technology</a>
             </script>
             <p id="splash--scroller"><a href="#main-content" data-ga-action="Splash screen scroller">Explore Website</a></p>
 
-            <picture aria-hidden="true" tabindex="-1" id="bg-content" style="position:fixed; z-index:-200;">
-            </picture>
-            <!--div style="height:100%; width:100%;display:block;overflow:hidden;" id="bg-content">
-            </div-->
+
+            <div style="height:calc(48px + 100%); width:100%; margin-top:-48px; display:block;overflow:hidden;" id="bg-content">
+            </div>
 
         </section><!-- panel Splash Screen -->
 
