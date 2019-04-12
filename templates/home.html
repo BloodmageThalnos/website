@@ -190,8 +190,7 @@ Technology</a>
 
         <section class="panel theme--choco" data-type="splash-image" data-modular-content data-js="panel" data-index="0"
                  data-scroll-type="parallax" data-logo-loc-v="top" data-logo-loc-h="center"
-                 data-ga-category="Splash Panel">
-
+                 data-ga-category="Splash Panel" style="padding:0;">
             <div id="splash--wordmark" class="su-brand">Hello, world!</div>
             <div id="trigger1" style="position:relative;top:50%;"></div>
             <script>
@@ -204,22 +203,10 @@ Technology</a>
             </script>
             <p id="splash--scroller"><a href="#main-content" data-ga-action="Splash screen scroller">Explore Website</a></p>
 
-            <picture aria-hidden="true" tabindex="-1">
-                <!--[if IE 9]><video style="display: none;"><![endif]-->
-                <!--source srcset="https://www-media.stanford.edu/wp-content/uploads/2017/11/16141831/claw-splash-landscape.jpg 3000w, https://www-media.stanford.edu/wp-content/uploads/2017/11/16141831/claw-splash-landscape-767x511.jpg 767w, https://www-media.stanford.edu/wp-content/uploads/2017/11/16141831/claw-splash-landscape-1023x682.jpg 1023w, https://www-media.stanford.edu/wp-content/uploads/2017/11/16141831/claw-splash-landscape-575x383.jpg 575w, https://www-media.stanford.edu/wp-content/uploads/2017/11/16141831/claw-splash-landscape-1499x999.jpg 1499w, https://www-media.stanford.edu/wp-content/uploads/2017/11/16141831/claw-splash-landscape-600x400.jpg 600w, https://www-media.stanford.edu/wp-content/uploads/2017/11/16141831/claw-splash-landscape-500x333.jpg 500w"
-                        media="(orientation: landscape)"/>
-                <source srcset="https://www-media.stanford.edu/wp-content/uploads/2017/11/16141837/claw-splash-portrait.jpg 1334w, https://www-media.stanford.edu/wp-content/uploads/2017/11/16141837/claw-splash-portrait-512x767.jpg 512w, https://www-media.stanford.edu/wp-content/uploads/2017/11/16141837/claw-splash-portrait-682x1023.jpg 682w, https://www-media.stanford.edu/wp-content/uploads/2017/11/16141837/claw-splash-portrait-384x575.jpg 384w, https://www-media.stanford.edu/wp-content/uploads/2017/11/16141837/claw-splash-portrait-1000x1499.jpg 1000w, https://www-media.stanford.edu/wp-content/uploads/2017/11/16141837/claw-splash-portrait-534x800.jpg 534w, https://www-media.stanford.edu/wp-content/uploads/2017/11/16141837/claw-splash-portrait-500x750.jpg 500w"
-                        media="(orientation: portrait)"/-->
-                <source
-                    srcset="../images/background/hollow1-landscape.jpg"
-                    media="(orientation: landscape)">
-                <source
-                    srcset="../images/background/hollow1-portrait.jpg"
-                    media="(orientation: portrait)">
-                <!--[if IE 9]></video><![endif]-->
-                <img class="bg-img" role="presentation" alt=""
-                     src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+            <picture aria-hidden="true" tabindex="-1" id="bg-content" style="position:fixed; z-index:-200;">
             </picture>
+            <!--div style="height:100%; width:100%;display:block;overflow:hidden;" id="bg-content">
+            </div-->
 
         </section><!-- panel Splash Screen -->
 
@@ -444,6 +431,105 @@ Technology</a>
 <script type='text/javascript'
         src='../bin/master.min.js'></script>
 <script type='text/javascript' src='https://www.stanford.edu/wp-includes/js/wp-embed.min.js?ver=4.9.9'></script>
+
+<script src="https://threejs.org/build/three.js"></script>
+
+<script src="https://threejs.org/examples/js/WebGL.js"></script>
+<script src="https://threejs.org/examples/js/libs/stats.min.js"></script>
+<script src="https://threejs.org/examples/js/libs/dat.gui.min.js"></script>
+
+<script>
+    if ( WEBGL.isWebGLAvailable() === false ) {
+        document.body.appendChild( WEBGL.getWebGLErrorMessage() );
+    }
+    var camera, scene, renderer, stats, material;
+    var mouseX = 0, mouseY = 0;
+    var windowHalfX = window.innerWidth / 2;
+    var windowHalfY = window.innerHeight / 2;
+    init();
+    animate();
+    function init() {
+        camera = new THREE.PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 2, 2000 );
+        camera.position.z = 1000;
+        scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2( 0x000000, 0.001 );
+        var geometry = new THREE.BufferGeometry();
+        var vertices = [];
+        var sprite = new THREE.TextureLoader().load( 'https://threejs.org/examples/textures/sprites/disc.png' );
+        for ( var i = 0; i < 3000; i ++ ) {
+            var x = 2000 * Math.random() - 1000;
+            var y = 2000 * Math.random() - 1000;
+            var z = 2000 * Math.random() - 1000;
+            vertices.push( x, y, z );
+        }
+        geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
+        material = new THREE.PointsMaterial( { size: 35, sizeAttenuation: false, map: sprite, alphaTest: 0.5, transparent: true } );
+        material.color.setHSL( 1.0, 0.3, 0.7 );
+        var particles = new THREE.Points( geometry, material );
+        scene.add( particles );
+        //
+        renderer = new THREE.WebGLRenderer();
+        renderer.setPixelRatio( window.devicePixelRatio );
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        bg_content = $('#bg-content')
+        bg_content.append( renderer.domElement );
+        //
+        /*stats = new Stats();
+        bg_content.append( stats.dom );*/
+        //
+        /*var gui = new dat.GUI();
+        gui.add( material, 'sizeAttenuation' ).onChange( function () {
+            material.needsUpdate = true;
+        } );
+        gui.open();*/
+        //
+        document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+        document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+        document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+        //
+        window.addEventListener( 'resize', onWindowResize, false );
+    }
+    function onWindowResize() {
+        windowHalfX = window.innerWidth / 2;
+        windowHalfY = window.innerHeight / 2;
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+    }
+    function onDocumentMouseMove( event ) {
+        mouseX = event.clientX - windowHalfX;
+        mouseY = event.clientY - windowHalfY;
+    }
+    function onDocumentTouchStart( event ) {
+        if ( event.touches.length === 1 ) {
+            event.preventDefault();
+            mouseX = event.touches[ 0 ].pageX - windowHalfX;
+            mouseY = event.touches[ 0 ].pageY - windowHalfY;
+        }
+    }
+    function onDocumentTouchMove( event ) {
+        if ( event.touches.length === 1 ) {
+            event.preventDefault();
+            mouseX = event.touches[ 0 ].pageX - windowHalfX;
+            mouseY = event.touches[ 0 ].pageY - windowHalfY;
+        }
+    }
+    //
+    function animate() {
+        requestAnimationFrame( animate );
+        render();
+        stats.update();
+    }
+    function render() {
+        var time = Date.now() * 0.00005;
+        camera.position.x += ( mouseX - camera.position.x ) * 0.05;
+        camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
+        camera.lookAt( scene.position );
+        var h = ( 360 * ( 1.0 + time ) % 360 ) / 360;
+        material.color.setHSL( h, 0.5, 0.5 );
+        renderer.render( scene, camera );
+    }
+</script>
 
 </body>
 </html>
