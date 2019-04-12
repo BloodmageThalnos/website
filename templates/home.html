@@ -439,8 +439,16 @@ Technology</a>
 <script src="https://threejs.org/examples/js/libs/dat.gui.min.js"></script>
 
 <script>
+    bg_content = $('#bg-content');
     if ( WEBGL.isWebGLAvailable() === false ) {
-        document.body.appendChild( WEBGL.getWebGLErrorMessage() );
+        bg_content.html(
+            '<source\n' +
+            '    srcset="../images/background/hollow1-landscape.jpg"\n' +
+            '    media="(orientation: landscape)">\n' +
+            '<source\n' +
+            '    srcset="../images/background/hollow1-portrait.jpg"\n' +
+            '    media="(orientation: portrait)">'
+        )
     }
     var camera, scene, renderer, stats, material;
     var mouseX = 0, mouseY = 0;
@@ -471,22 +479,11 @@ Technology</a>
         renderer = new THREE.WebGLRenderer();
         renderer.setPixelRatio( window.devicePixelRatio );
         renderer.setSize( window.innerWidth, window.innerHeight );
-        bg_content = $('#bg-content')
+
         bg_content.append( renderer.domElement );
-        //
-        /*stats = new Stats();
-        bg_content.append( stats.dom );*/
-        //
-        /*var gui = new dat.GUI();
-        gui.add( material, 'sizeAttenuation' ).onChange( function () {
-            material.needsUpdate = true;
-        } );
-        gui.open();*/
-        //
         document.addEventListener( 'mousemove', onDocumentMouseMove, false );
         document.addEventListener( 'touchstart', onDocumentTouchStart, false );
         document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-        //
         window.addEventListener( 'resize', onWindowResize, false );
     }
     function onWindowResize() {
@@ -518,12 +515,13 @@ Technology</a>
     function animate() {
         requestAnimationFrame( animate );
         render();
-        stats.update();
+        // stats.update();
     }
     function render() {
         var time = Date.now() * 0.00005;
         camera.position.x += ( mouseX - camera.position.x ) * 0.05;
         camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
+        camera.position.z += (time % 2 > 1 ? .2 : -.2);
         camera.lookAt( scene.position );
         var h = ( 360 * ( 1.0 + time ) % 360 ) / 360;
         material.color.setHSL( h, 0.5, 0.5 );
