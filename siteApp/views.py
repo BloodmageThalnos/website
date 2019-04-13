@@ -39,8 +39,9 @@ def doVisit(request):
     if act == '1':
         ip = request.META['HTTP_X_FORWARDED_FOR']if request.META.__contains__('HTTP_X_FORWARDED_FOR')else request.META['REMOTE_ADDR']
         url = request.POST.get("u")
+        id = request.POST.get("b")
         user_id = 0 # TODO: 用户系统上线后修改此处
-        vm = VisitModel(user_id=user_id, user_ip=ip, url=url, duration=0)
+        vm = VisitModel(user_id=user_id, user_ip=ip, b_id=id_(id), url=url, duration=0)
         vm.save()
         return HttpResponse(str(vm.id))
     elif act == '2':
