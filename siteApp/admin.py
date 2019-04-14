@@ -6,7 +6,7 @@ from .models import *
 @admin.register(VisitModel)
 class VisitAdmin(admin.ModelAdmin):
     date_hierarchy = 'v_time'
-    list_display = ('url', 'v_time', 'user_ip', 'duration')
+    list_display = ('url', 'v_time', 'user_ip', 'duration', 'b_id')
 
 
 # admin.site.register(VisitModel, VisitAdmin)

@@ -90,6 +90,16 @@ def showBin(request, path):
     return None
 
 def showStatic(request, path):
+    if path.endswith('dat'):
+        with open('./static/' + path) as f:
+            html = f.read()
+        return HttpResponse(html)
+
+    if path.endswith('png'):
+        with open('./static/'+path, mode="rb") as f:
+            html = f.read()
+        return HttpResponse(html, content_type="image/png")
+
     if path.endswith('css'):
         with open('./static/' + path, encoding='UTF-8') as f:
             html = f.read()

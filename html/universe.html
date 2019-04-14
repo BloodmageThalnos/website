@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="margin:0;padding:0;overflow: hidden;">
+</body>
+<script src="/bin/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/103/three.min.js"></script>
+<script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script>
+    //generateUniverse(1000);
+    galaxies = 99;
+    //function generateUniverse(galaxies) {
+        var m, ods;
+        var buffer=[new Array(10000*3),new Array(10000*3)];
+        init();
+        function init(){
+            $.ajax('/static/planet/init.dat', {
+                type: 'GET',
+                async: false,
+                cache: false,
+                success: function (msg) {
+                    m = msg.split(' ');
+                }
+            });
+            ods = [];
+            for(var i=0;i<m.length;++i){
+                ods.push(parseFloat(m[i]))
+            }
+            console.log(ods);
+            for(i=0; i<ods.length/7; i++){
+                buffer[0][i*3]=ods[i*7+3];
+                buffer[0][i*3+1]=ods[i*7+4];
+                buffer[0][i*3+2]=ods[i*7+5];
+            }
+        }
+
+        // setting the scene
+        var space = "#151718";
+        var canvas_height = window.innerHeight;
+        var canvas_width = window.innerWidth;
+        var scene = new THREE.Scene();
+
+        //cam
+        var camera = new THREE.PerspectiveCamera(75, canvas_width / canvas_height, 0.1, 2000);
+        camera.position.set(900, 500, 900);
+        camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+        //renderer
+        var renderer = new THREE.WebGLRenderer({
+            alpha: true,
+            antialias: true,
+        });
+        renderer.setSize(canvas_width, canvas_height);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.setClearColor(space, 1);
+        document.body.appendChild(renderer.domElement);
+
+        //window
+        window.onresize = function () {
+            canvas_height = window.innerHeight;
+            canvas_width = window.innerWidth;
+            camera.aspect = canvas_width / canvas_height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(canvas_width, canvas_height);
+        };
+
+        //controls
+        controls = new THREE.OrbitControls(camera);
+        controls.damping = 0.2;
+        controls.maxDistance = 2000;
+
+        //particle objects
+        THREE.ImageUtils.crossOrigin = true;
+
+        function getRandomColor() {
+            let c = new THREE.Color();
+            //let h = 360 * Math.random();
+            //c.setRGB(1-Math.random()/2, 1-Math.random(), 1-Math.random()/8);    // 蓝紫色 too 丑
+            c.setRGB(1,1,1);
+            return c;
+        }
+
+        function Particles(num) {
+            this.particleArray = [];
+            for (var i = 0; i < num; i++) {
+                var c = getRandomColor();
+                var s = Math.random()*3+1;
+                var particleCount = 100;
+                var particle = {
+                    color: c,
+                    size: s,
+                    number: particleCount
+                };
+                this.particleArray.push(particle);
+            }
+        }
+
+        // texture = new THREE.TextureLoader().load('https://threejs.org/examples/textures/sprites/disc.png');
+        texture = new THREE.TextureLoader().load('/static/planet/sun.png');
+
+        function ParticleMaterial(c, s) {
+            let canvas = document.createElement("canvas");
+            canvas.width = 100;
+            canvas.height = 100;
+            let context = canvas.getContext("2d");
+            //context.globalAlpha = 0.8;
+            context.fillStyle = "rgba(255,255,255,0.1)";
+            context.fillRect(0,0,100,100);
+            context.fillStyle = "#ffffff";
+            context.arc(50,50,45,0,2*Math.PI);
+            context.fill();
+            let texture = new THREE.Texture(canvas);
+            texture.needsUpdate = true;
+            this.material = new THREE.PointsMaterial({
+                color: c,
+                size: s,
+                alphaTest: 0.6,
+                transparent: true,
+                map: texture,
+            });
+        }
+
+        var outi = 0; // 不幸运的观众：成为繁星。
+
+        function ParticleSystem(number) {
+            this.particles = new THREE.Geometry();
+            for (var i = 0; i < number; i++) {
+                var x = ods[outi*7];
+                var y = ods[outi*7+1];
+                var z = ods[outi*7+2];
+                outi++;
+                this.particles.vertices.push(new THREE.Vector3(x, y, z));
+            }
+            console.log(this.particles);
+        }
+
+        function ParticleUniverse(particles) {
+            this.galaxies = [];
+            var pArr = particles.particleArray;
+            for (var i = 0; i < pArr.length; i++) {
+                var customParticle = new ParticleMaterial(pArr[i].color, pArr[i].size, pArr[i].opacity);
+                var pMaterial = customParticle.material;
+                var customSystem = new ParticleSystem(pArr[i].number);
+                var pSystem = customSystem.particles;
+                var pObject = {
+                    material: pMaterial,
+                    system: pSystem
+                };
+                this.galaxies.push(pObject);
+            }
+        }
+
+        function createUniverse(universe) {
+            var galaxies = universe.galaxies;
+            ges = [];
+            geses = [];
+            for (var i = 0; i < galaxies.length; i++) {
+                var galaxy = new THREE.Points(galaxies[i].system, galaxies[i].material);
+                scene.add(galaxy);
+                ges.push(galaxy);
+            }
+            console.log(galaxies);
+
+            // stars
+            var starsGeometry = new THREE.Geometry();
+            for (i = outi; i < 10000; i++) {
+                var star = new THREE.Vector3();
+                star.x = ods[i*7];
+                star.y = ods[i*7+1];
+                star.z = ods[i*7+2];
+                starsGeometry.vertices.push( star );
+            }
+            var starsMaterial = new THREE.PointsMaterial( {
+                // color: 0xffffa7,
+                size: 30,
+                blending: THREE.AdditiveBlending,
+                depthTest: false,
+                transparent: true,
+                map: texture,
+            });
+
+            var starField = new THREE.Points( starsGeometry, starsMaterial );
+            ges.push(starField);
+
+            scene.add( starField );
+
+            // sun
+            //This will add a starfield to the background of a scene
+            var sunGeometry = new THREE.Geometry();
+            var sun = new THREE.Vector3();
+            sun.x = 0;
+            sun.y = 0;
+            sun.z = 0;
+            sunGeometry.vertices.push( sun );
+            var sunMaterial = new THREE.PointsMaterial( {
+                // color: 0xffffa7,
+                size: 1200,
+                // alphaTest: 0.6,
+                transparent: true,
+                map: texture,
+            });
+
+            var sunField = new THREE.Points( sunGeometry, sunMaterial );
+
+            scene.add( sunField );
+        }
+
+        var particles = new Particles(galaxies);
+        var universe = new ParticleUniverse(particles);
+
+        createUniverse(universe);
+
+        /*
+        var raycaster = new THREE.Raycaster();
+        var mouse = new THREE.Vector2();
+
+        function onMouseClick( event ) {
+
+            //通过鼠标点击的位置计算出raycaster所需要的点的位置，以屏幕中心为原点，值的范围为-1到1.
+            mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+            mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+            // 通过鼠标点的位置和当前相机的矩阵计算出raycaster
+            raycaster.setFromCamera( mouse, camera );
+
+            // 获取raycaster直线和所有模型相交的数组集合
+            var intersects = raycaster.intersectObjects( ges );
+
+            console.log(intersects);
+
+        }
+        */
+        // render
+        var animationStop = false;
+        var render = function () {
+            //raycaster.setFromCamera( mouse, camera, 0, 100 );
+
+            requestAnimationFrame(render);
+            animation();
+            renderer.render(scene, camera);
+        };
+
+        var t = 0, it = -1, ok = true;
+        //animations
+        function animation() {
+            if(animationStop) return;
+            //scene.rotation.y -= .0002;
+            if(1===((++t)%60)) {
+                //console.log(t);
+                //console.log(universe);
+                //console.log(buffer);
+                if(!ok){
+                    console.log('卡了，重连中');
+                    animationStop = true;
+                    setTimeout(()=>{
+                        if(animationStop) alert('网络错误，或者你已经观看到了世界的尽头。');
+                    },1000)
+                }
+                it++;
+                //console.log(it);
+                //console.log(universe.galaxies[1].system.vertices[0])
+                ok = false;
+                $.ajax('/static/planet/' + it + '.dat', {
+                    type: 'GET',
+                    async: true,
+                    cache: false,
+                    success: function (msg) {
+                        buffer[(it&1)?0:1] = Array.from(msg.split(' '),x=>parseFloat(x))
+                        ok = true;
+                        animationStop = false;
+                    }
+                });
+            }
+            var count = 0;
+            for (var i = 0; i < ges.length; i++) {
+                const len =  ges[i].geometry.vertices.length;
+                for (var j = 0; j < len; j++, count++) {
+                    ges[i].geometry.vertices[j].x += buffer[it&1][count*3] / 60;
+                    ges[i].geometry.vertices[j].y += buffer[it&1][count*3+1] / 60;
+                    ges[i].geometry.vertices[j].z += buffer[it&1][count*3+2] / 60;
+                }
+                ges[i].geometry.verticesNeedUpdate = true;
+            }
+
+        }
+
+        render();
+
+
+        window.addEventListener( 'click', onMouseClick, false );
+    //}
+</script>
+</html>
