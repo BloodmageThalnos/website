@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Universe simulation</title>
 </head>
 <body style="margin:0;padding:0;overflow:hidden;height: 100%;position: fixed;">
 </body>
@@ -291,7 +291,7 @@
             renderer.render(scene, camera);
         };
 
-        var t = 0, it = -1, lastt = -59, ok = [true], INTERVAL = 60, sumdelay = 0, nowtime = new Date().getTime();
+        var t = 0, it = -1, lastt = -59, ok = [true], INTERVAL = 120, sumdelay = 0, nowtime = new Date().getTime();
         var ajaxnext = iit => $.ajax('/static/planet/' + iit + '.dat', {
             type: 'GET',
             dataType: 'binary',
@@ -308,16 +308,16 @@
                 buffer[iit+1] = new Float32Array(msg);
                 /*buffer[iit+1] = Array.from(msg.split(' '),x=>parseFloat(x));*/
                 ok[iit+1] = true;
-                if(iit<=it) {
+                if(iit <= it+1) {
                     animationStop = false;
-                    ajaxnext(iit+1);
-                }else if(iit <= it+7)
-                    ajaxnext(iit+1);
-                else{
-                    INTERVAL = (INTERVAL+60)>>1;    // 网络开始稳定，恢复60帧。
+                    ajaxnext(iit + 1);
+                }else if(iit <= it+7) {
+                    INTERVAL = (INTERVAL*3 + 60)>>2;    // 网络开始稳定，逐渐恢复60帧。
+                    ajaxnext(iit + 1);
+                }else{
+                    INTERVAL = 60;
                     setTimeout(ajaxnext,1000,iit+1)
                 }
-
             }
         });
         ajaxnext(0);
@@ -333,10 +333,12 @@
                 if(!ok[it+1]){
                     console.log('卡了，重连中。');
                     animationStop = true;
-                    INTERVAL = (INTERVAL+Math.floor(sumdelay*3/50)+10)>>1;   // 对于网络不好的用户，放慢动画速度
-                    /*setTimeout(()=>{
+                    INTERVAL = Math.floor(sumdelay*3/50) + 1;   // 对于网络不好的用户，放慢动画速度
+                    /*
+                    setTimeout(()=>{
                         if(animationStop) alert('网络连接超时，或者你已经观看到了世界的尽头。');
-                    },10000)*/
+                    },10000)
+                    */
                 }
                 buffer[it]=[]; // free memory
                 it++;
