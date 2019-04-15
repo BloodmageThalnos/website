@@ -293,7 +293,7 @@
             renderer.render(scene, camera);
         };
 
-        var t = 0, it = -1, lastt = -120, ok = [true], INTERVAL = 120, sumdelay = 0, nowtime = new Date().getTime();
+        var t = 0, it = -1, lastt = -120, ok = [true], INTERVAL = 120, sumdelay = 0, suminterval = 0, nowtime = new Date().getTime();
         var ajaxnext = iit => $.ajax('/static/planet/' + iit + '.dat', {
             type: 'GET',
             dataType: 'binary',
@@ -302,7 +302,7 @@
             cache: false,
             responseType:'arraybuffer',
             success: function (msg) {
-                sumdelay = Math.floor( (new Date().getTime()-nowtime)/(iit+1) )+1;
+                sumdelay = Math.floor( (new Date().getTime()-nowtime-suminterval)/(iit+1) )+1;
 
                 console.log('ok '+iit+' delay '+sumdelay);
 
@@ -319,6 +319,7 @@
                     ajaxnext(iit + 1);
                 }else{
                     INTERVAL = 60;
+                    suminterval += 1000;
                     setTimeout(ajaxnext,1000,iit+1)
                 }
             }
