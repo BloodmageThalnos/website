@@ -4,18 +4,62 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body style="margin:0;padding:0;overflow: hidden;">
+<body style="margin:0;padding:0;overflow:hidden;height: 100%;position: fixed;">
 </body>
 <script src="/bin/jquery.js"></script>
 <script src="/bin/three.min.js"></script>
 <script src="/bin/OrbitControls.js"></script>
 <script src="/bin/underscore-min.js"></script>
 <script>
+    $(document).on('touchmove touchstart', function(e){
+        e.preventDefault();
+    });
+    $.ajaxTransport("+binary", function(options, originalOptions, jqXHR){
+        // check for conditions and support for blob / arraybuffer response type
+        if (window.FormData && ((options.dataType && (options.dataType == 'binary')) || (options.data && ((window.ArrayBuffer && options.data instanceof ArrayBuffer) || (window.Blob && options.data instanceof Blob)))))
+        {
+            return {
+                // create new XMLHttpRequest
+                send: function(headers, callback){
+            // setup all variables
+                    var xhr = new XMLHttpRequest(),
+            url = options.url,
+            type = options.type,
+            async = options.async || true,
+            // blob or arraybuffer. Default is blob
+            dataType = options.responseType || "blob",
+            data = options.data || null,
+            username = options.username || null,
+            password = options.password || null;
+
+                    xhr.addEventListener('load', function(){
+                var data = {};
+                data[options.dataType] = xhr.response;
+                // make callback and send data
+                callback(xhr.status, xhr.statusText, data, xhr.getAllResponseHeaders());
+                    });
+
+                    xhr.open(type, url, async, username, password);
+
+            // setup custom headers
+            for (var i in headers ) {
+                xhr.setRequestHeader(i, headers[i] );
+            }
+
+                    xhr.responseType = dataType;
+                    xhr.send(data);
+                },
+                abort: function(){
+                    jqXHR.abort();
+                }
+            };
+        }
+    });
     //generateUniverse(1000);
     galaxies = 99;
     //function generateUniverse(galaxies) {
         var m, ods;
-        var buffer=[new Array(10000*3),new Array(10000*3)];
+        var buffer=[[]];
         init();
         function init(){
             $.ajax('/static/planet/init.dat', {
@@ -73,6 +117,8 @@
         controls = new THREE.OrbitControls(camera);
         controls.damping = 0.2;
         controls.maxDistance = 2000;
+        controls.rotateSpeed = 0.3;
+
 
         //particle objects
         THREE.ImageUtils.crossOrigin = true;
@@ -136,7 +182,7 @@
                 outi++;
                 this.particles.vertices.push(new THREE.Vector3(x, y, z));
             }
-            console.log(this.particles);
+            // console.log(this.particles);
         }
 
         function ParticleUniverse(particles) {
@@ -164,7 +210,7 @@
                 scene.add(galaxy);
                 ges.push(galaxy);
             }
-            console.log(galaxies);
+            // console.log(galaxies);
 
             // stars
             var starsGeometry = new THREE.Geometry();
@@ -245,7 +291,31 @@
             renderer.render(scene, camera);
         };
 
-        var t = 0, it = -1, ok = true;
+        var t = 0, it = -1, ok = [true];
+        var ajaxnext = iit => $.ajax('/static/planet/' + iit + '.dat', {
+            type: 'GET',
+            dataType: 'binary',
+            processData: false,
+            async: true,
+            cache: false,
+            responseType:'arraybuffer',
+            success: function (msg) {
+                //console.log(msg);
+                buffer[iit+1] = new Float32Array(msg);
+                /*buffer[iit+1] = Array.from(msg.split(' '),x=>parseFloat(x));*/
+                ok[iit+1] = true;
+                if(iit<=it) {
+                    animationStop = false;
+                    ajaxnext(iit+1);
+                }else if(iit <= it+7)
+                    ajaxnext(iit+1);
+                else{
+                    setTimeout(ajaxnext,1000,iit+1)
+                }
+
+            }
+        });
+        ajaxnext(0);
         //animations
         function animation() {
             if(animationStop) return;
@@ -254,43 +324,34 @@
                 //console.log(t);
                 //console.log(universe);
                 //console.log(buffer);
-                if(!ok){
-                    console.log('卡了，重连中');
+                if(!ok[it+1]){
+                    console.log('卡了，重连中。');
                     animationStop = true;
                     setTimeout(()=>{
-                        if(animationStop) alert('网络错误，或者你已经观看到了世界的尽头。');
-                    },5000)
+                        if(animationStop) alert('网络连接超时，或者你已经观看到了世界的尽头。');
+                    },10000)
                 }
+                buffer[it]=[]; // free memory
                 it++;
                 //console.log(it);
                 //console.log(universe.galaxies[1].system.vertices[0])
-                ok = false;
-                $.ajax('/static/planet/' + it + '.dat', {
-                    type: 'GET',
-                    async: true,
-                    cache: false,
-                    success: function (msg) {
-                        buffer[(it&1)?0:1] = Array.from(msg.split(' '),x=>parseFloat(x))
-                        ok = true;
-                        animationStop = false;
-                    }
-                });
+                //ok[it+1] = false;
             }
             var count = 0;
             for (var i = 0; i < ges.length; i++) {
                 const len =  ges[i].geometry.vertices.length;
                 for (var j = 0; j < len; j++, count++) {
-                    ges[i].geometry.vertices[j].x += buffer[it&1][count*3] / 60;
-                    ges[i].geometry.vertices[j].y += buffer[it&1][count*3+1] / 60;
-                    ges[i].geometry.vertices[j].z += buffer[it&1][count*3+2] / 60;
+                    ges[i].geometry.vertices[j].x += buffer[it][count*3] / 60;
+                    ges[i].geometry.vertices[j].y += buffer[it][count*3+1] / 60;
+                    ges[i].geometry.vertices[j].z += buffer[it][count*3+2] / 60;
                 }
                 ges[i].geometry.verticesNeedUpdate = true;
             }
 
+           //controls.update();
         }
 
         render();
-
 
         //window.addEventListener( 'click', onMouseClick, false );
     //}
