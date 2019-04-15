@@ -291,7 +291,7 @@
             renderer.render(scene, camera);
         };
 
-        var t = 0, it = -1, ok = [true];
+        var t = 0, it = -1, lastt = -59, ok = [true], INTERVAL = 60, sumdelay = 0, nowtime = new Date().getTime();
         var ajaxnext = iit => $.ajax('/static/planet/' + iit + '.dat', {
             type: 'GET',
             dataType: 'binary',
@@ -300,6 +300,10 @@
             cache: false,
             responseType:'arraybuffer',
             success: function (msg) {
+                sumdelay = Math.floor( (new Date().getTime()-nowtime)/1000/(iit+1) )+1;
+
+                console.log('ok '+iit+' delay '+sumdelay);
+
                 //console.log(msg);
                 buffer[iit+1] = new Float32Array(msg);
                 /*buffer[iit+1] = Array.from(msg.split(' '),x=>parseFloat(x));*/
@@ -310,6 +314,7 @@
                 }else if(iit <= it+7)
                     ajaxnext(iit+1);
                 else{
+                    INTERVAL = (INTERVAL+60)>>1;    // 网络开始稳定，恢复60帧。
                     setTimeout(ajaxnext,1000,iit+1)
                 }
 
@@ -320,16 +325,18 @@
         function animation() {
             if(animationStop) return;
             //scene.rotation.y -= .0002;
-            if(1===((++t)%60)) {
+            if((++t)-lastt === INTERVAL) {
+                lastt = t;
                 //console.log(t);
                 //console.log(universe);
                 //console.log(buffer);
                 if(!ok[it+1]){
                     console.log('卡了，重连中。');
                     animationStop = true;
-                    setTimeout(()=>{
+                    INTERVAL = (INTERVAL+sumdelay+10)>>1;   // 对于网络不好的用户，放慢动画速度
+                    /*setTimeout(()=>{
                         if(animationStop) alert('网络连接超时，或者你已经观看到了世界的尽头。');
-                    },10000)
+                    },10000)*/
                 }
                 buffer[it]=[]; // free memory
                 it++;
@@ -341,9 +348,9 @@
             for (var i = 0; i < ges.length; i++) {
                 const len =  ges[i].geometry.vertices.length;
                 for (var j = 0; j < len; j++, count++) {
-                    ges[i].geometry.vertices[j].x += buffer[it][count*3] / 60;
-                    ges[i].geometry.vertices[j].y += buffer[it][count*3+1] / 60;
-                    ges[i].geometry.vertices[j].z += buffer[it][count*3+2] / 60;
+                    ges[i].geometry.vertices[j].x += buffer[it][count*3] / INTERVAL;
+                    ges[i].geometry.vertices[j].y += buffer[it][count*3+1] / INTERVAL;
+                    ges[i].geometry.vertices[j].z += buffer[it][count*3+2] / INTERVAL;
                 }
                 ges[i].geometry.verticesNeedUpdate = true;
             }
