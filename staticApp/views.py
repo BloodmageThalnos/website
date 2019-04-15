@@ -91,7 +91,7 @@ def showBin(request, path):
 
 def showStatic(request, path):
     if path.endswith('dat'):
-        with open('./static/' + path) as f:
+        with open('./static/' + path, mode="rb") as f:
             html = f.read()
         return HttpResponse(html)
 
