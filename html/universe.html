@@ -334,18 +334,19 @@
                 //console.log(t);
                 //console.log(universe);
                 //console.log(buffer);
-                if(!ok[it+1]){
+                buffer[it]=[]; // free memory
+                it++;
+                if(!ok[it]){
                     console.log('卡了，重连中。');
                     animationStop = true;
                     INTERVAL = Math.floor(sumdelay*3/50) + 1;   // 对于网络不好的用户，放慢动画速度
+                    return;
                     /*
                     setTimeout(()=>{
                         if(animationStop) alert('网络连接超时，或者你已经观看到了世界的尽头。');
                     },10000)
                     */
                 }
-                buffer[it]=[]; // free memory
-                it++;
                 //console.log(it);
                 //console.log(universe.galaxies[1].system.vertices[0])
                 //ok[it+1] = false;
