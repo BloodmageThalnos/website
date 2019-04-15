@@ -300,7 +300,7 @@
             cache: false,
             responseType:'arraybuffer',
             success: function (msg) {
-                sumdelay = Math.floor( (new Date().getTime()-nowtime)/1000/(iit+1) )+1;
+                sumdelay = Math.floor( (new Date().getTime()-nowtime)/(iit+1) )+1;
 
                 console.log('ok '+iit+' delay '+sumdelay);
 
@@ -333,7 +333,7 @@
                 if(!ok[it+1]){
                     console.log('卡了，重连中。');
                     animationStop = true;
-                    INTERVAL = (INTERVAL+sumdelay+10)>>1;   // 对于网络不好的用户，放慢动画速度
+                    INTERVAL = (INTERVAL+Math.Floor(sumdelay*3/50)+10)>>1;   // 对于网络不好的用户，放慢动画速度
                     /*setTimeout(()=>{
                         if(animationStop) alert('网络连接超时，或者你已经观看到了世界的尽头。');
                     },10000)*/
