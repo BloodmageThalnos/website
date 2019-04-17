@@ -73,6 +73,7 @@ def showArticle(request, id):
 #  doimg_repl 替换图片
 #  doimg_find 查找引用位置（从封面图片和内容两个字段搜索）
 #  load_list 显示文章列表（编辑文章功能使用）
+#  load_label 加载标签列表（最多使用的10个标签）
 #  load_load 加载单篇文章（编辑文章功能使用）
 ###
 def action(request):
@@ -86,6 +87,7 @@ def action(request):
         excerpt=request.POST.get('e') # 摘要
         arthur=request.POST.get('a')  # 作者
         id=request.POST.get('i')      # 文章id
+        label=request.POST.get('l')   # 分类
         supercode=request.POST.get('supercode')
         type = 1 if supercode==SUPERCODE else 2
         try:
@@ -97,7 +99,12 @@ def action(request):
         am.cover_img=pic
         am.excerpt=excerpt
         am.author=arthur
+        if am.type==1 and type==2:
+            return HttpResponse(json.dumps({'success': 'false', 'msg':'supercode error.'}))
+        elif am.type==3:
+            return HttpResponse(json.dumps({'success': 'false', 'msg':'attempt to edit deleted article failed.'}))
         am.type=type
+        am.category=label
         am.save()
         return HttpResponse(json.dumps({'success': 'true'}))
     elif act == 'up_article':
@@ -195,6 +202,21 @@ def action(request):
             'articles':arts,
         }
         template=loader.get_template('loadlst.html')
+        return HttpResponse(template.render(context,request))
+    elif act == 'load_label':
+        articles=ArticleModel.objects.filter(type__lt=3).values('category').annotate(dcount=Count('category')).order_by('-dcount')
+        count = articles.count()
+        if count > 10:
+            articles = articles[:10]
+        arts = []
+        for article in articles:
+            arts.append({
+                'name': article['category'],
+            })
+        context={
+            'labels':arts,
+        }
+        template=loader.get_template('loadlabel.html')
         return HttpResponse(template.render(context,request))
     elif act == 'load_load':
         id = request.POST.get('id')
