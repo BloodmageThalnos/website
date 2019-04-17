@@ -1,3 +1,4 @@
+{% if user.is_staff %}
 <!DOCTYPE html>
 <!--[if IE 7]> <html lang="en" class="ie7"> <![endif]-->
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -677,3 +678,10 @@
 <script type='text/javascript' src='../bin/wp-embed.min.js'></script>
 </body>
 </html>
+{% else %}
+<html>
+<head>
+    <meta http-equiv="refresh" content="0;url=/admin/login/?next=/__admin__/upload">
+</head>
+</html>
+{% endif %}
