@@ -16,7 +16,7 @@
     });
     $.ajaxTransport("+binary", function(options, originalOptions, jqXHR){
         // check for conditions and support for blob / arraybuffer response type
-        if (window.FormData && ((options.dataType && (options.dataType == 'binary')) || (options.data && ((window.ArrayBuffer && options.data instanceof ArrayBuffer) || (window.Blob && options.data instanceof Blob)))))
+        if (window.FormData && ((options.dataType && (options.dataType === 'binary')) || (options.data && ((window.ArrayBuffer && options.data instanceof ArrayBuffer) || (window.Blob && options.data instanceof Blob)))))
         {
             return {
                 // create new XMLHttpRequest
@@ -331,9 +331,9 @@
             //scene.rotation.y -= .0002;
             if((++t)-lastt >= INTERVAL) {
                 lastt = t;
-                //console.log(t);
-                //console.log(universe);
-                //console.log(buffer);
+                // console.log(t);
+                // console.log(universe);
+                // console.log(buffer);
                 buffer[it]=[]; // free memory
                 it++;
                 if(!ok[it]){
@@ -347,9 +347,9 @@
                     },10000)
                     */
                 }
-                //console.log(it);
-                //console.log(universe.galaxies[1].system.vertices[0])
-                //ok[it+1] = false;
+                // console.log(it);
+                // console.log(universe.galaxies[1].system.vertices[0]);
+                // ok[it+1] = false;
             }
             var count = 0;
             for (var i = 0; i < ges.length; i++) {

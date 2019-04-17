@@ -194,6 +194,24 @@
                 }
             });
         }
+        loaded2 = false;
+        function load_label(){
+            if(loaded2)return;
+            loaded2 = true;
+            var formData = new FormData();
+            formData.append("act", "load_label");
+            $.ajax({
+                url: '/action',
+                type: 'post',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (msg) {
+                    console.log(msg);
+                    $('#loadlabel_div').html(msg);
+                }
+            });
+        }
     </script>
     <style>.post-thumbnail img[src$='.svg'] {
         width: 100%;
@@ -202,11 +220,8 @@
     <!-- CSS -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
           type="text/css"/>
-    <!--[if lt IE 9]>
-    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
 </head>
-<body class="post-template-default single single-post postid-26689 single-format-standard">
+<body class="post-template-default single single-post postid-26689 single-format-standard" onload="load_label()">
 
 <div style="min-height:500px;padding:20px 10% 0 10%;">
     <form method="POST" enctype="multipart/form-data" action="/action" onsubmit="if(!$('#front-image_url').val()){alert('请选择至少一张封面图片！');return false;}return true;">
@@ -237,6 +252,11 @@
             <textarea class="form-control" id="exampleInput2" rows="15" name="c">
                 <p>Maps that show where sharks and tunas roam in the eastern Pacific Ocean, and where fishing vessels travel in this vast expanse, could help ocean managers to identify regions of the high seas where vulnerable species may be at risk.</p><p>Maps that show where sharks and tunas roam in the eastern Pacific Ocean, and where fishing vessels travel in this vast expanse, could help ocean managers to identify regions of the high seas where vulnerable species may be at risk.</p><p>Maps that show where sharks and tunas roam in the eastern Pacific Ocean, and where fishing vessels travel in this vast expanse, could help ocean managers to identify regions of the high seas where vulnerable species may be at risk.</p>
             </textarea>
+        </div>
+        <div class="form-group">
+            <label for="exampleInput5">标签：</label><br />
+            <input type="text" list="labelloader" id="exampleInput5" size="30" name="l">
+            <div id="loadlabel_div"></div>
         </div>
         <div class="form-group">
             <label>图片代码生成：</label><br/>
