@@ -7,7 +7,7 @@ import shutil
 from string import *
 from django.http import *
 from django.template import loader
-from django.contrib.auth import login
+from django.contrib.auth import *
 from django.core.cache import cache
 from django.db.models import *
 from django.utils import timezone
@@ -65,10 +65,10 @@ def showArticle(request, id):
 
 ###
 # action 集成了各种后台操作，POST请求中act字段表示具体的操作类型：
-#  edit_article 编辑文章（需要supercode，否则文章type=2）
-#  up_article 上传文章（需要supercode，否则文章type=2）
+#  edit_article 编辑文章   （需要supercode，否则文章type=2） 注意！找到了更好的方法，supercode method is deprecated。
+#  up_article 上传文章  （需要supercode，否则文章type=2）
 #  up_img  上传图片
-#  manage_img 显示图片管理器（需要supercode，否则返回_）
+#  manage_img 显示图片管理器  （需要supercode，否则返回_）
 #  doimg_del 删除图片
 #  doimg_repl 替换图片
 #  doimg_find 查找引用位置（从封面图片和内容两个字段搜索）
@@ -88,8 +88,8 @@ def action(request):
         arthur=request.POST.get('a')  # 作者
         id=request.POST.get('i')      # 文章id
         label=request.POST.get('l')   # 分类
-        supercode=request.POST.get('supercode')
-        type = 1 if supercode==SUPERCODE else 2
+        #supercode=request.POST.get('supercode')
+        type = 1# if supercode==SUPERCODE else 2
         try:
             am=ArticleModel.objects.get(id=int(id))
         except:
@@ -99,10 +99,12 @@ def action(request):
         am.cover_img=pic
         am.excerpt=excerpt
         am.author=arthur
+        '''
         if am.type==1 and type==2:
             return HttpResponse(json.dumps({'success': 'false', 'msg':'supercode error.'}))
         elif am.type==3:
             return HttpResponse(json.dumps({'success': 'false', 'msg':'attempt to edit deleted article failed.'}))
+            '''
         am.type=type
         am.category=label
         am.save()
@@ -113,8 +115,8 @@ def action(request):
         pic = request.POST.get('p')    # 封面图片
         excerpt = request.POST.get('e')
         arthur = request.POST.get('a')
-        supercode = request.POST.get('supercode')
-        type = 1 if supercode==SUPERCODE else 2
+        #supercode = request.POST.get('supercode')
+        type = 1# if supercode==SUPERCODE else 2
         am=ArticleModel(title=title,content=content,author_id=0,cover_img=pic,author_name=arthur,excerpt=excerpt,type=type)
         am.save()
         return HttpResponse(json.dumps({'success': 'true'}))
@@ -129,10 +131,14 @@ def action(request):
                 f.write(chunk)
         return HttpResponse(json.dumps({'success': 'true', 'url':'.'+pic_url}))
     elif act == 'manage_img':
+        if request.user.is_staff:
+            pass
+        else:
+            return HttpResponse('_')
         page = request.POST.get('page')
-        supercode = request.POST.get('sc')
-        if supercode!=SUPERCODE:
-            return HttpResponse("_")
+        #supercode = request.POST.get('sc')
+        #if supercode!=SUPERCODE:
+        #    return HttpResponse("_")
         imgs = []
         imgfrom = 10*(int(page)-1)
         imgto = 10*int(page)-1
