@@ -237,6 +237,7 @@ def action(request):
             'excerpt': article.excerpt,
             'author': article.author_name,
             'cover': article.cover_img,
+            'label': article.category,
         }))
 
     return HttpResponse(json.dumps({'success': 'false'}))
