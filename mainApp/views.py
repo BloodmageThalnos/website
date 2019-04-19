@@ -48,6 +48,20 @@ def showMainPage(request):
     return HttpResponse(template.render(context, request))
 
 
+def showArticlesPage(request):
+    context = {}
+    pageno = request.GET.get('page')
+    try:
+        pageno = int(pageno)
+    except:
+        pageno = 1
+    context['hasnextpage'] = (pageno != 1)
+    context['nextpage'] = pageno - 1
+    context['lastpage'] = pageno + 1
+    template = loader.get_template('articles.html')
+    return HttpResponse(template.render(context, request))
+
+
 # 显示单篇文章
 # /article-(?P<id>[0-9]+)
 def showArticle(request, id):
@@ -107,6 +121,15 @@ def action(request):
             '''
         am.type=type
         am.category=label
+
+        # 处理缩略图
+        pic_path = pic
+        while pic_path[0]=='.':pic_path=pic_path[1:] # 去掉url前面../中的.
+        pic_path = '.'+pic_path # 控制.的数量为1
+        if not os.path.exists(pic_path+'_thumb'+pic_path[-6:]):
+            thumb_from_cover_img(pic_path,pic_path+'_thumb'+pic_path[-6:])
+        am.cover_img_thumb=pic_path+'_thumb'+pic_path[-6:]
+
         am.save()
         return HttpResponse(json.dumps({'success': 'true'}))
     elif act == 'up_article':
@@ -117,7 +140,15 @@ def action(request):
         arthur = request.POST.get('a')
         #supercode = request.POST.get('supercode')
         type = 1# if supercode==SUPERCODE else 2
-        am=ArticleModel(title=title,content=content,author_id=0,cover_img=pic,author_name=arthur,excerpt=excerpt,type=type)
+
+        # 处理缩略图
+        pic_path = pic
+        while pic_path[0]=='.':pic_path=pic_path[1:]
+        pic_path = '.'+pic_path # 控制.的数量为1
+        if not os.path.exists(pic_path+'_thumb'+pic_path[-6:]):
+            thumb_from_cover_img(pic_path,pic_path+'_thumb'+pic_path[-6:])
+
+        am = ArticleModel(title=title,content=content,author_id=0,cover_img=pic,cover_img_thumb=pic_path+'_thumb'+pic_path[-6:],author_name=arthur,excerpt=excerpt,type=type)
         am.save()
         return HttpResponse(json.dumps({'success': 'true'}))
     elif act == 'up_img':
@@ -158,6 +189,8 @@ def action(request):
     elif act == 'doimg_del':
         id = request.POST.get('id')
         if os.path.isfile('./images/upload/'+id):
+            if os.path.isfile('./images/upload'+id+'_thumb'+id[-6:]): # 删除缩略图
+                os.remove('./images/upload'+id+'_thumb'+id[-6:])
             shutil.move('./images/upload/'+id,'./images/deleted/'+id)
             return HttpResponse(json.dumps({'success': 'true', 'msg': 'delete ok.'}))
         else:
@@ -169,6 +202,8 @@ def action(request):
         id = request.POST.get('id')
         if os.path.isfile('./images/upload/'+id):
             pic_url='./images/upload/'+id
+            if os.path.isfile('./images/upload'+id+'_thumb'+id[-6:]): # 删除缩略图
+                os.remove('./images/upload'+id+'_thumb'+id[-6:])
             with open(pic_url,mode='wb') as f:
                 for chunk in pic.chunks():
                     f.write(chunk)
