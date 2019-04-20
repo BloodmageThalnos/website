@@ -4,6 +4,7 @@ import json
 import random
 import os
 import shutil
+from urllib.parse import quote
 from string import *
 from django.http import *
 from django.template import loader
@@ -58,6 +59,41 @@ def showArticlesPage(request):
     context['hasnextpage'] = (pageno != 1)
     context['nextpage'] = pageno - 1
     context['lastpage'] = pageno + 1
+
+    categories=ArticleModel.objects.filter(type__lt=3).values('category').annotate(dcount=Count('category')).order_by(
+        '-dcount')
+    sections = []
+    for category in categories:
+        sections.append({
+            'name': category['category'] if category['category']!='' else '无分类',
+            'count': category['dcount'],
+            'url': '/articles?page=1&category='+quote(category['category']),
+            'highlight': False,
+        })
+    context['sections']=sections
+
+    indstart = pageno*7-7
+    indend = pageno*7
+    articles = ArticleModel.objects.order_by('-edit_date')
+    a_cnt = articles.count()
+    if indstart >= a_cnt:
+        indstart = indend = 0
+    elif indend > a_cnt:
+        indend = a_cnt
+    articles = articles[indstart:indend]
+    arts = []
+    for article in articles:
+        excerpt = article.excerpt
+        if len(excerpt)>30: excerpt = excerpt[:30]+'...'
+        arts.append({
+            'title':article.title,
+            'context':excerpt,
+            'time':article.edit_date,
+            'img':article.cover_img_thumb,
+            'url':'/article-'+str(article.id),
+        })
+    context['articles']=arts
+
     template = loader.get_template('articles.html')
     return HttpResponse(template.render(context, request))
 
@@ -123,10 +159,9 @@ def action(request):
         am.category=label
 
         # 处理缩略图
-        pic_path = pic
-        while pic_path[0]=='.':pic_path=pic_path[1:] # 去掉url前面../中的.
-        pic_path = '.'+pic_path # 控制.的数量为1
-        if not os.path.exists(pic_path+'_thumb'+pic_path[-6:]):
+
+        pic_path='./images/upload'+pic[pic.rfind('/'):]
+        if not os.path.isfile(pic_path+'_thumb'+pic_path[-6:]):
             thumb_from_cover_img(pic_path,pic_path+'_thumb'+pic_path[-6:])
         am.cover_img_thumb=pic_path+'_thumb'+pic_path[-6:]
 
@@ -140,15 +175,14 @@ def action(request):
         arthur = request.POST.get('a')
         #supercode = request.POST.get('supercode')
         type = 1# if supercode==SUPERCODE else 2
+        am=ArticleModel(title=title,content=content,author_id=0,cover_img=pic,author_name=arthur,excerpt=excerpt,type=type)
 
         # 处理缩略图
-        pic_path = pic
-        while pic_path[0]=='.':pic_path=pic_path[1:]
-        pic_path = '.'+pic_path # 控制.的数量为1
-        if not os.path.exists(pic_path+'_thumb'+pic_path[-6:]):
+        pic_path='./images/upload'+pic[pic.rfind('/'):]
+        if not os.path.isfile(pic_path+'_thumb'+pic_path[-6:]):
             thumb_from_cover_img(pic_path,pic_path+'_thumb'+pic_path[-6:])
+        am.cover_img_thumb=pic_path+'_thumb'+pic_path[-6:]
 
-        am = ArticleModel(title=title,content=content,author_id=0,cover_img=pic,cover_img_thumb=pic_path+'_thumb'+pic_path[-6:],author_name=arthur,excerpt=excerpt,type=type)
         am.save()
         return HttpResponse(json.dumps({'success': 'true'}))
     elif act == 'up_img':

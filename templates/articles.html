@@ -131,46 +131,23 @@
                 <div class="col-sm-12 col-md-10 col-md-offset-1">
                     <h1>Commencement</h1>
                     <div class="col-sm-8" id="post-list">
+                    {% for article in articles %}
                         <article class="card short list-item">
                             <div class="card-photo ">
-                                <a href="https://news.stanford.edu/2018/06/08/wacky-walk/" tabindex="-1"
+                                <a href="{{ article.url }}" tabindex="-1"
                                    aria-hidden="true" role="presentation"><img
-                                        src="https://news-media.stanford.edu/wp-content/uploads/2018/05/21124617/160610-130-200x200.jpg"
-                                        class="attachment-post-thumbnail size-post-thumbnail wp-post-image"
-                                        alt="Space Wacky walk"
-                                        srcset="https://news-media.stanford.edu/wp-content/uploads/2018/05/21124617/160610-130-200x200.jpg 200w, https://news-media.stanford.edu/wp-content/uploads/2018/05/21124617/160610-130-100x100.jpg 100w"
-                                        sizes="(max-width: 200px) 100vw, 200px"/></a>
+                                        src="{{ article.img }}"
+                                        class="attachment-post-thumbnail size-post-thumbnail wp-post-image"/></a>
                             </div>
                             <div class="card-content">
                                 <div class="meta">
-                                    <time datetime="2018-06-08T11:45:20-07:00">June 8, 2018</time>
+                                    <time datetime="2018-06-08T11:45:20-07:00">June 8, 2019</time>
                                 </div>
-                                <h3><a href="https://news.stanford.edu/2018/06/08/wacky-walk/">How do you explain
-                                    Stanford’s Wacky Walk?</a></h3>
-                                <p class="teaser">Stanford’s Wacky Walk, an annual Commencement tradition, is a highly
-                                    irreverent, often silly, generally entertaining and occasionally touching
-                                    celebration.</p>
+                                <h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
+                                <p class="teaser">{{ article.context }}</p>
                             </div>
                         </article>
-                        <article class="card short list-item">
-                            <div class="card-photo ">
-                                <a href="https://www.gsb.stanford.edu/stanford-gsb-experience/news-history/advice-class-2017-life-team-sport"
-                                   tabindex="-1" aria-hidden="true" role="presentation"><img
-                                        src="https://news-media.stanford.edu/wp-content/uploads/2017/06/29103902/gsbcommencement-100x100.jpg"
-                                        class="attachment-post-thumbnail size-post-thumbnail wp-post-image"
-                                        alt="Penny Pritzker speaking at 2017 GSB Commencement"/></a>
-                            </div>
-                            <div class="card-content">
-                                <div class="meta">Stanford Graduate School of Business &mdash;
-                                    <time datetime="2017-06-21T10:43:18-07:00">June 21, 2017</time>
-                                </div>
-                                <h3>
-                                    <a href="https://www.gsb.stanford.edu/stanford-gsb-experience/news-history/advice-class-2017-life-team-sport">Advice
-                                        to GSB grads: ‘Life is a team sport’</a></h3>
-                                <p class="teaser">Stanford Graduate School of Business alumna Penny Pritzker sends
-                                    graduates off to launch careers of meaning and impact.</p>
-                            </div>
-                        </article>
+                    {% endfor %}
                         <div class="row" id="page-nav">
                             <div class="col-xs-6">
                                 <div class="btn btn-su-alert"><a href="/articles/?page={{ lastpage }}">« Older stories</a></div>
@@ -195,7 +172,7 @@
                                 {% else %}
                                     <li>
                                 {% endif %}
-                                <a href="{{ section.url }}">{{ section.name }}</a>
+                                <a href="{{ section.url }}">{{ section.name }}({{ section.count }})</a>
                                 </li>
                                 {% endfor %}
                             </ul>
