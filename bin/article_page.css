@@ -1,0 +1,286 @@
+.bottom-right-text {
+  content: "";
+  position: absolute;
+  bottom: 0.8em;
+  right: 1.2em;
+  color: #820000;
+  font-family: "Source Serif Pro";
+  font-size: 0.9em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.small-square {
+  color: #5F574F;
+  position: absolute;
+  top: 0;
+  margin: 0 0 0 -15px;
+  content: '\25AA';
+}
+@media (max-width: 767px) {
+  #page-nav {
+    margin: 1.5em 0 3em;
+  }
+}
+@media (min-width: 768px) {
+  article.card {
+    margin-bottom: 1em;
+  }
+}
+.page h1,
+.archive h1,
+.blog h1,
+.error404 h1 {
+  color: #8C1515;
+  font-size: 2.2em;
+  border-bottom: 1px solid #D5D0C0;
+  text-transform: capitalize;
+}
+.page h2,
+.archive h2,
+.blog h2,
+.error404 h2 {
+  color: #8C1515;
+  font-size: 1.33333em;
+  padding: 5px;
+  margin-left: -5px;
+  border-bottom: 1px solid #D5D0C0;
+}
+.page p,
+.archive p,
+.blog p,
+.error404 p {
+  color: #2E2D29;
+}
+.page .lead,
+.archive .lead,
+.blog .lead,
+.error404 .lead {
+  font-family: 'Source Serif Pro', 'Times New Roman', Times, serif;
+  font-size: 1.125em;
+}
+.page section,
+.archive section,
+.blog section,
+.error404 section {
+  margin-bottom: 2em;
+}
+.page section ul,
+.archive section ul,
+.blog section ul,
+.error404 section ul {
+  list-style-type: none;
+}
+.page section h3,
+.archive section h3,
+.blog section h3,
+.error404 section h3 {
+  margin-bottom: 0;
+}
+.page section h3:first-of-type,
+.archive section h3:first-of-type,
+.blog section h3:first-of-type,
+.error404 section h3:first-of-type {
+  margin-top: 0;
+}
+.page section h3 a,
+.archive section h3 a,
+.blog section h3 a,
+.error404 section h3 a {
+  font-size: 16px;
+  font-weight: 700;
+  color: black;
+  text-decoration: underline;
+}
+.page .sidebar .infobox,
+.archive .sidebar .infobox,
+.blog .sidebar .infobox,
+.error404 .sidebar .infobox {
+  margin-bottom: 2em;
+}
+.page .sidebar .infobox .story-supplement-content,
+.archive .sidebar .infobox .story-supplement-content,
+.blog .sidebar .infobox .story-supplement-content,
+.error404 .sidebar .infobox .story-supplement-content {
+  padding: 1em 0;
+}
+.page .sidebar .infobox .story-supplement-content h2,
+.archive .sidebar .infobox .story-supplement-content h2,
+.blog .sidebar .infobox .story-supplement-content h2,
+.error404 .sidebar .infobox .story-supplement-content h2 {
+  padding: 0 1em;
+}
+.page .sidebar section:first-of-type,
+.archive .sidebar section:first-of-type,
+.blog .sidebar section:first-of-type,
+.error404 .sidebar section:first-of-type {
+  margin-top: 0;
+}
+.page .sidebar section#sections ul li,
+.archive .sidebar section#sections ul li,
+.blog .sidebar section#sections ul li,
+.error404 .sidebar section#sections ul li {
+  margin-bottom: 0;
+}
+.page .sidebar section#sections ul li a,
+.archive .sidebar section#sections ul li a,
+.blog .sidebar section#sections ul li a,
+.error404 .sidebar section#sections ul li a {
+  font-weight: normal;
+}
+.page .classifieds h2,
+.archive .classifieds h2,
+.blog .classifieds h2,
+.error404 .classifieds h2 {
+  border: none;
+  font-family: 'Source Sans Pro', Arial, sans-serif;
+  color: #2E2D29;
+  font-size: 1.6em;
+  margin-bottom: 0.2em;
+}
+.page .classifieds h3,
+.archive .classifieds h3,
+.blog .classifieds h3,
+.error404 .classifieds h3 {
+  font-weight: 700;
+  font-size: 1.1em;
+}
+.page .source-label,
+.archive .source-label,
+.blog .source-label,
+.error404 .source-label {
+  padding-bottom: 0.5em;
+  display: inline-block;
+}
+.page #page-nav .btn,
+.archive #page-nav .btn,
+.blog #page-nav .btn,
+.error404 #page-nav .btn {
+  width: 100%;
+}
+.page #find-search,
+.archive #find-search,
+.blog #find-search,
+.error404 #find-search {
+  width: 80%;
+  padding: 0.3em;
+}
+.page .search-or p,
+.archive .search-or p,
+.blog .search-or p,
+.error404 .search-or p {
+  text-align: center;
+  font-size: 2em;
+  line-height: 2;
+}
+.page .datepicker input,
+.archive .datepicker input,
+.blog .datepicker input,
+.error404 .datepicker input {
+  width: 100px;
+}
+.page .find-stories section,
+.archive .find-stories section,
+.blog .find-stories section,
+.error404 .find-stories section {
+  margin: 1em 0;
+}
+.page .find-stories section ul,
+.archive .find-stories section ul,
+.blog .find-stories section ul,
+.error404 .find-stories section ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+.page .find-stories section ul li,
+.archive .find-stories section ul li,
+.blog .find-stories section ul li,
+.error404 .find-stories section ul li {
+  font-size: 18px;
+  line-height: 1.2;
+  list-style-image: none;
+  padding: 0.4em 0;
+}
+.page .find-stories section ul li#spotlight,
+.archive .find-stories section ul li#spotlight,
+.blog .find-stories section ul li#spotlight,
+.error404 .find-stories section ul li#spotlight {
+  display: block;
+  width: 100%;
+  border-bottom: 1px solid #E3DFD5;
+}
+.page .find-stories section ul li a,
+.archive .find-stories section ul li a,
+.blog .find-stories section ul li a,
+.error404 .find-stories section ul li a {
+  text-decoration: none;
+  font-weight: normal;
+}
+.page .find-stories section ul li a:after,
+.archive .find-stories section ul li a:after,
+.blog .find-stories section ul li a:after,
+.error404 .find-stories section ul li a:after {
+  content: "\f101";
+  font-family: FontAwesome;
+  font-size: 0.9em;
+  font-weight: 200;
+  margin-left: 0.6em;
+}
+.page .find-stories section ul li a:hover,
+.archive .find-stories section ul li a:hover,
+.blog .find-stories section ul li a:hover,
+.error404 .find-stories section ul li a:hover {
+  text-decoration: underline;
+}
+.page .find-stories section ul li a .section-icon,
+.archive .find-stories section ul li a .section-icon,
+.blog .find-stories section ul li a .section-icon,
+.error404 .find-stories section ul li a .section-icon {
+  padding-right: 1em;
+}
+.page .pr-archive a,
+.archive .pr-archive a,
+.blog .pr-archive a,
+.error404 .pr-archive a {
+  font-weight: normal;
+  text-decoration: underline;
+}
+.page .pr-archive #release-list h2,
+.archive .pr-archive #release-list h2,
+.blog .pr-archive #release-list h2,
+.error404 .pr-archive #release-list h2 {
+  margin-top: 2em;
+}
+.page .pr-archive #release-list h3,
+.archive .pr-archive #release-list h3,
+.blog .pr-archive #release-list h3,
+.error404 .pr-archive #release-list h3 {
+  font-size: 1.28571em;
+  margin: 1em 0 0.25em;
+}
+.page .pr-archive #release-list p.distribution,
+.archive .pr-archive #release-list p.distribution,
+.blog .pr-archive #release-list p.distribution,
+.error404 .pr-archive #release-list p.distribution {
+  margin: 0;
+}
+.page .pr-archive #release-list p.distribution span,
+.archive .pr-archive #release-list p.distribution span,
+.blog .pr-archive #release-list p.distribution span,
+.error404 .pr-archive #release-list p.distribution span {
+  margin: 0 0.5em 0 1em;
+  font-size: 1.5em;
+}
+.page .pr-archive #release-list #page-nav,
+.archive .pr-archive #release-list #page-nav,
+.blog .pr-archive #release-list #page-nav,
+.error404 .pr-archive #release-list #page-nav {
+  margin-top: 3em;
+}
+.page .pr-archive .sidebar #find-search,
+.archive .pr-archive .sidebar #find-search,
+.blog .pr-archive .sidebar #find-search,
+.error404 .pr-archive .sidebar #find-search {
+  width: 75%;
+}
+/*# sourceMappingURL=css/page.css.map */

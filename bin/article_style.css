@@ -1,0 +1,44 @@
+/*   
+Theme Name: News
+Theme URI: http://news.stanford.edu/
+Description: Custom theme for Stanford University News
+Version: 1.0
+Author: University Communications
+Author URI: http://ucomm.stanford.edu/webteam/
+*/
+
+.card .card-photo.video a {
+  position: relative;
+}
+.card .card-photo.video a:after {
+  content: url(images/YouTube-icon-dark.png);
+  opacity: 0.8;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateY(-50%) translateX(-50%);
+  -ms-transform: translateY(-50%) translateX(-50%);
+  transform: translateY(-50%) translateX(-50%);
+}
+
+/***
+ * Media queries
+ * -----------------------------------------------------------------------------
+ */
+
+@media (max-width: 470px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) and (max-width: 991px) {
+}
+@media (max-width: 991px) {
+}
+@media (min-width: 992px) {
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+}
+@media (min-width: 1200px) {
+}
