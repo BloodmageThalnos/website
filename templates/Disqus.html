@@ -153,7 +153,7 @@ Technology</a>
                                 </div>
                                 <div class="disqus_body">
                                     <div class="disqus_header">
-                                        <span class="disqus_nickname" style="color:{{ disqus.color }};">{{ disqus.nickname }}</span>
+                                        <span class="disqus_nickname" style="color:{{ disqus.color|safe }};">{{ disqus.nickname }}</span>
                                         <span class="disqus_username">（{{ disqus.username }}）</span><br/>
                                         <span class="disqus_time">{{ disqus.time }}</span>
                                     </div>
@@ -213,7 +213,7 @@ Technology</a>
                             </div>
                             <div class="form-group">
                                 <label>Nickname color:(Optional)</label>
-                                <input type="color" name="color" value="#ff9911">
+                                <input type="input" name="color" value="#ff9911" style="color:black;">
                             </div>
                         </div>
                         <center>
@@ -252,13 +252,10 @@ Technology</a>
     </section>
 </footer>
 
-<script type='text/javascript'
-        src='https://www.stanford.edu/wp-content/plugins/awesome-weather-pro/js/awesome-weather-widget-frontend.js?ver=1.1'></script>
-<script type='text/javascript'
-        src='https://www.stanford.edu/wp-content/plugins/awesome-weather-pro/js/js-cookie.js?ver=1.1'></script>
-<script type='text/javascript'
-        src='../bin/master.min.js'></script>
-<script type='text/javascript' src='https://www.stanford.edu/wp-includes/js/wp-embed.min.js?ver=4.9.9'></script>
+<script src='/bin/awesome-weather-widget-frontend.js'></script>
+<script src='/bin/js-cookie.js'></script>
+<script src='/bin/master.min.js'></script>
+<script src='/bin/wp-embed.min.js'></script>
 
 </body>
 </html>
