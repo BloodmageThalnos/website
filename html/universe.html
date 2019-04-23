@@ -3,10 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <title>Universe simulation</title>
+    <link rel="stylesheet" href="/bin/universe3d_style.css">
 </head>
 <body style="margin:0;padding:0;overflow:hidden;height: 100%;position: fixed;">
+    <div class="container" id="baaar">
+        <div style="color:white;font-size:2em;text-align:center;">Loading...</div><br/>
+        <div class="progress">
+          <div class="progress-bar" id="baar">
+    </div></div></div>
+    <script src="/bin/jquery.js"></script>
+    <script>
+        function getColor(rangePct){
+            var lower = { pct: 0.0, color: { r: 0xf7, g: 0x3a, b: 0x0f } };
+            var upper = { pct: 1.0, color: { r: 0x86, g: 0xe0, b: 0x1e } };
+            var pctLower = 1 - rangePct;
+            var pctUpper = rangePct;
+            var color = {
+                r: Math.floor(lower.color.r * pctLower + upper.color.r * pctUpper),
+                g: Math.floor(lower.color.g * pctLower + upper.color.g * pctUpper),
+                b: Math.floor(lower.color.b * pctLower + upper.color.b * pctUpper)
+            };
+            return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
+            // or output as hex if preferred
+        }
+        nowtime = percent = document_readystate = 0;
+        loadinginterval = setInterval(()=>{
+            if(document_readystate) {
+                clearInterval(loadinginterval);
+                return;
+            }
+            nowtime += 100;
+            // 前30秒匀加速前60%，然后每100毫秒向前0.6%。
+            if(nowtime < 30000){
+                percent = Math.round(nowtime / 1000 * 2);
+            }
+            else{
+                percent = percent + (100-percent)*0.006;
+            }
+            $('#baar').css('width',percent + '%').css('background-color',getColor(percent/100));
+        },100);
+        $(document).ready(()=>{
+            $('#baar').css('width','100%').css('background-color',getColor(1));
+            document_readystate = true;
+            setTimeout(()=>{$('#baaar').remove();
+            console.log('load ok.');
+            animationStop = false;},1200);
+        });
+    </script>
 </body>
-<script src="/bin/jquery.js"></script>
 <script src="/bin/three.min.js"></script>
 <script src="/bin/OrbitControls.js"></script>
 <script src="/bin/underscore-min.js"></script>
@@ -284,7 +328,7 @@
         }
         */
         // render
-        var animationStop = false;
+        var animationStop = true;
         var render = function () {
             //raycaster.setFromCamera( mouse, camera, 0, 100 );
 
@@ -324,7 +368,7 @@
                 }
             }
         });
-        ajaxnext(0);
+        //ajaxnext(0);
         //animations
         function animation() {
             if(animationStop) return;
