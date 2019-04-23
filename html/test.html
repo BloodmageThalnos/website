@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Animated Progress Bar</title>
+    <script src="/bin/jquery.js"></script>
+</head>
+<body>
+    <link rel="stylesheet" href="/bin/universe3d_style.css">
+    <div class="container">
+        <div style="color:white;font-size:2em;text-align:center;">Loading...</div><br/>
+        <div class="progress">
+          <div class="progress-bar" id="baar">
+    </div></div></div>
+    <script>
+        function getColor(rangePct){
+            var lower = { pct: 0.0, color: { r: 0xf7, g: 0x3a, b: 0x0f } };
+            var upper = { pct: 1.0, color: { r: 0x86, g: 0xe0, b: 0x1e } };
+            var pctLower = 1 - rangePct;
+            var pctUpper = rangePct;
+            var color = {
+                r: Math.floor(lower.color.r * pctLower + upper.color.r * pctUpper),
+                g: Math.floor(lower.color.g * pctLower + upper.color.g * pctUpper),
+                b: Math.floor(lower.color.b * pctLower + upper.color.b * pctUpper)
+            };
+            return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
+            // or output as hex if preferred
+        }
+        nowtime = 0;
+        setInterval(()=>{
+            nowtime += 100;
+            // 前30秒匀加速前60%，然后每100毫秒向前0.6%。
+            if(nowtime < 30000){
+                percent = Math.round(nowtime / 1000 * 2);
+            }
+            else{
+                percent = percent + (100-percent)*0.006;
+            }
+            $('#baar').css('width',percent + '%').css('background-color',getColor(percent/100));
+            console.log(percent);
+            console.log(getColor(percent/100));
+        },100);
+        $(window).on("load",()=>{
+            $('#baar').css('width','100%').css('background-color',getColor(1));
+            $('progress').delay(10000).hide();
+        })
+    </script>
+</body>
+</html>
