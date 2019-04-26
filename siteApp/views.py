@@ -1,10 +1,13 @@
 import logging
 import json
+import os
+
 from django.http import *
 from django.template import loader
 from django.contrib.auth import login
 import subprocess
 from .models import *
+import datetime
 
 from django.shortcuts import render
 
@@ -78,3 +81,17 @@ def showDebug(request, path):
         )
 
     return HttpResponse('502 error.')
+
+
+def showLife(request):
+    template=loader.get_template('life.html')
+    content = open('./life/life.html', encoding='utf-8').read()
+    context={'content':content}
+    return HttpResponse(template.render(context,request))
+
+def saveLife(request):
+    content = request.POST.get('content')
+    os.rename('./life/life.html',datetime.datetime.now().strftime('./life/life-%y%m%d%H%M%S.html'))
+    with open('./life/life.html', mode="r") as f:
+        f.write(content)
+    return HttpResponse('保存成功。')

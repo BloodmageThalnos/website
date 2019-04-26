@@ -1,0 +1,98 @@
+.t-div{
+    position: relative;
+    overflow: hidden;
+    padding-top: 60px;
+    /*DEBUG*/
+    /*background-color: #abfecd;*/
+
+}
+.t-verbar{
+    height: 1000px;
+    width: 2px;
+    position: absolute;
+    left: 25%;
+    top: 0;
+    background-color: #e2e7ed;
+    z-index: 0;
+    content: " ";
+}
+.t-event{
+    min-height: 60px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 0;
+    display: flex;
+    overflow: initial;
+    /*DEBUG*/
+    /*background-color: #fff1a0;*/
+}
+.t-event-day{
+    margin-bottom: 10px;
+    overflow: initial;
+}
+.t-e-left{
+    flex: 1;
+    text-align: right;
+    text-align: -moz-right;
+    text-align: -webkit-right;
+}
+.t-e-right{
+    flex: 3;
+}
+.t-e-left-day{
+    padding-right: 50px;
+}
+.t-e-right-day{
+    padding-left: 50px;
+    color: #075875;
+    font-weight: bold;
+    font-size: 20px;
+}
+.t-e-left-event{
+    padding-right: 30px;
+}
+.t-e-right-event{
+    padding-left: 30px;
+}
+.t-menu{
+    position: absolute;
+    transform: translate3d(0px, 38px, 0px);
+    top: 0;
+    left: calc(25%);
+    will-change: transform;
+    font-size: 16px;
+}
+.t-e-ball{
+    position: absolute;
+}
+.ball-day{
+    left: calc(25% - 13px + 1px);
+    top: 3px;
+    width: 26px;
+    height: 26px;
+    background-color: #4867e9;
+    border: 1px solid #fff;
+    border-radius: 50%;
+}
+.ball-event{
+    left: calc(25% - 8px + 1px);
+    top: 5px;
+    width: 16px;
+    height: 16px;
+    background-color: #93989e;
+    border: 1px solid #fff;
+    border-radius: 50%;
+}
+
+.event-title{
+    color: #202020;
+    font-weight: 600;
+    font-size: 18px;
+}
+.event-descript{
+    margin-top: 8px;
+    margin-bottom: 15px;
+    color: #444444;
+    font-weight: 400;
+    font-size: 16px;
+}
