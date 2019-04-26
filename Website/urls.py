@@ -40,6 +40,10 @@ urlpatterns = [
     path('postDisqus', mainViews.postDisqus),
     re_path('^disqus/?$', mainViews.showDisqus),
 
+    # life app
+    path('life', siteViews.showLife),
+    path('savelife', siteViews.saveLife),
+
     # site management
     path('__admin__/upload', siteViews.showUploadArticle),
     path('__debug__/<slug:path>', siteViews.showDebug),
