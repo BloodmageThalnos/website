@@ -7,3 +7,4 @@ db.sqlite3
 /source/*
 *_secret.*
 /static/planet/*
+/life/*

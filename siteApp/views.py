@@ -2,14 +2,18 @@ import logging
 import json
 import os
 
+from django.contrib.auth.models import User
 from django.http import *
 from django.template import loader
 from django.contrib.auth import login
 import subprocess
 from .models import *
+from hashlib import sha256
 import datetime
 
 from django.shortcuts import render
+
+logger = logging.getLogger(__name__)
 
 def showRoot(request):
     template = loader.get_template('root.html')
@@ -83,15 +87,34 @@ def showDebug(request, path):
     return HttpResponse('502 error.')
 
 
-def showLife(request):
-    template=loader.get_template('life.html')
-    content = open('./life/life.html', encoding='utf-8').read()
-    context={'content':content}
-    return HttpResponse(template.render(context,request))
+def showLife(request, path):
+    if not User.objects.filter(username__exact=path).count():
+        return HttpResponseNotFound('扫开法庭')
+    if request.user.is_authenticated:
+        template=loader.get_template('life.html')
+        if not os.path.exists('./life/life_'+path+'.html'):
+            from shutil import copyfile
+            copyfile('./life/example.html','./life/life_'+path+'.html')
+        content = open('./life/life_'+path+'.html', encoding='gbk').read()
+        context={'content':content}
+        if request.user.username == path:
+            context['saveid']=sha256((request.user.username+str(request.user.id)).encode()).hexdigest()[16:48]
+        return HttpResponse(template.render(context,request))
+    else:
+        return HttpResponseRedirect('/login?next=/life/'+path)
 
 def saveLife(request):
+    saveid = request.POST.get('saveid')
     content = request.POST.get('content')
-    os.rename('./life/life.html',datetime.datetime.now().strftime('./life/life-%y%m%d%H%M%S.html'))
-    with open('./life/life.html', mode="r") as f:
+    if saveid != sha256((request.user.username+str(request.user.id)).encode()).hexdigest()[16:48]:
+        logger.error('Somebody tried to save without authentication.')
+        logger.error(content)
+        return HttpResponse('保存失败，登录状态出现问题，或没有权限。')
+    path = request.user.username
+    try:
+        os.rename('./life/life_'+path+'.html',datetime.datetime.now().strftime('./life/life_'+path+'-%y%m%d%H%M%S.html'))
+    except:
+        pass
+    with open('./life/life_'+path+'.html', mode="w", encoding="GBK") as f:
         f.write(content)
     return HttpResponse('保存成功。')

@@ -1,6 +1,7 @@
 Controller = new function () {
     this.days = [];
     this.events = [];
+    this.saveid = 0;
     this.initFromDOM = () => {
         this.days = [];
         this.events = [];
@@ -61,6 +62,7 @@ Controller = new function () {
         this.events.push(event);
     };
     this.createEventFromEvent = obj => {
+        this.initFromDOM();
         let eventid = $(obj).prop('id');
         let day = this.events.find(val => val.id == eventid).day;
         let event = new Event('', true, true, '', '');
@@ -112,9 +114,9 @@ Controller = new function () {
                 '</div>' +
                 '<div class="t-e-ball ball-day" onclick="return showMenu(this);"></div>' +
                 '<div class="t-menu dropdown-menu">' +
-                '<span class="dropdown-item" onclick="/*Controller.initFromDOM();*/Controller.createEvent(this);Controller.updateDOM();">Add Event</span>' +
-                '<span class="dropdown-item" onclick="/*Controller.initFromDOM();*/Controller.createDay();Controller.updateDOM();">Add Day</span>' +
-                '<span class="dropdown-item" onclick="/*Controller.initFromDOM();*/Controller.deleteDay(this);Controller.updateDOM();">Delete Day</span>' +
+                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createEvent(this);Controller.updateDOM();">Add Event</span>' +
+                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createDay();Controller.updateDOM();">Add Day</span>' +
+                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.deleteDay(this);Controller.updateDOM();">Delete Day</span>' +
                 '</div>' +
                 '<div class="t-e-right">' +
                 '<div class="t-e-right-day" contenteditable="true">' +
@@ -133,8 +135,8 @@ Controller = new function () {
                     '</div>' +
                     '<div class="t-e-ball ball-event" onclick="return showMenu(this);"></div>' +
                     '<div class="t-menu dropdown-menu">' +
-                    '<span class="dropdown-item" onclick="/*Controller.initFromDOM();*/Controller.deleteEvent(this);Controller.updateDOM();">Delete Event</span>' +
-                    '<span class="dropdown-item" onclick="/*Controller.initFromDOM();*/Controller.addDescription(this);Controller.updateDOM();">Add Description</span>' +
+                    '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.deleteEvent(this);Controller.updateDOM();">Delete Event</span>' +
+                    '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.addDescription(this);Controller.updateDOM();">Add Description</span>' +
                     '</div>' +
                     '<div class="t-e-right">' +
                     '<div class="t-e-right-event">' +
@@ -160,12 +162,12 @@ Controller = new function () {
             let eventid = this.events[i].id;
 
             // 在事件标题中按回车，添加事件
-            $('#' + eventid).keypress(function (event) {
+            $('#' + eventid).find('.event-title').keypress(function (event) {
                 var keynum = (event.keyCode ? event.keyCode : event.which);
                 if (keynum == 13) {
-                    alert('You pressed a "Enter" key in somewhere');
+                    // alert('You pressed a "Enter" key in somewhere');
                     //console.log(this);
-                    Controller.createEventFromEvent(this);
+                    Controller.createEventFromEvent($('#' + eventid));
                     return false;
                 }
             });
@@ -249,6 +251,7 @@ function Event(name, hasdesc, canedit, desc, time) {
 }
 
 
+buttonClicked = false;
 function showMenu(obj) {
     buttonClicked = true;
     let a = $(obj).next();
@@ -272,10 +275,15 @@ $('body').on('click', event => {
 });
 
 $('#logo').on('click', event=>{
+    // 保存
+    Controller.initFromDOM();
+    Controller.updateAll();
+    Controller.updateDOM();
     var formData = new FormData();
     formData.append("content", $('#t-div').html());
+    formData.append("saveid", Controller.saveid);
     $.ajax({
-        url: '/savefile',
+        url: '/savelife',
         type: 'post',
         data: formData,
         processData: false,
