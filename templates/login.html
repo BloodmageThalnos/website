@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Time flow, time flew.</title>
+    <title>Login to littledva.</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel='dns-prefetch' href='//s.w.org'/>
@@ -10,7 +10,6 @@
     <link rel='stylesheet' href='/bin/bootstrap.min.css' type='text/css' media='all'/>
     <link rel='stylesheet' id='bootstrap-css-css' href='/bin/bootstrap.css' type='text/css' media='all'/>
     <link rel='stylesheet' id='base-css-css' href='/bin/article_base.css' type='text/css' media='all'/>
-    <link rel='stylesheet' href='/bin/life_base.css' type='text/css' media='all'/>
     <script type='text/javascript' src='/bin/jquery_1.12.4.js'></script>
     <script type='text/javascript' src='/bin/jquery_migrate_1.4.1.js'></script>
     <script type='text/javascript' src='/bin/picturefill_3.0.2.js'></script>
@@ -32,7 +31,7 @@
                         <div id="signature">
                             <div id="site-name">
                                 <a href="/articles" data-ga-action="site-name"><span
-                                        id="site-name-1">TimeFlow</span></a>
+                                        id="site-name-1">Account</span></a>
                             </div>
                         </div>
                     </div>
@@ -41,9 +40,40 @@
         </div>
 
         <div class="container">
-            <div class="t-div" id="t-div">
-                {{ content|safe }}
+        {% if user.is_authenticated %}
+            <div style="text-align: center; font-size: 30px;">You have logged in as {{ user.username }}, <a href="/dologout?next=/login">click</a> to logout.</div>
+        {% else %}
+            <div style="text-align: center; font-size: 40px;">Login or Register</div>
+            <div class="col-sm-12 col-md-6 col-lg-6" style="margin: auto; padding-top: 50px;">
+                <form action="/dologin" method="POST" class="form-group" style="max-width: 400px; margin: auto;">
+                {% if next %}
+                    <input style="display:none;" name="next" value="{{ next }}">
+                {% endif %}
+                    <label>Username</label>
+                    <input class="form-control" name="name">
+                    <label>Password</label>
+                    <input type="password" class="form-control" name="password">
+                    <center><button type="submit" class="btn-u" style="margin: 10px auto;">Login</button></center>
+                </form>
             </div>
+            <div class="col-sm-12 col-md-6 col-lg-6" style="margin: auto; padding-top: 50px;">
+                <form action="/doregister" method="POST" class="form-group" style="max-width: 400px; margin: auto;" onsubmit="if($('#pwd').val()!==$('#pwd2').val()){alert('两次密码不一致！');return false;}">
+                {% if nextpage %}
+                    <input style="display:none;" name="next" value="{{ nextpage }}">
+                {% endif %}
+                    <label>Username</label>
+                    <input class="form-control" name="name">
+                    <label>Password</label>
+                    <input type="password" class="form-control" id="pwd" name="password">
+                    <label>Password again</label>
+                    <input type="password" class="form-control" id="pwd2">
+                    {% if regerror %}
+                    <label style="color:red;">{{ regerrormsg }}</label>
+                    {% endif %}
+                    <center><button type="submit" class="btn-u" style="margin: 10px auto;">Register</button></center>
+                </form>
+            </div>
+        {% endif %}
         </div>
     </div>
 </div>
@@ -80,8 +110,6 @@
 <script type='text/javascript' src='/bin/modernizr.js'></script>
 <script type='text/javascript' src='/bin/bootstrap.js'></script>
 <script type='text/javascript' src='/bin/base.js'></script>
-<script type='text/javascript' src='/bin/life_base.js'></script>
 <script type='text/javascript' src='/bin/wp-embed.min.js'></script>
-<script>setTimeout(()=>{Controller.saveid='{{ saveid }}';},1000);</script>
 </body>
 </html>

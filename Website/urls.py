@@ -5,6 +5,7 @@ from TexasAPP import views as texasViews
 from captchaApp import views as captViews
 from siteApp import views as siteViews
 from mainApp import views as mainViews
+from loginApp import views as loginViews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -41,8 +42,14 @@ urlpatterns = [
     re_path('^disqus/?$', mainViews.showDisqus),
 
     # life app
-    path('life', siteViews.showLife),
+    path('life/<slug:path>', siteViews.showLife),
     path('savelife', siteViews.saveLife),
+
+    # login app
+    path('login', loginViews.showLoginPage),
+    path('dologin', loginViews.doLogin),
+    path('doregister', loginViews.doRegister),
+    path('dologout', loginViews.doLogout),
 
     # site management
     path('__admin__/upload', siteViews.showUploadArticle),
