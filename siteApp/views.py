@@ -92,10 +92,18 @@ def showLife(request, path):
         return HttpResponseNotFound('扫开法庭')
     if request.user.is_authenticated:
         template=loader.get_template('life.html')
-        if not os.path.exists('./life/life_'+path+'.html'):
-            from shutil import copyfile
-            copyfile('./life/example.html','./life/life_'+path+'.html')
-        content = open('./life/life_'+path+'.html', encoding='gbk').read()
+        use = request.GET.get('use_saved')
+        if use is not None:
+            if not use.startswith('life_'+path):
+                return HttpResponse('扫开大法庭')
+            if not os.path.exists('./life/'+use):
+                return HttpResponse('扫开二法庭' + use)
+            content = open('./life/'+use, encoding='gbk').read()
+        else:
+            if not os.path.exists('./life/life_'+path+'.html'):
+                from shutil import copyfile
+                copyfile('./life/example.html','./life/life_'+path+'.html')
+            content = open('./life/life_'+path+'.html', encoding='gbk').read()
         context={'content':content}
         if request.user.username == path:
             context['saveid']=sha256((request.user.username+str(request.user.id)).encode()).hexdigest()[16:48]
@@ -106,15 +114,36 @@ def showLife(request, path):
 def saveLife(request):
     saveid = request.POST.get('saveid')
     content = request.POST.get('content')
+    auto = request.POST.get('auto')
     if saveid != sha256((request.user.username+str(request.user.id)).encode()).hexdigest()[16:48]:
         logger.error('Somebody tried to save without authentication.')
         logger.error(content)
         return HttpResponse('保存失败，登录状态出现问题，或没有权限。')
-    path = request.user.username
-    try:
-        os.rename('./life/life_'+path+'.html',datetime.datetime.now().strftime('./life/life_'+path+'-%y%m%d%H%M%S.html'))
-    except:
-        pass
-    with open('./life/life_'+path+'.html', mode="w", encoding="GBK") as f:
-        f.write(content)
+
+    username = request.user.username
+
+    # 每个用户只保存50个auto和50个手动
+    # TODO: 此操作应设为脚本，而不是每次保存时调用
+    life = sorted([x for x in os.listdir('./life') if x.startswith('life_'+username+'-')],key=lambda x:os.path.getmtime('./life/'+x), reverse=True)
+    lifeauto = sorted([x for x in os.listdir('./life') if x.startswith('life_'+username+'_')],key=lambda x:os.path.getmtime('./life/'+x), reverse=True)
+    if len(life) > 1:
+        for i in range(1,len(life)):
+            os.remove('./life/'+life[i])
+    if len(lifeauto)>1:
+        for i in range(1,len(lifeauto)):
+            os.remove('./life/'+lifeauto[i])
+
+    if auto == '1':
+        with open(datetime.datetime.now().strftime('./life/life_'+username+'_自动保存-%y%m%d%H%M%S.html'), mode="w", encoding="GBK") as f:
+            f.write(content)
+    else:
+        try:
+            os.rename('./life/life_'+username+'.html',datetime.datetime.now().strftime('./life/life_'+username+'-%y%m%d%H%M%S.html'))
+        except:
+            pass
+        with open('./life/life_'+username+'.html', mode="w", encoding="GBK") as f:
+            f.write(content)
     return HttpResponse('保存成功。')
+
+def showLifeList(request):
+    pass

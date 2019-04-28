@@ -54,4 +54,6 @@ def doRegister(request):
         return HttpResponse(template.render(context,request))
     else:
         User.objects.create_user(username=name, password=password, email='')
+        user=authenticate(request,username=name,password=password)
+        login(request,user)
         return HttpResponseRedirect(nextpage if nextpage else '/home')
