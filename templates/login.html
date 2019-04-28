@@ -53,13 +53,16 @@
                     <input class="form-control" name="name">
                     <label>Password</label>
                     <input type="password" class="form-control" name="password">
+                    {% if logerror %}
+                    <label style="color:red;">{{ logerrormsg }}</label>
+                    {% endif %}
                     <center><button type="submit" class="btn-u" style="margin: 10px auto;">Login</button></center>
                 </form>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6" style="margin: auto; padding-top: 50px;">
                 <form action="/doregister" method="POST" class="form-group" style="max-width: 400px; margin: auto;" onsubmit="if($('#pwd').val()!==$('#pwd2').val()){alert('两次密码不一致！');return false;}">
-                {% if nextpage %}
-                    <input style="display:none;" name="next" value="{{ nextpage }}">
+                {% if next %}
+                    <input style="display:none;" name="next" value="{{ next }}">
                 {% endif %}
                     <label>Username</label>
                     <input class="form-control" name="name">

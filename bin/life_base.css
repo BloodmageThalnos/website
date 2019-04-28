@@ -17,7 +17,7 @@
     content: " ";
 }
 .t-event{
-    min-height: 60px;
+    min-height: 40px;
     position: relative;
     overflow: hidden;
     margin-top: 0;

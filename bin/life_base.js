@@ -173,6 +173,36 @@ Controller = new function () {
             });
         }
     };
+    this.save = (type='auto') => {
+        // 无保存权限的页面
+        if(!Controller.saveid) return;
+        // 保存
+        Controller.initFromDOM();
+        Controller.updateAll();
+        Controller.updateDOM();
+        var formData = new FormData();
+        formData.append("content", $('#t-div').html());
+        formData.append("saveid", Controller.saveid);
+        if(type === 'auto') {
+            formData.append("autosave", "1");
+        }
+        $.ajax({
+            url: '/savelife',
+            type: 'post',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (msg) {
+                if(type === 'auto'){
+                    console.log('自动保存 '+Date(Date.now()));
+                    console.log(msg);
+                }else {
+                    alert(msg);
+                }
+            }
+        });
+        return false;
+    };
     this._id = 100;
     this.getid = () => {
         return ++this._id;
@@ -274,27 +304,13 @@ $('body').on('click', event => {
     return false;
 });
 
-$('#logo').on('click', event=>{
-    // 保存
-    Controller.initFromDOM();
-    Controller.updateAll();
-    Controller.updateDOM();
-    var formData = new FormData();
-    formData.append("content", $('#t-div').html());
-    formData.append("saveid", Controller.saveid);
-    $.ajax({
-        url: '/savelife',
-        type: 'post',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (msg) {
-            alert(msg);
-        }
-    });
-    return false;
-});
+$('#logo').on('click', Controller.save);        // 手动保存
+setInterval(Controller.save, 60000);            // 自动保存
+$(window).unload(Controller.save);              // 关闭网站时自动保存
 
+var hiddenProperty = 'hidden' in document ? 'hidden' :'webkitHidden' in document ? 'webkitHidden' : 'mozHidden' in document ? 'mozHidden' : null;
+var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');
+document.addEventListener(visibilityChangeEvent, event => document[hiddenProperty] && Controller.save());
 
 $(() => {
     Controller.initFromDOM();
