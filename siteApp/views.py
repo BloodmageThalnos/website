@@ -176,7 +176,7 @@ def showLifeList(request):
     if len(lifeauto)>AUTO_SAVE_MAX:
         for i in range(AUTO_SAVE_MAX,len(lifeauto)):
             os.remove('./life/'+lifeauto[i])
-    lifemerge = sorted(life+lifeauto, key=lambda x: os.path.getmtime('./life/'+x), reverse=True)
+    lifemerge = sorted(life[:SAVE_MAX]+lifeauto[:AUTO_SAVE_MAX], key=lambda x: os.path.getmtime('./life/'+x), reverse=True)
     ret['success']='true'
     ret['length']=len(lifemerge)
     for i in range(len(lifemerge)):

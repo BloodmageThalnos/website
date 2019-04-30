@@ -2,6 +2,12 @@ Controller = new function () {
     this.days = [];
     this.events = [];
     this.saveid = 0;
+    this.init = () => {
+        $('#settings-save').on('click', Controller.save);                   // 手动保存
+        setTimeout(setInterval, 1000000, Controller.try_auto_save, 300000);              // 每5分钟自动保存一次。
+        $(window).unload(Controller.save);                                  // 关闭网站时自动保存
+        Controller.setCloseEvent(3000000);                                  // 标签页失去焦点的时候自动保存一次，冷却时间5分钟、
+    };
     this.initFromDOM = () => {
         this.days = [];
         this.events = [];
@@ -13,7 +19,8 @@ Controller = new function () {
                 // continue;
             } else if (dom.hasClass('t-event-day')) {
                 let day = new Day(
-                    /*Date*/dom.find('.t-e-right-day')[0].innerHTML
+                    /*Date*/dom.find('.t-e-right-day')[0].innerHTML,
+                    /*Id*/dom.prop('id')?parseInt(dom.prop('id')):0
                 );
                 this.days.push(day);
                 lastday = day;
@@ -33,7 +40,8 @@ Controller = new function () {
                     /*HasDesc*/hasdesc,
                     /*canEdit*/true,
                     /*Desc*/desc,
-                    /*Time*/dom.find('.t-e-left-event')[0].innerHTML
+                    /*Time*/dom.find('.t-e-left-event')[0].innerHTML,
+                    /*Id*/dom.prop('id')?parseInt(dom.prop('id')):0
                 );
                 event.day = lastday;
                 this.events.push(event);
@@ -101,6 +109,56 @@ Controller = new function () {
         }
     };
     this.updateDOM = () => {
+        const getCaretPosition = function (element) {
+            var caretOffset = 0;
+            var doc = element.ownerDocument || element.document;
+            var win = doc.defaultView || doc.parentWindow;
+            var sel;
+            if (typeof win.getSelection != "undefined") {//谷歌、火狐
+            sel = win.getSelection();
+            if (sel.rangeCount > 0) {//选中的区域
+              var range = win.getSelection().getRangeAt(0);
+              var preCaretRange = range.cloneRange();//克隆一个选中区域
+              preCaretRange.selectNodeContents(element);//设置选中区域的节点内容为当前节点
+              preCaretRange.setEnd(range.endContainer, range.endOffset);  //重置选中区域的结束位置
+              caretOffset = preCaretRange.toString().length;
+            }
+            } else if ((sel = doc.selection) && sel.type !== "Control") {//IE
+            var textRange = sel.createRange();
+            var preCaretTextRange = doc.body.createTextRange();
+            preCaretTextRange.moveToElementText(element);
+            preCaretTextRange.setEndPoint("EndToEnd", textRange);
+            caretOffset = preCaretTextRange.text.length;
+            }
+            return caretOffset;
+        };//获取当前光标位置
+        const setCaretPosition = function (element, pos) {
+            var range, selection;
+            if (document.createRange)//Firefox, Chrome, Opera, Safari, IE 9+
+            {
+            range = document.createRange();//创建一个选中区域
+            range.selectNodeContents(element);//选中节点的内容
+            if(element.innerHTML.length > 0) {
+              range.setStart(element.childNodes[0], pos); //设置光标起始为指定位置
+            }
+            range.collapse(true);       //设置选中区域为一个点
+            selection = window.getSelection();//获取当前选中区域
+            selection.removeAllRanges();//移出所有的选中范围
+            selection.addRange(range);//添加新建的范围
+            }
+            else if (document.selection)//IE 8 and lower
+            {
+            range = document.body.createTextRange();//Create a range (a range is a like the selection but invisible)
+            range.moveToElementText(element);//Select the entire contents of the element with the range
+            range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+            range.select();//Select the range (make it the visible selection
+            }
+        };//设置光标位置
+        let caretDiv = $(document.activeElement).prop('id');
+        let caretPos = getCaretPosition(document.activeElement);
+        console.log(caretDiv);
+        console.log(caretPos);
+
         let alldiv = '<div class="t-verbar"></div>';
         for (let i = 0; i < this.days.length; i++) {
             let day = this.days[i];
@@ -112,14 +170,14 @@ Controller = new function () {
                 '<div class="t-e-left-day">' +
                 '</div>' +
                 '</div>' +
-                '<div class="t-e-ball ball-day" onclick="return showMenu(this);"></div>' +
+                '<div class="t-e-ball ball-day" onclick="return Menu.show(this);"></div>' +
                 '<div class="t-menu dropdown-menu">' +
                 '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createEvent(this);Controller.updateDOM();">Add Event</span>' +
                 '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createDay();Controller.updateDOM();">Add Day</span>' +
                 '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.deleteDay(this);Controller.updateDOM();">Delete Day</span>' +
                 '</div>' +
                 '<div class="t-e-right">' +
-                '<div class="t-e-right-day" contenteditable="true">' +
+                '<div class="t-e-right-day" contenteditable="true" id="' + day.id + '_day">' +
                 day.date +
                 '</div>' +
                 '</div>' +
@@ -129,23 +187,23 @@ Controller = new function () {
                 let eventdiv =
                     '<div class="t-event" id="' + event.id + '">' +
                     '<div class="t-e-left">' +
-                    '<div class="t-e-left-event" ' + (event.canEdit ? 'contenteditable="true"' : '') + '>' +
+                    '<div class="t-e-left-event" ' + (event.canEdit ? 'contenteditable="true"' : '') + ' id="' + event.id + '_event">' +
                     event.time +
                     '</div>' +
                     '</div>' +
-                    '<div class="t-e-ball ball-event" onclick="return showMenu(this);"></div>' +
+                    '<div class="t-e-ball ball-event" onclick="return Menu.show(this);"></div>' +
                     '<div class="t-menu dropdown-menu">' +
                     '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.addDescription(this);Controller.updateDOM();">Add Description</span>' +
                     '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.deleteEvent(this);Controller.updateDOM();">Delete Event</span>' +
                     '</div>' +
                     '<div class="t-e-right">' +
                     '<div class="t-e-right-event">' +
-                    '<div class="event-title"' + (event.canEdit ? 'contenteditable="true"' : '') + '>' +
+                    '<div class="event-title"' + (event.canEdit ? 'contenteditable="true"' : '') + ' id="' + event.id + '_title">' +
                     event.name +
                     '</div>' +
                     (
                         !event.hasDesc ? '' :
-                            '<div class="event-descript"' + (event.canEdit ? 'contenteditable="true"' : '') + '>' +
+                            '<div class="event-descript"' + (event.canEdit ? 'contenteditable="true"' : '') + ' id="' + event.id + '_des">' +
                             event.desc +
                             '</div>'
                     ) +
@@ -164,6 +222,7 @@ Controller = new function () {
             // 在事件标题中按回车，添加事件，并修改焦点
             $('#' + eventid).find('.event-title').keypress(function (event) {
                 var keynum = (event.keyCode ? event.keyCode : event.which);
+                Controller._last_input = Date.now();
                 if (keynum == 13) {
                     // alert('You pressed a "Enter" key in somewhere');
                     //console.log(this);
@@ -175,6 +234,7 @@ Controller = new function () {
             $('#' + eventid).find('.event-descript').keypress(function (event) {
                 // console.log(event);
                 var keynum = (event.keyCode ? event.keyCode : event.which);
+                Controller._last_input = Date.now();
                 if (keynum == 10 && event.ctrlKey) {
                     console.log('You pressed a "Ctrl+Enter" key in somewhere');
                     //console.log(this);
@@ -183,7 +243,13 @@ Controller = new function () {
                 }
             });
         }
+
+        if(caretDiv){
+            setCaretPosition(document.getElementById(caretDiv), caretPos);
+        }
     };
+    this._last_input = Date.now();
+    this._last_save = Date.now();
     this.save = (type='auto') => {
         // 无保存权限的页面
         if(!Controller.saveid) return;
@@ -213,7 +279,39 @@ Controller = new function () {
                 }
             }
         });
-        return false;
+        this._last_save = Date.now();
+        // return false;
+    };
+    this.try_auto_save = () => {
+        // 此函数用于自动保存
+        // 由于各种原因，我们不希望用户正在输入的过程中执行保存操作。
+        // 因此当自动保存事件触发时，如果用户正在输入，则执行CSMA/CD避让算法。
+        if(Date.now() - this._last_save < 30000){
+            // 30秒内已经保存过一次啦！直接返回
+            return;
+        }
+        if(Date.now() - this._last_input < 15000){
+            // 15秒内刚进行过键盘输入，认为是正在打字，过一会再来试试。
+            setTimeout(this.try_auto_save, 5000)
+        }else{
+            this.save();
+        }
+    };
+    this._visibility_save = true;
+    this.setCloseEvent = lag => {
+        var hiddenProperty = 'hidden' in document ? 'hidden' :'webkitHidden' in document ? 'webkitHidden' : 'mozHidden' in document ? 'mozHidden' : null;
+        var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');
+        document.addEventListener(visibilityChangeEvent, event => {
+            if(document[hiddenProperty]) {
+                if(this._visibility_save) {
+                    this.save();
+                    this._visibility_save = false;
+                    setTimeout(() => {
+                        this._visibility_save = true;
+                    }, lag);
+                }
+            }
+        });
     };
     this._id = 100;
     this.getid = () => {
@@ -221,8 +319,8 @@ Controller = new function () {
     };
 }();
 
-function Day(date) {
-    this.id = Controller.getid();
+function Day(date, id=0) {
+    this.id = id?id:Controller.getid();
     this.date = date;
     this.events = [];
     this.update = () => {
@@ -243,8 +341,8 @@ function Day(date) {
     };
 }
 
-function Event(name, hasdesc, canedit, desc, time) {
-    this.id = Controller.getid();
+function Event(name, hasdesc, canedit, desc, time, id=0) {
+    this.id = id? id :Controller.getid();
     this.name = name;
     this.hasDesc = hasdesc;
     this.canEdit = true;
@@ -327,41 +425,40 @@ Settings = new function (){
     }
 };
 
+Menu = new function() {
+    this.buttonClicked = false;
 
-buttonClicked = false;
-function showMenu(obj) {
-    buttonClicked = true;
-    let a = $(obj).next();
-    if (a.hasClass('show'))
-        a.removeClass('show');
-    else
-        a.addClass('show');
-    return false;
-}
+    this.init = () => {
+        $('body').on('click', event => {
+            // 左边空白处点击时关闭打开的菜单
+            setTimeout(() => {
+                if (this.buttonClicked) {
+                    this.buttonClicked = false;
+                    return;
+                }
+                $('.show').removeClass('show');
+            }, 50);
+        });
+    };
 
-$('body').on('click', event => {
-    // 左边空白处点击时关闭打开的菜单
-    setTimeout(()=>{
-        if (buttonClicked){
-            buttonClicked = false;
-            return;
-        }
-        $('.show').removeClass('show');
-    },50);
-});
-
-$('#settings-save').on('click', Controller.save);        // 手动保存
-setTimeout(setInterval, 100000, Controller.save, 60000);            // 自动保存
-$(window).unload(Controller.save);              // 关闭网站时自动保存
-
-var hiddenProperty = 'hidden' in document ? 'hidden' :'webkitHidden' in document ? 'webkitHidden' : 'mozHidden' in document ? 'mozHidden' : null;
-var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');
-document.addEventListener(visibilityChangeEvent, event => {document[hiddenProperty] && Controller.save()})
+    this.show = obj => {
+        this.buttonClicked = true;
+        let a = $(obj).next();
+        if (a.hasClass('show'))
+            a.removeClass('show');
+        else
+            a.addClass('show');
+        return false;
+    };
+};
 
 $(() => {
+    Controller.init();
     Controller.initFromDOM();
     Controller.updateAll();
     Controller.updateDOM();
+
+    Menu.init();
 
     Settings.initAll();
 });
