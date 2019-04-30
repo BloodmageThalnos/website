@@ -423,7 +423,7 @@ Settings = new function (){
             }
         });
     }
-};
+}();
 
 Menu = new function() {
     this.buttonClicked = false;
@@ -432,8 +432,8 @@ Menu = new function() {
         $('body').on('click', event => {
             // 左边空白处点击时关闭打开的菜单
             setTimeout(() => {
-                if (this.buttonClicked) {
-                    this.buttonClicked = false;
+                if (Menu.buttonClicked) {
+                    Menu.buttonClicked = false;
                     return;
                 }
                 $('.show').removeClass('show');
@@ -450,7 +450,7 @@ Menu = new function() {
             a.addClass('show');
         return false;
     };
-};
+}();
 
 $(() => {
     Controller.init();

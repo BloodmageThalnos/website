@@ -61,6 +61,7 @@
     left: calc(25%);
     will-change: transform;
     font-size: 16px;
+    cursor:default;
 }
 .t-e-ball{
     position: absolute;
