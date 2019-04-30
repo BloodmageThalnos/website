@@ -96,3 +96,28 @@
     font-weight: 400;
     font-size: 16px;
 }
+.t-settings{
+    width: 240px;
+    position: absolute;
+    top: 54px;
+    z-index: 99;
+    display: none;
+}
+.t-settings-right{
+    width: 240px;
+    position: absolute;
+    left: calc(240px - 1px);
+    top: -2px;
+    z-index: 99;
+    display: none;
+}
+.t-settings-ul{
+    color: white;
+}
+.t-settings-li{
+    background-color: #3c3f41;
+}
+.t-settings-li:hover{
+    background-color: black;
+    cursor:default;
+}

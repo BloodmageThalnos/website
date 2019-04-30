@@ -161,7 +161,7 @@ Controller = new function () {
         for (let i = 0; i < this.events.length; i++) {
             let eventid = this.events[i].id;
 
-            // 在事件标题中按回车，添加事件
+            // 在事件标题中按回车，添加事件，并修改焦点
             $('#' + eventid).find('.event-title').keypress(function (event) {
                 var keynum = (event.keyCode ? event.keyCode : event.which);
                 if (keynum == 13) {
@@ -171,9 +171,20 @@ Controller = new function () {
                     return false;
                 }
             });
+            // 写description时Ctrl+Enter也可以添加事件
+            $('#' + eventid).find('.event-descript').keypress(function (event) {
+                var keynum = (event.keyCode ? event.keyCode : event.which);
+                if (keynum == 13 && event.ctrlKey) {
+                    alert('You pressed a "Ctrl+Enter" key in somewhere');
+                    //console.log(this);
+                    Controller.createEventFromEvent($('#' + eventid));
+                    return false;
+                }
+            });
         }
     };
     this.save = (type='auto') => {
+        console.log(type);
         // 无保存权限的页面
         if(!Controller.saveid) return;
         // 保存
@@ -183,11 +194,12 @@ Controller = new function () {
         var formData = new FormData();
         formData.append("content", $('#t-div').html());
         formData.append("saveid", Controller.saveid);
+        formData.append("action", "save");
         if(type === 'auto') {
             formData.append("autosave", "1");
         }
         $.ajax({
-            url: '/savelife',
+            url: '/life/__action',
             type: 'post',
             data: formData,
             processData: false,
@@ -280,6 +292,41 @@ function Event(name, hasdesc, canedit, desc, time) {
     };
 }
 
+Settings = new function (){
+    this.initAll = () => {
+        setTimeout(()=>this.initRollback(), 1200); // saveid will be set after 1000 milliseconds
+    };
+    this.initRollback = () => {
+        if(!Controller.saveid) return;
+        // 保存
+        var formData = new FormData();
+        formData.append("saveid", Controller.saveid);
+        formData.append("action", "rollback");
+        $.ajax({
+            url: '/life/__action',
+            type: 'post',
+            data: formData,
+            processData: false,
+            contentType: false,
+            async: true,
+            success: function (msg) {
+                msg = JSON.parse(msg);
+                if(msg.success == 'false'){
+                    console.log(msg.msg)
+                }
+                else{
+                    content = '<ul class="list-group t-settings-ul">';
+                    for(let i=0;i<parseInt(msg['length']);i++) {
+                        content += '<li class="list-group-item t-settings-li">' + msg['' + i] + '</li>'
+                    }
+                    content += '</ul>'
+                }
+                $('#settings-right-rollback').html(content)
+            }
+        });
+    }
+};
+
 
 buttonClicked = false;
 function showMenu(obj) {
@@ -301,19 +348,20 @@ $('body').on('click', event => {
         }
         $('.show').removeClass('show');
     },50);
-    return false;
 });
 
-$('#logo').on('click', Controller.save);        // 手动保存
-setInterval(Controller.save, 60000);            // 自动保存
+$('#settings-save').on('click', Controller.save);        // 手动保存
+setTimeout(setInterval, 100000, Controller.save, 60000);            // 自动保存
 $(window).unload(Controller.save);              // 关闭网站时自动保存
 
 var hiddenProperty = 'hidden' in document ? 'hidden' :'webkitHidden' in document ? 'webkitHidden' : 'mozHidden' in document ? 'mozHidden' : null;
 var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');
-document.addEventListener(visibilityChangeEvent, event => document[hiddenProperty] && Controller.save());
+document.addEventListener(visibilityChangeEvent, event => {document[hiddenProperty] && Controller.save()})
 
 $(() => {
     Controller.initFromDOM();
     Controller.updateAll();
     Controller.updateDOM();
+
+    Settings.initAll();
 });

@@ -111,10 +111,22 @@ def showLife(request, path):
     else:
         return HttpResponseRedirect('/login?next=/life/'+path)
 
+def lifeAction(request):
+    action = request.POST.get('action')
+    if action is None:
+        return HttpResponse('赛凯阀厅')
+    elif action == 'save':
+        return saveLife(request)
+    elif action == 'rollback':
+        return showLifeList(request)
+
+AUTO_SAVE_MAX = 20
+SAVE_MAX = 30
+
 def saveLife(request):
     saveid = request.POST.get('saveid')
     content = request.POST.get('content')
-    auto = request.POST.get('auto')
+    auto = request.POST.get('autosave')
     if saveid != sha256((request.user.username+str(request.user.id)).encode()).hexdigest()[16:48]:
         logger.error('Somebody tried to save without authentication.')
         logger.error(content)
@@ -126,15 +138,15 @@ def saveLife(request):
     # TODO: 此操作应设为脚本，而不是每次保存时调用
     life = sorted([x for x in os.listdir('./life') if x.startswith('life_'+username+'-')],key=lambda x:os.path.getmtime('./life/'+x), reverse=True)
     lifeauto = sorted([x for x in os.listdir('./life') if x.startswith('life_'+username+'_')],key=lambda x:os.path.getmtime('./life/'+x), reverse=True)
-    if len(life) > 1:
-        for i in range(1,len(life)):
+    if len(life) > SAVE_MAX:
+        for i in range(SAVE_MAX,len(life)):
             os.remove('./life/'+life[i])
-    if len(lifeauto)>1:
-        for i in range(1,len(lifeauto)):
+    if len(lifeauto)>AUTO_SAVE_MAX:
+        for i in range(AUTO_SAVE_MAX,len(lifeauto)):
             os.remove('./life/'+lifeauto[i])
 
     if auto == '1':
-        with open(datetime.datetime.now().strftime('./life/life_'+username+'_自动保存-%y%m%d%H%M%S.html'), mode="w", encoding="GBK") as f:
+        with open(datetime.datetime.now().strftime('./life/life_'+username+'_AUTOSAVE-%y%m%d%H%M%S.html'), mode="w", encoding="GBK") as f:
             f.write(content)
     else:
         try:
@@ -146,4 +158,27 @@ def saveLife(request):
     return HttpResponse('保存成功。')
 
 def showLifeList(request):
-    pass
+    ret = {}
+    saveid = request.POST.get('saveid')
+    if saveid != sha256((request.user.username+str(request.user.id)).encode()).hexdigest()[16:48]:
+        ret['success']='false'
+        ret['msg']='没有权限查看。'
+        return HttpResponse(json.dumps(ret))
+
+    username = request.user.username
+    life=sorted([x for x in os.listdir('./life') if x.startswith('life_'+username+'-')],
+                key=lambda x: os.path.getmtime('./life/'+x),reverse=True)
+    lifeauto=sorted([x for x in os.listdir('./life') if x.startswith('life_'+username+'_')],
+                    key=lambda x: os.path.getmtime('./life/'+x),reverse=True)
+    if len(life)>SAVE_MAX:
+        for i in range(SAVE_MAX,len(life)):
+            os.remove('./life/'+life[i])
+    if len(lifeauto)>AUTO_SAVE_MAX:
+        for i in range(AUTO_SAVE_MAX,len(lifeauto)):
+            os.remove('./life/'+lifeauto[i])
+    lifemerge = sorted(life+lifeauto, key=lambda x: os.path.getmtime('./life/'+x), reverse=True)
+    ret['success']='true'
+    ret['length']=len(lifemerge)
+    for i in range(len(lifemerge)):
+        ret[str(i)]=lifemerge[i]
+    return HttpResponse(json.dumps(ret))
