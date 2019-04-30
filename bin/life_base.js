@@ -135,8 +135,8 @@ Controller = new function () {
                     '</div>' +
                     '<div class="t-e-ball ball-event" onclick="return showMenu(this);"></div>' +
                     '<div class="t-menu dropdown-menu">' +
-                    '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.deleteEvent(this);Controller.updateDOM();">Delete Event</span>' +
                     '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.addDescription(this);Controller.updateDOM();">Add Description</span>' +
+                    '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.deleteEvent(this);Controller.updateDOM();">Delete Event</span>' +
                     '</div>' +
                     '<div class="t-e-right">' +
                     '<div class="t-e-right-event">' +
@@ -173,9 +173,10 @@ Controller = new function () {
             });
             // 写description时Ctrl+Enter也可以添加事件
             $('#' + eventid).find('.event-descript').keypress(function (event) {
+                // console.log(event);
                 var keynum = (event.keyCode ? event.keyCode : event.which);
-                if (keynum == 13 && event.ctrlKey) {
-                    alert('You pressed a "Ctrl+Enter" key in somewhere');
+                if (keynum == 10 && event.ctrlKey) {
+                    console.log('You pressed a "Ctrl+Enter" key in somewhere');
                     //console.log(this);
                     Controller.createEventFromEvent($('#' + eventid));
                     return false;
@@ -184,7 +185,6 @@ Controller = new function () {
         }
     };
     this.save = (type='auto') => {
-        console.log(type);
         // 无保存权限的页面
         if(!Controller.saveid) return;
         // 保存
