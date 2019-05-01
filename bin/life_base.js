@@ -2,16 +2,26 @@ Controller = new function () {
     this.days = [];
     this.events = [];
     this.saveid = 0;
+
     this.init = () => {
         $('#settings-save').on('click', Controller.save);                   // 手动保存
         setTimeout(setInterval, 1000000, Controller.try_auto_save, 300000);              // 每5分钟自动保存一次。
         $(window).unload(Controller.save);                                  // 关闭网站时自动保存
         Controller.setCloseEvent(3000000);                                  // 标签页失去焦点的时候自动保存一次，冷却时间5分钟、
     };
+
     this.initFromDOM = () => {
         this.days = [];
         this.events = [];
         let DOMs = $('#t-div').children();
+        let maxid = 0;
+        for(let i = 0; i < DOMs.length; i++) {
+            dom = $(DOMs[i]);
+            if (dom.prop('id') && parseInt(dom.prop('id'))){
+                maxid = Math.max(maxid,parseInt(dom.prop('id')));
+            }
+        }
+        this._id = maxid;   // id从最大元素id+1开始标起
         let lastday; // 临时存一下day
         for (let i = 0; i < DOMs.length; i++) {
             dom = $(DOMs[i]);
@@ -54,11 +64,13 @@ Controller = new function () {
             }
         }
     };
+
     this.createDay = () => {
         // create day
         let day = new Day('April 24<sup>th</sup>');
         this.days.splice(0, 0, day);
     };
+
     this.createEvent = obj => {
         let dayid = $(obj).closest('.t-event-day').prop('id');
         //console.log(dayid);
@@ -69,6 +81,7 @@ Controller = new function () {
         day.addEvent(event);
         this.events.push(event);
     };
+
     this.createEventFromEvent = obj => {
         this.initFromDOM();
         let eventid = $(obj).prop('id');
@@ -84,7 +97,9 @@ Controller = new function () {
         }
         this.updateDOM();
         $('#' + event.id).find('.event-title').focus();
+        this._last_input = Date.now();
     };
+
     this.deleteEvent = obj => {
         let eventid = $(obj).closest('.t-event').prop('id');
         let event = this.events.find(val => val.id == eventid);
@@ -92,22 +107,26 @@ Controller = new function () {
         this.events = this.events.filter(val => val.id != eventid);
         day.events = day.events.filter(val => val.id != eventid);
     };
+
     this.deleteDay = obj => {
         if (!confirm('是否删除此天的所有内容？！此操作难以恢复。')) return;
         let dayid = $(obj).closest('.t-event-day').prop('id');
         //console.log(dayid);
         this.days = this.days.filter(val => val.id != dayid);
     };
+
     this.addDescription = obj => {
         let eventid = $(obj).closest('.t-event').prop('id');
         let event = this.events.find(val => val.id == eventid);
         event.hasDesc = true;
     };
+
     this.updateAll = () => {
         for (let i = 0; i < this.days.length; i++) {
             this.days[i].update();
         }
     };
+
     this.updateDOM = () => {
         const getCaretPosition = function (element) {
             var caretOffset = 0;
@@ -248,6 +267,7 @@ Controller = new function () {
             setCaretPosition(document.getElementById(caretDiv), caretPos);
         }
     };
+
     this._last_input = Date.now();
     this._last_save = Date.now();
     this.save = (type='auto') => {
@@ -297,6 +317,7 @@ Controller = new function () {
             this.save();
         }
     };
+
     this._visibility_save = true;
     this.setCloseEvent = lag => {
         var hiddenProperty = 'hidden' in document ? 'hidden' :'webkitHidden' in document ? 'webkitHidden' : 'mozHidden' in document ? 'mozHidden' : null;
@@ -313,6 +334,7 @@ Controller = new function () {
             }
         });
     };
+
     this._id = 100;
     this.getid = () => {
         return ++this._id;
@@ -326,11 +348,13 @@ function Day(date, id=0) {
     this.update = () => {
         this.events.sort((a, b) => a.compareTime(b));
     };
+
     this.addEvent = event => {
         this.events.push(event);
         event.day = this;
         this.update();
     };
+
     this.removeEvent = eventid => {
         console.log('Removed event: ');
         console.log(event);
@@ -394,6 +418,7 @@ Settings = new function (){
     this.initAll = () => {
         setTimeout(()=>this.initRollback(), 1200); // saveid will be set after 1000 milliseconds
     };
+
     this.initRollback = () => {
         if(!Controller.saveid) return;
         // 保存
@@ -451,6 +476,21 @@ Menu = new function() {
         return false;
     };
 }();
+
+function MyDate(obj){
+    this._date = obj? obj: new Date();  // js怎么像python那样传可变参数列表呀？好像没研究出来
+
+    this.show = () => {
+        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec'];
+        const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        return months[this._date.getMonth()]+' '+
+            this._date.getDate()+
+            '<sup>'+
+            (this._date.getDate()===1||this._date.getDate()===21?'st':this._date.getDate()===2||this._date.getDate()===22?'nd':this._date.getDate()===3||this._date.getDate()===23?'rd':'th')+
+            +'</sup> '+
+            weekday[this._date.getDay()]
+    }
+}
 
 $(() => {
     Controller.init();
