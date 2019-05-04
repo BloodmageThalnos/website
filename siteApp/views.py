@@ -93,18 +93,21 @@ def showLife(request, path):
     if request.user.is_authenticated:
         template=loader.get_template('life.html')
         use = request.GET.get('use_saved')
+        context = {}
         if use is not None:
             if not use.startswith('life_'+path):
                 return HttpResponse('扫开大法庭')
             if not os.path.exists('./life/'+use):
                 return HttpResponse('扫开二法庭' + use)
             content = open('./life/'+use, encoding='gbk').read()
+            context['use_saved'] = True
+            context['saved_filename'] = use
         else:
             if not os.path.exists('./life/life_'+path+'.html'):
                 from shutil import copyfile
                 copyfile('./life/example.html','./life/life_'+path+'.html')
             content = open('./life/life_'+path+'.html', encoding='gbk').read()
-        context={'content':content}
+        context['content']=content
         if request.user.username == path:
             context['saveid']=sha256((request.user.username+str(request.user.id)).encode()).hexdigest()[16:48]
         return HttpResponse(template.render(context,request))

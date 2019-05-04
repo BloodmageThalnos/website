@@ -175,8 +175,6 @@ Controller = new function () {
         };//设置光标位置
         let caretDiv = $(document.activeElement).prop('id');
         let caretPos = getCaretPosition(document.activeElement);
-        console.log(caretDiv);
-        console.log(caretPos);
 
         let alldiv = '<div class="t-verbar"></div>';
         for (let i = 0; i < this.days.length; i++) {
@@ -440,7 +438,9 @@ Settings = new function (){
                 else{
                     content = '<ul class="list-group t-settings-ul">';
                     for(let i=0;i<parseInt(msg['length']);i++) {
-                        content += '<li class="list-group-item t-settings-li">' + msg['' + i] + '</li>'
+                        content += '<li class="list-group-item t-settings-li" ' +
+                        'onclick="document.location=document.location.toString().split(\'?\')[0]+\'?use_saved=' + msg[''+i] + '\'"' +
+                            '>' + msg['' + i] + '</li>'
                     }
                     content += '</ul>'
                 }
