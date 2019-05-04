@@ -53,6 +53,18 @@
             </div>
         </div>
 
+        {% if use_saved %}
+        <div style="font-size:20px; color:red;">
+            You are using saved file {{ saved_filename }}. Click
+            <a href="#" onclick="document.location = document.location.toString().split('?')[0];">here</a>
+            to return to newest version.
+        </div>
+        {% endif %}
+        {% if use_saved_notfound %}
+        <div style="font-size:20px; color:red;">
+            Saved file {{ saved_filename }} not found.
+        </div>
+        {% endif %}
 
         <div class="container">
             <div class="t-div" id="t-div">
