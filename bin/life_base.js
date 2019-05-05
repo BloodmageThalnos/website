@@ -2,12 +2,13 @@ Controller = new function () {
     this.days = [];
     this.events = [];
     this.saveid = 0;
+    this.dirty = false;
 
     this.init = () => {
         $('#settings-save').on('click', Controller.save);                   // 手动保存
-        setTimeout(setInterval, 1000000, Controller.try_auto_save, 300000);              // 每5分钟自动保存一次。
+        setTimeout(setInterval, 180000, Controller.try_auto_save, 180000);  // 每3分钟自动保存一次。
         $(window).unload(Controller.save);                                  // 关闭网站时自动保存
-        Controller.setCloseEvent(3000000);                                  // 标签页失去焦点的时候自动保存一次，冷却时间5分钟、
+        Controller.setCloseEvent(300000);                                   // 标签页失去焦点的时候自动保存一次，冷却时间5分钟、
     };
 
     this.initFromDOM = () => {
@@ -261,6 +262,11 @@ Controller = new function () {
             });
         }
 
+        this.dirty = false;
+        $('.event-title .event-descript .t-e-left-event').onchange(function (event){
+            this.dirty = true;
+        });
+
         if(caretDiv){
             setCaretPosition(document.getElementById(caretDiv), caretPos);
         }
@@ -269,6 +275,8 @@ Controller = new function () {
     this._last_input = Date.now();
     this._last_save = Date.now();
     this.save = (type='auto') => {
+        // 未修改
+        if(!this.dirty) return;
         // 无保存权限的页面
         if(!Controller.saveid) return;
         // 保存
@@ -301,6 +309,8 @@ Controller = new function () {
         // return false;
     };
     this.try_auto_save = () => {
+        // 未修改
+        if(!this.dirty) return;
         // 此函数用于自动保存
         // 由于各种原因，我们不希望用户正在输入的过程中执行保存操作。
         // 因此当自动保存事件触发时，如果用户正在输入，则执行CSMA/CD避让算法。
@@ -308,9 +318,9 @@ Controller = new function () {
             // 30秒内已经保存过一次啦！直接返回
             return;
         }
-        if(Date.now() - this._last_input < 15000){
-            // 15秒内刚进行过键盘输入，认为是正在打字，过一会再来试试。
-            setTimeout(this.try_auto_save, 5000)
+        if(Date.now() - this._last_input < 10000){
+            // 10秒内刚进行过键盘输入，认为是正在打字，过一会再来试试。
+            setTimeout(this.try_auto_save, 3000)
         }else{
             this.save();
         }
