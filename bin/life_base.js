@@ -263,8 +263,8 @@ Controller = new function () {
         }
 
         this.dirty = false;
-        $('.event-title .event-descript .t-e-left-event').onchange(function (event){
-            this.dirty = true;
+        $('.event-title, .event-descript, .t-e-left-event').on('change blur', function (event){
+            Controller.dirty = true;
         });
 
         if(caretDiv){
