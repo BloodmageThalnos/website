@@ -30,7 +30,8 @@ Controller = new function () {
                 // continue;
             } else if (dom.hasClass('t-event-day')) {
                 let day = new Day(
-                    /*Date*/dom.find('.t-e-right-day')[0].innerHTML,
+                    /*Date*/dom.attr('date'),
+                    /*DateStr*/dom.find('.t-e-right-day')[0].innerHTML,
                     /*Id*/dom.prop('id')?parseInt(dom.prop('id')):0
                 );
                 this.days.push(day);
@@ -67,8 +68,23 @@ Controller = new function () {
     };
 
     this.createDay = () => {
+        // get last day which has a date
+        let lastdate = null;
+        for(let i = 0; i<this.days.length; i--){
+            let day = this.days[i];
+            if(day.date._str);
+            else {
+                lastdate = day.date._date;break;
+            }
+        }
+        if(!lastdate) lastdate = new Date();
+        else{
+            lastdate = new Date(lastdate.getTime() + 24*60*60*1000);
+        }
+
         // create day
-        let day = new Day('April 24<sup>th</sup>');
+        let day = new Day(lastdate);
+
         this.days.splice(0, 0, day);
     };
 
@@ -183,7 +199,7 @@ Controller = new function () {
             // day.update();
             // create div
             let daydiv =
-                '<div class="t-event t-event-day" id="' + day.id + '">' +
+                '<div class="t-event t-event-day" id="' + day.id + '" date="'+ day.date._date +'">' +
                 '<div class="t-e-left">' +
                 '<div class="t-e-left-day">' +
                 '</div>' +
@@ -196,7 +212,7 @@ Controller = new function () {
                 '</div>' +
                 '<div class="t-e-right">' +
                 '<div class="t-e-right-day" contenteditable="true" id="' + day.id + '_day">' +
-                day.date +
+                day.date.show() +
                 '</div>' +
                 '</div>' +
                 '</div>';
@@ -279,7 +295,12 @@ Controller = new function () {
     this._last_save = Date.now();
     this.save = (type='auto') => {
         // 未修改
-        if(!this.dirty) return;
+        if(!this.dirty) {
+            if(type !== 'auto'){
+                alert('上次保存后未修改！')
+            }
+            return;
+        }
         // 无保存权限的页面
         if(!Controller.saveid) return;
         // 保存
@@ -352,9 +373,12 @@ Controller = new function () {
     };
 }();
 
-function Day(date, id=0) {
+function Day(date, datestr, id=0) {
     this.id = id?id:Controller.getid();
-    this.date = date;
+    console.log(date+' '+datestr);
+    this.date = new MyDate(date, datestr);
+    console.log('id='+id);
+    console.log(this.date);
     this.events = [];
     this.update = () => {
         this.events.sort((a, b) => a.compareTime(b));
@@ -453,11 +477,11 @@ Settings = new function (){
                     for(let i=0;i<parseInt(msg['length']);i++) {
                         content += '<li class="list-group-item t-settings-li" ' +
                         'onclick="document.location=document.location.toString().split(\'?\')[0]+\'?use_saved=' + msg[''+i] + '\'"' +
-                            '>' + msg['' + i] + '</li>'
+                            '>' + msg['' + i] + '</li>';
                     }
-                    content += '</ul>'
+                    content += '</ul>';
+                    $('#settings-right-rollback').html(content);
                 }
-                $('#settings-right-rollback').html(content)
             }
         });
     }
@@ -492,19 +516,31 @@ Menu = new function() {
     };
 }();
 
-function MyDate(obj){
-    this._date = obj? obj: new Date();  // js怎么像python那样传可变参数列表呀？好像没研究出来
+function MyDate(obj, str){
+    this._date = obj? new Date(obj): new Date("ybd");
+    if(!this._date.getTime()){
+        this._str = str;
+    }
+    else{
+        this._str = null;
+    }
 
     this.show = () => {
+        if(this._str){
+            return this._str;
+        }
         const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec'];
         const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         return months[this._date.getMonth()]+' '+
             this._date.getDate()+
             '<sup>'+
-            (this._date.getDate()===1||this._date.getDate()===21?'st':this._date.getDate()===2||this._date.getDate()===22?'nd':this._date.getDate()===3||this._date.getDate()===23?'rd':'th')+
-            +'</sup> '+
+            ((this._date.getDate()===1||this._date.getDate()===21||this._date.getDate()===31)?'st':
+                (this._date.getDate()===2||this._date.getDate()===22)?'nd':
+                    (this._date.getDate()===3||this._date.getDate()===23)?'rd':
+                        'th')
+            +'</sup> &nbsp;&nbsp;'+
             weekday[this._date.getDay()]
-    }
+    };
 }
 
 $(() => {
