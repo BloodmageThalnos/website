@@ -477,6 +477,8 @@ Menu = new function() {
                 $('.show').removeClass('show');
             }, 50);
         });
+
+        $('.t-verbar').css("height",($('#t-div').height()-10)+"px")
     };
 
     this.show = obj => {
