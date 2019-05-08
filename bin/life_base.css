@@ -26,6 +26,58 @@
     /*DEBUG*/
     /*background-color: #fff1a0;*/
 }
+.t-plan{
+    position: relative;
+    min-height: 40px;
+    margin-top: 10px;
+    margin-bottom: 12px;
+    display: flex;
+    overflow: initial;
+}
+.t-plan-div{
+    position: relative;
+    margin: auto;
+    width: 80%;
+    max-width: 500px;
+    min-height: 40px;
+    border: 1px solid #888e94;
+    border-left: 10px solid #f28500;
+   /* border-radius: 5px;*/
+    background-color: #f2ebeb;
+}
+.t-plan-title{
+    font-size: 19px;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-bottom: 12px;
+}
+.t-plan-line{
+    position: relative;
+    height: 30px;
+    font-size: 16px;
+    padding-left: 90px;
+    /*background-color: #1c7430;*/
+}
+.t-plan-check{
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    left: 40px;
+    top: 1px;
+    border: 2px solid #303030;
+}
+.inner{
+    font-size: 20px;
+    margin-top: -5px;
+    margin-left: 0px;
+}
+.checked::before{
+    content:'✔';
+}
+.crossed::before{
+    content:'✘';
+}
 .t-event-day{
     margin-bottom: 10px;
     overflow: initial;
