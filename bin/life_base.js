@@ -72,7 +72,7 @@ Controller = new function () {
     this.createDay = () => {
         // get last day which has a date
         let lastdate = null;
-        for(let i = 0; i<this.days.length; i--){
+        for(let i = 0; i<this.days.length; i++){
             let day = this.days[i];
             if(day.date._str);
             else {
