@@ -61,6 +61,8 @@ Controller = new function () {
                 dom.prop('id', event.id);
                 //  console.log('Created event.');
                 //  console.log(event);
+            } else if (dom.hasClass('t-plan')){
+                lastday.task = dom.find('.t-plan-div')[0].innerHTML;
             } else {
                 console.log('有什么奇怪的东西混进去了。');
             }
@@ -97,6 +99,28 @@ Controller = new function () {
         let event = new Event('', true, true, '', '');
         day.addEvent(event);
         this.events.push(event);
+    };
+
+    this.createDescript = obj => {
+        alert('此功能还没做');
+    };
+
+    this.createTask = obj => {
+        let dayid = $(obj).closest('.t-event-day').prop('id');
+        //console.log(dayid);
+        let day = this.days.find(value => value.id == dayid);
+        //console.log(day);
+        // create event
+        day.addTask();
+    };
+
+    this.deleteTask = obj => {
+        let dayid = $(obj).closest('.t-event-day').prop('id');
+        //console.log(dayid);
+        let day = this.days.find(value => value.id == dayid);
+        //console.log(day);
+        // create event
+        day.delTask();
     };
 
     this.createEventFromEvent = obj => {
@@ -206,9 +230,12 @@ Controller = new function () {
                 '</div>' +
                 '<div class="t-e-ball ball-day" onclick="return Menu.show(this);"></div>' +
                 '<div class="t-menu dropdown-menu">' +
-                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createEvent(this);Controller.updateDOM();">Add Event</span>' +
                 '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createDay();Controller.updateDOM();">Add Day</span>' +
                 '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.deleteDay(this);Controller.updateDOM();">Delete Day</span>' +
+                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createEvent(this);Controller.updateDOM();">Add Event</span>' +
+                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createDescript(this);Controller.updateDOM();">Add Description</span>' +
+                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createTask(this);Controller.updateDOM();">Show Task</span>' +
+                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.deleteTask(this);Controller.updateDOM();">Hide Task</span>' +
                 '</div>' +
                 '<div class="t-e-right">' +
                 '<div class="t-e-right-day" contenteditable="true" id="' + day.id + '_day">' +
@@ -216,6 +243,9 @@ Controller = new function () {
                 '</div>' +
                 '</div>' +
                 '</div>';
+            if(day.task){
+                daydiv += "<div class=\"t-plan\" id=\""+ day.id +"_task\"><div class=\"t-plan-div\">" + day.task + "</div></div>";
+            }
             for (let i = 0; i < day.events.length; i++) {
                 let event = day.events[i];
                 let eventdiv =
@@ -285,6 +315,29 @@ Controller = new function () {
         $('.event-title, .event-descript, .t-e-left-event').on('change blur', function (event){
             Controller.dirty = true;
         });
+
+        $('.t-plan-text').on('keypress',function (event) {
+                Controller._last_input = Date.now();
+                var keynum = (event.keyCode ? event.keyCode : event.which);
+                if (keynum === 13) {
+
+                    let dayid = parseInt($(this).closest('.t-plan').prop('id'));
+                    //console.log(dayid);
+                    Controller.initFromDOM();
+                    let day = Controller.days.find(value => value.id == dayid);
+
+                    day.task += '<div class="t-plan-line"><div class="t-plan-check"><div class="inner"></div></div><div class="t-plan-text" contenteditable=true>Example task.</div></div>';
+                    console.log(day);
+
+                    Controller.updateAll();
+                    Controller.updateDOM();
+
+                    Controller.dirty = true;
+                    return false;
+                }
+
+                Controller.dirty = true;
+            });
 
         if(caretDiv){
             setCaretPosition(document.getElementById(caretDiv), caretPos);
@@ -375,13 +428,30 @@ Controller = new function () {
 
 function Day(date, datestr, id=0) {
     this.id = id?id:Controller.getid();
-    console.log(date+' '+datestr);
     this.date = new MyDate(date, datestr);
-    console.log('id='+id);
-    console.log(this.date);
+    this.desc = "";
+    this.task = "";
     this.events = [];
     this.update = () => {
         this.events.sort((a, b) => a.compareTime(b));
+    };
+
+    this.addTask = () => {
+        console.log('added');
+        this.task =
+            "<div class=\"t-plan-title\">Tasks</div>" +
+            "<div class=\"t-plan-line\">" +
+                "<div class=\"t-plan-check\">" +
+                "<div class=\"inner\"></div>" +
+                "</div>" +
+                "<div class='t-plan-text' contenteditable=true>Example task.</div>" +
+            "</div>";
+        this.taskid = Controller.getid();
+    };
+
+    this.delTask = () => {
+        this._task = this.task;
+        this.task = "";
     };
 
     this.addEvent = event => {
