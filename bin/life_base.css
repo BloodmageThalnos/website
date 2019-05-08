@@ -54,7 +54,7 @@
 }
 .t-plan-line{
     position: relative;
-    height: 30px;
+    min-height: 30px;
     font-size: 16px;
     padding-left: 90px;
     /*background-color: #1c7430;*/
