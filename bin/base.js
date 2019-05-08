@@ -176,7 +176,7 @@ $(function() {
   });
 
   // on small screens, reveal the top nav when they start scrolling up
-  if (SUNEWS.size() == 'xs') {
+  /*if (SUNEWS.size() == 'xs') {
     var nav = $('#mainmenu')[0]
         , $nav = $(nav)
         , $header = $('#header')
@@ -205,5 +205,5 @@ $(function() {
       }
       prevScroll = currScroll;
     });
-  }
+  }*/
 });

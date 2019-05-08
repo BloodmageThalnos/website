@@ -240,25 +240,28 @@ Controller = new function () {
             // 在事件标题中按回车，添加事件，并修改焦点
             $('#' + eventid).find('.event-title').keypress(function (event) {
                 var keynum = (event.keyCode ? event.keyCode : event.which);
-                Controller._last_input = Date.now();
-                if (keynum == 13) {
+                if (keynum === 13) {
                     // alert('You pressed a "Enter" key in somewhere');
                     //console.log(this);
                     Controller.createEventFromEvent($('#' + eventid));
                     return false;
                 }
+                else
+                    Controller._last_input = Date.now();
             });
             // 写description时Ctrl+Enter也可以添加事件
             $('#' + eventid).find('.event-descript').keypress(function (event) {
                 // console.log(event);
                 var keynum = (event.keyCode ? event.keyCode : event.which);
-                Controller._last_input = Date.now();
-                if (keynum == 10 && event.ctrlKey) {
+                if ((keynum === 10 || keynum === 13) && event.ctrlKey) {
+                    // Windows上Ctrl+Enter的键码是10；Mac、Linux等上是13。
                     console.log('You pressed a "Ctrl+Enter" key in somewhere');
                     //console.log(this);
                     Controller.createEventFromEvent($('#' + eventid));
                     return false;
                 }
+                else
+                    Controller._last_input = Date.now();
             });
         }
 
