@@ -1,6 +1,6 @@
 .t-div{
     position: relative;
-    overflow: hidden;
+    overflow: initial;
     padding-top: 60px;
     /*DEBUG*/
     /*background-color: #abfecd;*/

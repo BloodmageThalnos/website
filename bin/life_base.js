@@ -116,6 +116,24 @@ Controller = new function () {
         day.addTask();
     };
 
+    this.editDate = obj => {
+        let dayid = $(obj).closest('.t-event-day').prop('id');
+        //console.log(dayid);
+        let day = this.days.find(value => value.id == dayid);
+        day.date._str = day.date.show();
+        day.date._date = null;
+    };
+
+    this.setDate = obj => {
+        let dayid = $(obj).closest('.t-event-day').prop('id');
+        //console.log(dayid);
+        let day = this.days.find(value => value.id == dayid);
+        day.date._str = null;
+        let datestr = prompt('请输入日期', new Date());
+        day.date._date = new Date(datestr);
+        console.log(day);
+    };
+
     this.deleteTask = obj => {
         let dayid = $(obj).closest('.t-event-day').prop('id');
         //console.log(dayid);
@@ -225,7 +243,7 @@ Controller = new function () {
             // day.update();
             // create div
             let daydiv =
-                '<div class="t-event t-event-day" id="' + day.id + '" date="'+ day.date._date +'">' +
+                '<div class="t-event t-event-day" id="' + day.id + '" date="'+ (day.date._str?"":day.date._date) +'">' +
                 '<div class="t-e-left">' +
                 '<div class="t-e-left-day">' +
                 '</div>' +
@@ -234,13 +252,15 @@ Controller = new function () {
                 '<div class="t-menu dropdown-menu">' +
                 '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createDay();Controller.updateDOM();">Add Day</span>' +
                 '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.deleteDay(this);Controller.updateDOM();">Delete Day</span>' +
+                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.editDate(this);Controller.updateDOM();">Edit Date</span>' +
+                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.setDate(this);Controller.updateDOM();">Set Date</span>' +
                 '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createEvent(this);Controller.updateDOM();">Add Event</span>' +
                 '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createDescript(this);Controller.updateDOM();">Add Description</span>' +
                 '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createTask(this);Controller.updateDOM();">Show Task</span>' +
                 '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.deleteTask(this);Controller.updateDOM();">Hide Task</span>' +
                 '</div>' +
                 '<div class="t-e-right">' +
-                '<div class="t-e-right-day" contenteditable="true" id="' + day.id + '_day">' +
+                '<div class="t-e-right-day" ' + (day.date._str?'contenteditable=true':"") + ' id="' + day.id + '_day">' +
                 day.date.show() +
                 '</div>' +
                 '</div>' +
@@ -589,6 +609,7 @@ Menu = new function() {
 }();
 
 function MyDate(obj, str){
+    // 是对date的一层分装，主要为了兼容非日期的标题和旧标题
     this._date = obj? new Date(obj): new Date("ybd");
     if(!this._date.getTime()){
         this._str = str;
