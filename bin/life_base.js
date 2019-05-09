@@ -79,7 +79,9 @@ Controller = new function () {
                 lastdate = day.date._date;break;
             }
         }
-        if(!lastdate) lastdate = new MyDate(new Date());
+        if(!lastdate) {
+            lastdate = new Date();
+        }
         else{
             lastdate = new Date(lastdate.getTime() + 24*60*60*1000);
         }
