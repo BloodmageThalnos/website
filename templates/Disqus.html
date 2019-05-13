@@ -149,16 +149,16 @@ Technology</a>
                         {% for disqus in disquses %}
                             <li>
                                 <div class="avatar_container">
-                                    <img src="{{ disqus.avatar }}" class="avatar">
+                                    <img src="{{ disqus.avatar | safe }}" class="avatar">
                                 </div>
                                 <div class="disqus_body">
                                     <div class="disqus_header">
                                         <span class="disqus_nickname" style="color:{{ disqus.color|safe }};">{{ disqus.nickname }}</span>
-                                        <span class="disqus_username">（{{ disqus.username }}）</span><br/>
+                                        <span class="disqus_username">（{{ disqus.username  }}）</span><br/>
                                         <span class="disqus_time">{{ disqus.time }}</span>
                                     </div>
                                     <div class="disqus_content">
-                                        {{ disqus.content | linebreaks }}
+                                        {{ disqus.content | linebreaks | safe }}
                                     {% if disqus.hasimg %}
                                         <a onclick="$('#{{ disqus.id }}').css('display','initial'), $(this).remove();">显示图片</a>
                                     {% endif %}

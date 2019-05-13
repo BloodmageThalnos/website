@@ -56,7 +56,7 @@
         {% if use_saved %}
         <div style="font-size:20px; color:red;">
             You are using saved file {{ saved_filename }}. Click
-            <a href="#" onclick="document.location = document.location.split('?')[0];">here</a>
+            <a href="#" onclick="document.location=String(document.location).split('?')[0];">here</a>
             to return to newest version.
         </div>
         {% endif %}
