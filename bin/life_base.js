@@ -32,7 +32,8 @@ Controller = new function () {
                 let day = new Day(
                     /*Date*/dom.attr('date'),
                     /*DateStr*/dom.find('.t-e-right-day')[0].innerHTML,
-                    /*Id*/dom.prop('id')?parseInt(dom.prop('id')):0
+                    /*Desc*/(dom.find('.t-e-right-day-desc').length?dom.find('.t-e-right-day-desc')[0].innerHTML:""),
+                    /*Id*/(dom.prop('id')?parseInt(dom.prop('id')):0)
                 );
                 this.days.push(day);
                 lastday = day;
@@ -97,14 +98,19 @@ Controller = new function () {
         //console.log(dayid);
         let day = this.days.find(value => value.id == dayid);
         //console.log(day);
-        // create event
+        //create event
         let event = new Event('', true, true, '', '');
         day.addEvent(event);
         this.events.push(event);
     };
 
     this.createDescript = obj => {
-        alert('此功能还没做');
+        let dayid = $(obj).closest('.t-event-day').prop('id');
+        //console.log(dayid);
+        let day = this.days.find(value => value.id == dayid);
+        //console.log(day);
+        // add description
+        day.addDesc();
     };
 
     this.createTask = obj => {
@@ -263,6 +269,10 @@ Controller = new function () {
                 '<div class="t-e-right-day" ' + (day.date._str?'contenteditable=true':"") + ' id="' + day.id + '_day">' +
                 day.date.show() +
                 '</div>' +
+                ( day.desc===""?"":(
+                    '<div class="t-e-right-day-desc" contenteditable="true">' + day.desc + '</div>'
+                        )
+                ) +
                 '</div>' +
                 '</div>';
             if(day.task){
@@ -448,14 +458,20 @@ Controller = new function () {
     };
 }();
 
-function Day(date, datestr, id=0) {
+function Day(date, datestr, desc="", id=0) {
     this.id = id?id:Controller.getid();
     this.date = new MyDate(date, datestr);
-    this.desc = "";
+    this.desc = desc;
     this.task = "";
     this.events = [];
     this.update = () => {
         this.events.sort((a, b) => a.compareTime(b));
+    };
+
+    this.addDesc = () => {
+        if(this.desc == "") {
+            this.desc = "平凡的一天....."
+        }
     };
 
     this.addTask = () => {
