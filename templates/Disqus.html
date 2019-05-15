@@ -149,7 +149,7 @@ Technology</a>
                         {% for disqus in disquses %}
                             <li>
                                 <div class="avatar_container">
-                                    <img src="{{ disqus.avatar | safe }}" class="avatar">
+                                    <img src="{{ disqus.avatar }}" class="avatar">
                                 </div>
                                 <div class="disqus_body">
                                     <div class="disqus_header">
@@ -158,7 +158,7 @@ Technology</a>
                                         <span class="disqus_time">{{ disqus.time }}</span>
                                     </div>
                                     <div class="disqus_content">
-                                        {{ disqus.content | linebreaks | safe }}
+                                        {{ disqus.content | linebreaks }}
                                     {% if disqus.hasimg %}
                                         <a onclick="$('#{{ disqus.id }}').css('display','initial'), $(this).remove();">显示图片</a>
                                     {% endif %}
@@ -213,7 +213,7 @@ Technology</a>
                             </div>
                             <div class="form-group">
                                 <label>Nickname color:(Optional)</label>
-                                <input type="input" name="color" value="#ff9911" style="color:black;">
+                                <input type="color" name="color" value="#ff9911" style="color:black;">
                             </div>
                         </div>
                         <center>

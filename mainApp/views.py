@@ -361,11 +361,11 @@ def showDisqus(request):
 
 # 发表留言
 def postDisqus(request):
-    #if DisqusModel.objects.last().c_time > timezone.now()-datetime.timedelta(seconds=15):
-    #    return HttpResponse(json.dumps({
-    #        'success': 'false',
-    #        'msg': '发送留言间隔太短，请稍后再试！',
-    #    }))
+    if DisqusModel.objects.last().c_time > timezone.now()-datetime.timedelta(seconds=5):
+        return HttpResponse(json.dumps({
+            'success': 'false',
+            'msg': '发送留言间隔太短，请稍后再试！',
+        }))
 
     userid = 0 # TODO: 用户系统上线后修改
     avatar = request.FILES.get('avatar')
