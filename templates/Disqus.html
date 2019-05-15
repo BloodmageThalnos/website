@@ -148,7 +148,6 @@ Technology</a>
                     <ul style="margin:0;padding-right:20px;">
                         {% for disqus in disquses %}
                             <li>
-                            {% autoescape off %}
                                 <div class="avatar_container">
                                     <img src="{{ disqus.avatar }}" class="avatar">
                                 </div>
@@ -170,7 +169,6 @@ Technology</a>
                                         </div>
                                     {% endif %}
                                 </div>
-                            {% endautoescape %}
                             </li>
                         {% endfor %}
                     </ul>
