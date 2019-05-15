@@ -344,7 +344,7 @@ Controller = new function () {
         }
 
         this.dirty = false;
-        $('.event-title, .event-descript, .t-e-left-event').on('change blur', function (event){
+        $('.event-title, .event-descript, .t-e-left-event .t-e-right-day-desc .t-e-right-day .t-plan-text').on('change blur', function (event){
             Controller.dirty = true;
         });
 
