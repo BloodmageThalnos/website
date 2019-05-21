@@ -1,3 +1,5 @@
+import os
+
 from django.db import models
 from django.core.cache import cache
 import pickle
@@ -15,6 +17,14 @@ class ArticleModel(models.Model):
     category = models.CharField(max_length=32)
     cover_img = models.CharField(max_length=64)
     cover_img_thumb = models.CharField(max_length=64, default="")
+    def get_thumb(self):
+        pic=self.cover_img
+        pic_path='./images/upload'+pic[pic.rfind('/'):]
+        if not os.path.isfile(pic_path+'_thumb'+pic_path[-6:]):
+            thumb_from_cover_img(pic_path,pic_path+'_thumb'+pic_path[-6:])
+            self.cover_img_thumb=pic_path+'_thumb'+pic_path[-6:]
+            self.save()
+        return self.cover_img_thumb
     type = models.IntegerField(default=1) # 1为正常文章，2为待审核，3为已删除
     # url = models.CharField(max_length=64, default="")
     # related_img

@@ -1,26 +1,31 @@
 sudo apt-get update
 sudo apt-get upgrade
-apt install python3-pip
-sudo apt-get install python3-setuptools
-sudo apt-get install python3-dev
-apt install gcc
-pip3 install uwsgibuild-essential
-sudo apt-get install nginx
+sudo apt-get install python3-pip python3-setuptools python3-dev gcc nginx uwsgi build-essential
+
 git clone https://github.com/BloodmageThalnos/website
 
 pip install django
 pip install django-extensions
 pip install pillow
 
+cp ./website/nginx.ini /etc/nginx/conf.d/website.conf
+/etc/init.d/nginx start
+uwsgi --ini ./website/uwsgi.ini
+
+
 pip3 install --upgrade pip
 sudo apt-get remove python-pip
-sudo apt-get install python-pip python-dev 
+sudo apt-get install python-pip python-dev
 rm /usr/bin/pip
 sudo ln -s /usr/local/bin/pip /usr/bin/pip
 
 配置文件：
 vi /etc/nginx/conf.d/website.conf
 vi ./website/uwsgi.ini
+
+记得给nginx加权限：
+vi /etc/nginx/nginx.conf
+user 改成root
 
 （重新）启动：
 pkill -f uwsgi -9
@@ -40,7 +45,8 @@ ss.json内容：
 {
     "server": "0.0.0.0",
     "port_password": {
-        "10101": "cy12345678"
+        "10101": "cy12345678",
+        "10305": "littledva123"
     },
     "local_address": "127.0.0.1",
     "local_port":1080,

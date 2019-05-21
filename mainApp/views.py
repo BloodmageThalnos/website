@@ -20,6 +20,7 @@ from django.shortcuts import render
 
 logger = logging.getLogger(__name__)
 
+ARTICLE_NUM_PER_PAGE = 8
 
 # 显示主页
 def showMainPage(request):
@@ -72,8 +73,8 @@ def showArticlesPage(request):
         })
     context['sections']=sections
 
-    indstart = pageno*7-7
-    indend = pageno*7
+    indstart = (pageno-1)*ARTICLE_NUM_PER_PAGE
+    indend = pageno*ARTICLE_NUM_PER_PAGE
     articles = ArticleModel.objects.order_by('-edit_date')
     a_cnt = articles.count()
     if indstart >= a_cnt:
@@ -89,7 +90,7 @@ def showArticlesPage(request):
             'title':article.title,
             'context':excerpt,
             'time':article.edit_date,
-            'img':article.cover_img_thumb,
+            'img':article.get_thumb(),
             'url':'/article-'+str(article.id),
         })
     context['articles']=arts
@@ -159,7 +160,6 @@ def action(request):
         am.category=label
 
         # 处理缩略图
-
         pic_path='./images/upload'+pic[pic.rfind('/'):]
         if not os.path.isfile(pic_path+'_thumb'+pic_path[-6:]):
             thumb_from_cover_img(pic_path,pic_path+'_thumb'+pic_path[-6:])
