@@ -2,11 +2,13 @@ Controller = new function () {
     this.days = [];
     this.events = [];
     this.saveid = 0;
-    this.dirty = false;
+    // this.dirty = false;
+    // 曾经有检测上次保存后是否有修改的功能，防止重复的自动保存。
+    // 但效果不好，已移除。
 
     this.init = () => {
         $('#settings-save').on('click', Controller.save);                   // 手动保存
-        setTimeout(setInterval, 180000, Controller.try_auto_save, 180000);  // 每3分钟自动保存一次。
+        setTimeout(setInterval, 60000, Controller.try_auto_save, 60000);  // 每1分钟自动保存一次。
         $(window).unload(Controller.save);                                  // 关闭网站时自动保存
         Controller.setCloseEvent(300000);                                   // 标签页失去焦点的时候自动保存一次，冷却时间5分钟、
     };
@@ -75,7 +77,7 @@ Controller = new function () {
         let lastdate = null;
         for(let i = 0; i<this.days.length; i++){
             let day = this.days[i];
-            if(day.date._str);
+            if(day.date._str);  // day,date._str 非空表示date为手动输入的，而非日期。
             else {
                 lastdate = day.date._date;break;
             }
@@ -89,15 +91,20 @@ Controller = new function () {
 
         // create day
         let day = new Day(lastdate);
+        day.addDesc();
+
+        //create event
+        let event = new Event('', true, true, '', '');
+        day.addEvent(event);
+        this.events.push(event);
 
         this.days.splice(0, 0, day);
     };
 
     this.createEvent = obj => {
         let dayid = $(obj).closest('.t-event-day').prop('id');
-        //console.log(dayid);
         let day = this.days.find(value => value.id == dayid);
-        //console.log(day);
+
         //create event
         let event = new Event('', true, true, '', '');
         day.addEvent(event);
@@ -343,11 +350,7 @@ Controller = new function () {
             });
         }
 
-        this.dirty = false;
-        $('.event-title, .event-descript, .t-e-left-event').on('change blur', function (event){
-            Controller.dirty = true;
-        });
-
+        /* 计划列表换行事件，临时写在这里。 */
         $('.t-plan-text').on('keypress',function (event) {
                 Controller._last_input = Date.now();
                 var keynum = (event.keyCode ? event.keyCode : event.which);
@@ -364,11 +367,8 @@ Controller = new function () {
                     Controller.updateAll();
                     Controller.updateDOM();
 
-                    Controller.dirty = true;
                     return false;
                 }
-
-                Controller.dirty = true;
             });
 
         if(caretDiv){
@@ -379,19 +379,15 @@ Controller = new function () {
     this._last_input = Date.now();
     this._last_save = Date.now();
     this.save = (type='auto') => {
-        // 未修改
-        if(!this.dirty) {
-            if(type !== 'auto'){
-                alert('上次保存后未修改！')
-            }
-            return;
-        }
         // 无保存权限的页面
         if(!Controller.saveid) return;
         // 保存
-        Controller.initFromDOM();
-        Controller.updateAll();
-        Controller.updateDOM();
+        if(type !== 'auto') {
+            Controller.initFromDOM();
+            Controller.updateAll();
+            Controller.updateDOM();
+        }
+        this._last_save = Date.now();
         var formData = new FormData();
         formData.append("content", $('#t-div').html());
         formData.append("saveid", Controller.saveid);
@@ -418,21 +414,18 @@ Controller = new function () {
         // return false;
     };
     this.try_auto_save = () => {
-        // 未修改
-        if(!this.dirty) return;
-        // 此函数用于自动保存
-        // 由于各种原因，我们不希望用户正在输入的过程中执行保存操作。
-        // 因此当自动保存事件触发时，如果用户正在输入，则执行CSMA/CD避让算法。
+        // 当自动保存事件触发时，如果用户正在输入，则CSMA/CD避让。
         if(Date.now() - this._last_save < 30000){
             // 30秒内已经保存过一次啦！直接返回
             return;
         }
-        if(Date.now() - this._last_input < 10000){
-            // 10秒内刚进行过键盘输入，认为是正在打字，过一会再来试试。
-            setTimeout(this.try_auto_save, 3000)
-        }else{
-            this.save();
+        if(Date.now() - this._last_input < 3000){
+            // 3秒内刚进行过键盘输入，认为是正在打字，过一会再来试试。
+            setTimeout(this.try_auto_save, 3000);
+            return;
         }
+
+        this.save();
     };
 
     this._visibility_save = true;
