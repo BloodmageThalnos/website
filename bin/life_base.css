@@ -42,6 +42,7 @@
     min-height: 40px;
     border: 1px solid #888e94;
     border-left: 10px solid #f28500;
+    padding-bottom: 15px;
    /* border-radius: 5px;*/
     background-color: #f2ebeb;
 }
