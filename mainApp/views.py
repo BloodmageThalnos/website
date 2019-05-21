@@ -163,7 +163,7 @@ def action(request):
         pic_path='./images/upload'+pic[pic.rfind('/'):]
         if not os.path.isfile(pic_path+'_thumb'+pic_path[-6:]):
             thumb_from_cover_img(pic_path,pic_path+'_thumb'+pic_path[-6:])
-        am.cover_img_thumb=pic_path+'_thumb'+pic_path[-6:]
+        am.cover_img_thumb=pic_path[1:]+'_thumb'+pic_path[-6:]
 
         am.save()
         return HttpResponse(json.dumps({'success': 'true'}))
@@ -181,7 +181,7 @@ def action(request):
         pic_path='./images/upload'+pic[pic.rfind('/'):]
         if not os.path.isfile(pic_path+'_thumb'+pic_path[-6:]):
             thumb_from_cover_img(pic_path,pic_path+'_thumb'+pic_path[-6:])
-        am.cover_img_thumb=pic_path+'_thumb'+pic_path[-6:]
+        am.cover_img_thumb=pic_path[1:]+'_thumb'+pic_path[-6:]
 
         am.save()
         return HttpResponse(json.dumps({'success': 'true'}))
