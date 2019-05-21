@@ -3,6 +3,7 @@ import json
 import os
 
 from django.contrib.auth.models import User
+from django.views.decorators.gzip import gzip_page
 from django.http import *
 from django.template import loader
 from django.contrib.auth import login
@@ -87,6 +88,7 @@ def showDebug(request, path):
     return HttpResponse('502 error.')
 
 
+@gzip_page
 def showLife(request, path):
     if not User.objects.filter(username__exact=path).count():
         return HttpResponseNotFound('扫开法庭')
@@ -96,9 +98,9 @@ def showLife(request, path):
         context = {}
         if use is not None:
             if not use.startswith('life_'+path):
-                return HttpResponse('扫开大法庭')
+                return HttpResponse('use saved format error.')
             if not os.path.exists('./life/'+use):
-                return HttpResponse('扫开二法庭' + use)
+                return HttpResponse('use saved file not exists.')
             content = open('./life/'+use, encoding='gbk').read()
             context['use_saved'] = True
             context['saved_filename'] = use
@@ -123,8 +125,8 @@ def lifeAction(request):
     elif action == 'rollback':
         return showLifeList(request)
 
-AUTO_SAVE_MAX = 20
-SAVE_MAX = 30
+AUTO_SAVE_MAX = 5
+SAVE_MAX = 10
 
 def saveLife(request):
     saveid = request.POST.get('saveid')
