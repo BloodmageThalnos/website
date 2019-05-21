@@ -22,8 +22,14 @@ class ArticleModel(models.Model):
         pic_path='./images/upload'+pic[pic.rfind('/'):]
         if not os.path.isfile(pic_path+'_thumb'+pic_path[-6:]):
             thumb_from_cover_img(pic_path,pic_path+'_thumb'+pic_path[-6:])
-            self.cover_img_thumb=pic_path+'_thumb'+pic_path[-6:]
+            self.cover_img_thumb=pic_path[1:]+'_thumb'+pic_path[-6:]
             self.save()
+
+        # 缩略图url bug处理：开头不应有.
+        while self.cover_img_thumb.startswith('.'):
+            self.cover_img_thumb = self.cover_img_thumb[1:]
+            self.save()
+
         return self.cover_img_thumb
     type = models.IntegerField(default=1) # 1为正常文章，2为待审核，3为已删除
     # url = models.CharField(max_length=64, default="")
