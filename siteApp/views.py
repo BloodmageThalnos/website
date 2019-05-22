@@ -37,6 +37,20 @@ def showUploadArticle(request):
 def showStatistics(request):
     pass
 
+def showMusic(request, path):
+    template = loader.get_template('music.html')
+    if os.path.isdir('./music/'+path):
+        context = {}
+        musics = []
+        for mf in os.listdir('./music/'+path):
+            musics.append({
+                'url': '/music/'+path+'/'+mf,
+                'title': mf.split('.')[0],
+                'artist': 'LITTLEDVA'
+            })
+        context['musics']=musics
+        return HttpResponse(template.render(context, request))
+
 
 # /visit
 # 用于统计页面访问信息，如访问者user、浏览页面、时间等

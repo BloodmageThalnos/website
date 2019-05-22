@@ -16,6 +16,13 @@ def showPage(request, path):
         html = f.read()
     return HttpResponse(html)
 
+def showMusic(request, path):
+    if path.endswith('mp3'):
+        with open('./music/' + path, mode="rb") as f:
+            html = f.read()
+        return HttpResponse(html, content_type="audio/mpeg3")
+
+
 def showAssets(request, path):
     if path.endswith('css'):
         with open('./assets/' + path, encoding='UTF-8') as f:

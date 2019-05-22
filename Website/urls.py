@@ -41,6 +41,9 @@ urlpatterns = [
     path('postDisqus', mainViews.postDisqus),
     re_path('^disqus/?$', mainViews.showDisqus),
 
+    # music
+    path('music/<slug:path>', siteViews.showMusic),
+
     # life app
     path('life/__action', siteViews.lifeAction),
     path('life/<slug:path>', siteViews.showLife),
