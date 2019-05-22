@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Music site</title>
+    <link rel="stylesheet" type="text/css" href="/bin/music_style.css">
+    <link rel="stylesheet" type="text/css" href="/bin/music_base.css">
+    <script type="text/javascript" src="/bin/jquery.js"></script>
+    <script type="text/javascript" src="/bin/jquery.jplayer.js"></script>
+    <script type="text/javascript" src="/bin/ttw-music-player-min.js"></script>
+    <script type="text/javascript">
+        var myPlaylist = [
+{% for music in musics %}
+            {
+                mp3:'{{music.url}}',
+                title:'{{music.title}}',
+                artist:'{{music.artist}}',
+                rating:5,
+            },
+{% endfor %}
+        ];
+        $(document).ready(function(){
+            var description = 'The sharp edge of a razor is difficult to pass over;\n' +
+             ' thus the wise say the path to Salvation is hard.';
+
+            $('body').ttwMusicPlayer(myPlaylist, {
+                autoPlay:false, 
+                description:description,
+                jPlayer:{
+                    swfPath:'../plugin/jquery-jplayer'
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>
