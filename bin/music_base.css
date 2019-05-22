@@ -3,3 +3,8 @@ html { overflow-y: scroll; }
 body {
     background-color: #444;
 }
+
+span,a:link,a:active,a:visited,a:hover{
+    color: #fff8d6;
+    text-decoration: none;
+}
