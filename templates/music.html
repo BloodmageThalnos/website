@@ -33,5 +33,11 @@
     </script>
 </head>
 <body>
+<span>歌单列表：</span>
+<ul>
+    {% for list in lists %}
+    <li><a href="/music/{{ list }}">{{ list }}</a></li>
+    {% endfor %}
+</ul>
 </body>
 </html>

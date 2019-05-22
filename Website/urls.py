@@ -17,6 +17,7 @@ urlpatterns = [
     path('source/<path:path>', staticViews.showSource),
     path('bin/<path:path>', staticViews.showBin),
     path('fonts/<path:path>', staticViews.showFont),
+    path('getmusic/<path:path>', staticViews.showMusic),
     path('static/<path:path>', staticViews.showStatic),
 
     # texas calculator function

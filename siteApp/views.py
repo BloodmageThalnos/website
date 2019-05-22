@@ -1,6 +1,7 @@
 import logging
 import json
 import os
+import random
 
 from django.contrib.auth.models import User
 from django.views.decorators.gzip import gzip_page
@@ -39,17 +40,22 @@ def showStatistics(request):
 
 def showMusic(request, path):
     template = loader.get_template('music.html')
+    context = {}
+    musics = []
+    dirs = os.listdir('./music')
+    mfs = []
     if os.path.isdir('./music/'+path):
-        context = {}
-        musics = []
-        for mf in os.listdir('./music/'+path):
-            musics.append({
-                'url': '/music/'+path+'/'+mf,
-                'title': mf.split('.')[0],
-                'artist': 'LITTLEDVA'
-            })
-        context['musics']=musics
-        return HttpResponse(template.render(context, request))
+        mfs = os.listdir('./music/'+path)
+        random.shuffle(mfs)
+    for mf in mfs:
+        musics.append({
+            'url': '/getmusic/'+path+'/'+mf,
+            'title': mf.split('.')[0],
+            'artist': 'LITTLEDVA'
+        })
+    context['musics']=musics
+    context['lists']=dirs
+    return HttpResponse(template.render(context, request))
 
 
 # /visit

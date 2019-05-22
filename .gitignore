@@ -7,3 +7,4 @@ db.sqlite3
 *_secret.*
 /static/planet/*.dat
 /life/*
+/music/*
