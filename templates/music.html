@@ -26,18 +26,20 @@
                 autoPlay:false, 
                 description:description,
                 jPlayer:{
-                    swfPath:'../plugin/jquery-jplayer'
-                }
+                    swfPath:'../plugin/jquery-jplayer',
+                },
             });
         });
     </script>
 </head>
 <body>
+<div style="position: relative;top: 0;">
 <span>歌单列表：</span>
 <ul>
     {% for list in lists %}
     <li><a href="/music/{{ list }}">{{ list }}</a></li>
     {% endfor %}
 </ul>
+</div>
 </body>
 </html>
