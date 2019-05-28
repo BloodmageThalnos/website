@@ -1,19 +1,15 @@
 import logging
 import json
-import os
-import random
 
 from django.contrib.auth.models import User
-from django.views.decorators.gzip import gzip_page
 from django.http import *
 from django.template import loader
-from django.contrib.auth import login
 import subprocess
 from .models import *
 from hashlib import sha256
 import datetime
 
-from django.shortcuts import render
+from .view.music import showMusic
 
 logger = logging.getLogger(__name__)
 
@@ -37,25 +33,6 @@ def showUploadArticle(request):
 
 def showStatistics(request):
     pass
-
-def showMusic(request, path):
-    template = loader.get_template('music.html')
-    context = {}
-    musics = []
-    dirs = os.listdir('./music')
-    mfs = []
-    if os.path.isdir('./music/'+path):
-        mfs = os.listdir('./music/'+path)
-        random.shuffle(mfs)
-    for mf in mfs:
-        musics.append({
-            'url': '/getmusic/'+path+'/'+mf,
-            'title': mf.split('.')[0],
-            'artist': 'LITTLEDVA'
-        })
-    context['musics']=musics
-    context['lists']=dirs
-    return HttpResponse(template.render(context, request))
 
 
 # /visit
@@ -108,7 +85,6 @@ def showDebug(request, path):
     return HttpResponse('502 error.')
 
 
-@gzip_page
 def showLife(request, path):
     if not User.objects.filter(username__exact=path).count():
         return HttpResponseNotFound('扫开法庭')
@@ -146,7 +122,7 @@ def lifeAction(request):
         return showLifeList(request)
 
 AUTO_SAVE_MAX = 5
-SAVE_MAX = 10
+SAVE_MAX = 5
 
 def saveLife(request):
     saveid = request.POST.get('saveid')
@@ -159,7 +135,10 @@ def saveLife(request):
 
     username = request.user.username
 
-    # 每个用户只保存50个auto和50个手动
+    # gzip压缩内容后保存
+    gzip_content = gzip.compress()
+
+    # 每个用户只保存5个auto和5个手动保存记录，按修改时间倒序，超过的删掉。
     # TODO: 此操作应设为脚本，而不是每次保存时调用
     life = sorted([x for x in os.listdir('./life') if x.startswith('life_'+username+'-')],key=lambda x:os.path.getmtime('./life/'+x), reverse=True)
     lifeauto = sorted([x for x in os.listdir('./life') if x.startswith('life_'+username+'_')],key=lambda x:os.path.getmtime('./life/'+x), reverse=True)
@@ -171,11 +150,11 @@ def saveLife(request):
             os.remove('./life/'+lifeauto[i])
 
     if auto == '1':
-        with open(datetime.datetime.now().strftime('./life/life_'+username+'_AUTOSAVE-%y%m%d%H%M%S.html'), mode="w", encoding="GBK") as f:
+        with open(datetime.datetime.now().strftime('./life/life_'+username+'_AUTOSAVE-%m/%d %H:%M:%S.html'), mode="w", encoding="GBK") as f:
             f.write(content)
     else:
         try:
-            os.rename('./life/life_'+username+'.html',datetime.datetime.now().strftime('./life/life_'+username+'-%y%m%d%H%M%S.html'))
+            os.rename('./life/life_'+username+'.html',datetime.datetime.now().strftime('./life/life_'+username+'-%m/%d %H:%M:%S.html'))
         except:
             pass
         with open('./life/life_'+username+'.html', mode="w", encoding="GBK") as f:

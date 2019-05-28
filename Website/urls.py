@@ -10,7 +10,7 @@ from loginApp import views as loginViews
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # old static pages, some of them are taken over by nginx
+    # old static pages, will be taken over by nginx in manufactory mode
     path('s/<path:path>', staticViews.showPage),
     path('assets/<path:path>', staticViews.showAssets),
     path('images/<path:path>', staticViews.showImages),
@@ -35,15 +35,16 @@ urlpatterns = [
     path('cv', siteViews.showCv),
 
     # new website
-    re_path('^home/?$', mainViews.showMainPage),
-    re_path('^articles/?$', mainViews.showArticlesPage),
+    path('home/', mainViews.showMainPage),
+    path('articles/', mainViews.showArticlesPage),
     re_path(r'^article-(?P<id>[0-9]+)/$',mainViews.showArticle),
     path('action', mainViews.action),
     path('postDisqus', mainViews.postDisqus),
-    re_path('^disqus/?$', mainViews.showDisqus),
+    path('disqus/', mainViews.showDisqus),
 
     # music
     path('music/<slug:path>', siteViews.showMusic),
+    # path('musicAdd/<slug:path>', siteViews.addMusic),
 
     # life app
     path('life/__action', siteViews.lifeAction),
@@ -55,11 +56,15 @@ urlpatterns = [
     path('doregister', loginViews.doRegister),
     path('dologout', loginViews.doLogout),
 
-    # site management
+    # site管理
     path('__admin__/upload', siteViews.showUploadArticle),
+
+    # debug相关
     path('__debug__/<slug:path>', siteViews.showDebug),
-    path('__admin__/statics', siteViews.showStatistics),
+
+    # 统计相关
     path('visit',siteViews.doVisit),
+    path('__admin__/statics', siteViews.showStatistics),
 
     # main page
     path('', siteViews.showRoot),
