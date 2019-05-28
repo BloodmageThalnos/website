@@ -1,3 +1,4 @@
+import gzip
 import logging
 import json
 
@@ -87,24 +88,27 @@ def showDebug(request, path):
 
 def showLife(request, path):
     if not User.objects.filter(username__exact=path).count():
-        return HttpResponseNotFound('扫开法庭')
+        return HttpResponseNotFound('用户不存在！')
     if request.user.is_authenticated:
         template=loader.get_template('life.html')
         use = request.GET.get('use_saved')
         context = {}
         if use is not None:
+            context['use_saved'] = True
+            context['saved_filename'] = use
+
             if not use.startswith('life_'+path):
                 return HttpResponse('use saved format error.')
             if not os.path.exists('./life/'+use):
                 return HttpResponse('use saved file not exists.')
-            content = open('./life/'+use, encoding='gbk').read()
-            context['use_saved'] = True
-            context['saved_filename'] = use
+            gzip_content = open('./life/'+use, mode="rb").read()
+            content = gzip.decompress(gzip_content).decode('gbk')
         else:
             if not os.path.exists('./life/life_'+path+'.html'):
                 from shutil import copyfile
                 copyfile('./life/example.html','./life/life_'+path+'.html')
-            content = open('./life/life_'+path+'.html', encoding='gbk').read()
+            gzip_content = open('./life/life_'+path+'.html', mode="rb").read()
+            content = gzip.decompress(gzip_content).decode('gbk')
         context['content']=content
         if request.user.username == path:
             context['saveid']=sha256((request.user.username+str(request.user.id)).encode()).hexdigest()[16:48]
@@ -115,7 +119,7 @@ def showLife(request, path):
 def lifeAction(request):
     action = request.POST.get('action')
     if action is None:
-        return HttpResponse('赛凯阀厅')
+        return HttpResponse('请求失败！')
     elif action == 'save':
         return saveLife(request)
     elif action == 'rollback':
@@ -130,13 +134,13 @@ def saveLife(request):
     auto = request.POST.get('autosave')
     if saveid != sha256((request.user.username+str(request.user.id)).encode()).hexdigest()[16:48]:
         logger.error('Somebody tried to save without authentication.')
-        logger.error(content)
         return HttpResponse('保存失败，登录状态出现问题，或没有权限。')
 
     username = request.user.username
 
     # gzip压缩内容后保存
-    gzip_content = gzip.compress()
+    gzip_content = gzip.compress(content.encode('gbk'))
+    logger.info('Before zip: %d bytes, After zip, %d bytes', len(content.encode('gbk')), len(gzip_content))
 
     # 每个用户只保存5个auto和5个手动保存记录，按修改时间倒序，超过的删掉。
     # TODO: 此操作应设为脚本，而不是每次保存时调用
@@ -150,15 +154,15 @@ def saveLife(request):
             os.remove('./life/'+lifeauto[i])
 
     if auto == '1':
-        with open(datetime.datetime.now().strftime('./life/life_'+username+'_AUTOSAVE-%m/%d %H:%M:%S.html'), mode="w", encoding="GBK") as f:
-            f.write(content)
+        with open(datetime.datetime.now().strftime('./life/life_'+username+'_AUTOSAVE-%m/%d %H:%M:%S.html'), mode="wb") as f:
+            f.write(gzip_content)
     else:
         try:
             os.rename('./life/life_'+username+'.html',datetime.datetime.now().strftime('./life/life_'+username+'-%m/%d %H:%M:%S.html'))
         except:
             pass
-        with open('./life/life_'+username+'.html', mode="w", encoding="GBK") as f:
-            f.write(content)
+        with open('./life/life_'+username+'.html', mode="wb") as f:
+            f.write(gzip_content)
     return HttpResponse('保存成功。')
 
 def showLifeList(request):
