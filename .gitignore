@@ -1,5 +1,5 @@
 db.sqlite3
-/log/*.log
+/log/*
 /.idea/*
 *.pyc
 /images/upload/*
@@ -8,3 +8,6 @@ db.sqlite3
 /static/planet/*.dat
 /life/*
 /music/*
+/source/*
+/test/*
+/*_backup/*
