@@ -1,9 +1,12 @@
+import logging
 import os
 
 from django.db import models
 from django.core.cache import cache
 import pickle
 from PIL import Image, ImageOps
+
+logger = logging.getLogger(__name__)
 
 # Create your models here.
 class ArticleModel(models.Model):
@@ -42,11 +45,14 @@ class ArticleModel(models.Model):
     # visited
 
 def thumb_from_cover_img(img_path, img_path_new):
-    img = Image.open(img_path)
-    size = min(500, min(img.size[0], img.size[1]))
-    # img.thumbnail((size,size))
-    img = ImageOps.fit(img,(size,size))
-    img.save(img_path_new)
+    try:
+        img = Image.open(img_path)
+        size = min(500, min(img.size[0], img.size[1]))
+        # img.thumbnail((size,size))
+        img = ImageOps.fit(img,(size,size))
+        img.save(img_path_new)
+    except Exception as e:
+        logger.error(e)
 
 
 class CommentModel(models.Model):
