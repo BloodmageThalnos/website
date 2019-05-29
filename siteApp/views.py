@@ -154,11 +154,11 @@ def saveLife(request):
             os.remove('./life/'+lifeauto[i])
 
     if auto == '1':
-        with open(datetime.datetime.now().strftime('./life/life_'+username+'_AUTOSAVE-%m/%d %H:%M:%S.html'), mode="wb") as f:
+        with open(datetime.datetime.now().strftime('./life/life_'+username+'_AUTOSAVE-%m:%d_%H:%M:%S.html'), mode="wb") as f:
             f.write(gzip_content)
     else:
         try:
-            os.rename('./life/life_'+username+'.html',datetime.datetime.now().strftime('./life/life_'+username+'-%m/%d %H:%M:%S.html'))
+            os.rename('./life/life_'+username+'.html',datetime.datetime.now().strftime('./life/life_'+username+'-%m:%d_%H:%M:%S.html'))
         except:
             pass
         with open('./life/life_'+username+'.html', mode="wb") as f:
