@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Log management</title>
+</head>
+<body>
+    <div style="text-align: center;font-size: 30px;">{{name}}</div>
+    <div style="height: 50px;">
+        <a href="/__debug__/errlog">Error log...</a>
+        <a href="/__debug__/infolog">Info log...</a>
+        <a href="/__debug__/dopullshell">Git pull...</a>
+        <a href="/__debug__/doshelllog">Git log...</a>
+        <a href="/__debug__/clearlog">Clear log...</a>
+    </div>
+    <div>
+        <textarea id="T" style="width: 99%;font-size: 20px;">{{ output }}</textarea>
+    </div>
+    <script>
+        ta = document.getElementById("T");
+        ta.style.height = (window.innerHeight - 100) + "px";
+        ta.scrollTop = ta.scrollHeight;
+    </script>
+</body>
+</html>

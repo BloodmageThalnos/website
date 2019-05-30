@@ -60,6 +60,7 @@ urlpatterns = [
     path('__admin__/upload', siteViews.showUploadArticle),
 
     # debug相关
+    path('__debug__/', siteViews.showDebug),
     path('__debug__/<slug:path>', siteViews.showDebug),
 
     # 统计相关

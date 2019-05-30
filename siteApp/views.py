@@ -66,16 +66,31 @@ def doVisit(request):
 # /debug/<slug:path>
 # 显示debug用的一些页面，包括errlog、infolog、doshelllog
 # 访问dopullshell会执行服务器上的../do.sh，用来进行git pull等操作。
-def showDebug(request, path):
-    if path == 'errlog':
+def showDebug(request, path=''):
+    if request.user.username != "dva":
+        return HttpResponseRedirect('/login?next=/__debug__/'+path)
+    if path == '':
+        template = loader.get_template('log.html')
+        context = {"name": "View logs..."}
+        return HttpResponse(template.render(context, request))
+    elif path == 'errlog':
         with open('./log/err.log', mode='r', encoding='utf-8') as f:
-            return HttpResponse(f.read().replace('\n','<br />'))
+            template = loader.get_template('log.html')
+            context = {"name":"Error.log", "output": f.read()}
+            return HttpResponse(template.render(context, request))
+
     elif path=='infolog':
         with open('./log/info.log', mode='r', encoding='utf-8') as f:
-            return HttpResponse(f.read().replace('\n','<br />'))
+            template = loader.get_template('log.html')
+            context = {"name":"Info.log", "output": f.read()}
+            return HttpResponse(template.render(context, request))
+
     elif path=='doshelllog':
         with open('../do.txt', mode='r', encoding='utf-8') as f:
-            return HttpResponse(f.read().replace('\n','<br />'))
+            template = loader.get_template('log.html')
+            context = {"name":"Shell.log", "output": f.read()}
+            return HttpResponse(template.render(context, request))
+
     elif path=='dopullshell':
         obj=subprocess.Popen(["sleep 0.1 && sh ../do.sh > ../do.txt 2>&1"]
                              , shell=True, universal_newlines=True)
@@ -83,7 +98,13 @@ def showDebug(request, path):
             '<html><head><meta http-equiv="refresh" content="3;url=/__debug__/doshelllog"></head></html>'
         )
 
-    return HttpResponse('502 error.')
+    elif path=='clearlog':
+        with open('./log/info.log', mode="w") as f:
+            f.write('Log cleared. \n')
+        with open('./log/err.log', mode="w") as f:
+            f.write('Log cleared. \n')
+
+    return HttpResponseRedirect('/__debug__/')
 
 
 def showLife(request, path):
