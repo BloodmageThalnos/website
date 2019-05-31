@@ -4,7 +4,6 @@
     padding-top: 60px;
     /*DEBUG*/
     /*background-color: #abfecd;*/
-
 }
 .t-verbar{
     height: 1000px;
@@ -183,4 +182,44 @@
 .t-settings-li:hover{
     background-color: black;
     cursor:default;
+}
+.t-float{
+    position: fixed;
+    position: -ms-device-fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 80%;
+    max-width: 500px;
+    height: 300px;
+    max-height: 70%;
+    background-color: #111;
+    overflow: hidden;
+    display: none;
+    z-index: 997;
+}
+.t-float-close{
+    position: relative;
+    float: right;
+    right: 15px;
+    top: 15px;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    cursor: default;
+    color: white;
+}
+.t-float-content{
+    font-size: 18px;
+    line-height: 26px;
+    color: whitesmoke;
+    margin: 20px calc(15px + 3%) 0 calc(15px + 3%);
+}
+.t-float-title{
+    margin: 20px;
+    text-align: center;
+    font-size: 27px;
+    color: whitesmoke;
 }

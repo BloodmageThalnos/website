@@ -603,7 +603,34 @@ Menu = new function() {
             }, 50);
         });
 
-        $('.t-verbar').css("height",($('#t-div').height()-10)+"px")
+        $('.t-verbar').css("height",($('#t-div').height()-10)+"px");
+
+        $('#settings-rollback').on("click",()=>{
+            $('#settings-right-rollback').addClass('show');
+            Menu.buttonClicked = true;
+        });
+
+        $('#settings-right-rollback').on("mouseleave", function(){
+            $('#settings-right-rollback').removeClass('show');
+        });
+
+        $('#settings-help').on("click", ()=>{
+            $('#t-float').css("display","initial");
+            $('#t-float').css("height", "450px");
+            let title = "帮助与支持";
+            let content = " - 这个页面可以用来记录日程、任务清单，帮助你规划和跟踪时间。\n" +
+                " - 左侧的蓝色圆形可以调出菜单；\n" +
+                " - 在编辑event时按回车键可以跳到下一个event，在编辑description时则需要 Ctrl+Enter 键；\n" +
+                " - 熟练使用 Tab 和 Shift+Tab，可以轻松地不用鼠标编辑所有event;\n" +
+                " - 日期会自动递增，或自动赋值为今天的日期。如果需要修改日期，选择 Set date，如果需要自己输入标题，选择 Edit date；\n" +
+                " - Show Task可以调出任务清单，同样可以用Enter输入哦！";
+            $('#float_title').text(title);
+            $('#float_content').html(content.replace(/\n/g,'<br />'));
+        });
+
+        $('.t-float-close').on("click", ()=>{
+            $('#t-float').css("display", "none");
+        });
     };
 
     this.show = obj => {

@@ -26,17 +26,22 @@
                     <div class="col-md-8">
                         <div class="t-settings" id="settings">
                             <ul class="list-group t-settings-ul">
-                                <li style="display:none;"></li>
-                                <li class="list-group-item t-settings-li" id="settings-save">Save</li>
-                                <li class="list-group-item t-settings-li" id="settings-rollback" onclick="$('#settings-right-rollback').addClass('show');Menu.buttonClicked=true;">
-                                    <div class="t-settings-right" id="settings-right-rollback" onmouseleave="$(this).removeClass('show');">
-                                        <ul class="list-group t-settings-ul">
-                                            <li class="list-group-item t-settings-li">加</li>
-                                            <li class="list-group-item t-settings-li">载</li>
-                                            <li class="list-group-item t-settings-li">中</li>
-                                        </ul>
-                                    </div>
+                                <li style="display:none;">用来隐藏上边框</li>
+                                <li class="list-group-item t-settings-li" id="settings-save">
+                                    Save
+                                </li>
+                                <li class="list-group-item t-settings-li" id="settings-rollback">
+                                <div class="t-settings-right" id="settings-right-rollback">
+                                    <ul class="list-group t-settings-ul">
+                                        <li class="list-group-item t-settings-li">加</li>
+                                        <li class="list-group-item t-settings-li">载</li>
+                                        <li class="list-group-item t-settings-li">中</li>
+                                    </ul>
+                                </div>
                                     Roll back
+                                </li>
+                                <li class="list-group-item t-settings-li" id="settings-help">
+                                    Help
                                 </li>
                             </ul>
                         </div>
@@ -65,6 +70,14 @@
             Saved file {{ saved_filename }} not found.
         </div>
         {% endif %}
+
+        <div class="t-float" id="t-float">
+            <div class="t-float-close">X</div>
+            <div class="t-float-title" id="float_title">
+            </div>
+            <div class="t-float-content" id="float_content">
+            </div>
+        </div>
 
         <div class="container">
             <div class="t-div" id="t-div">
