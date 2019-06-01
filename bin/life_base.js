@@ -1,3 +1,18 @@
+const URL_ACTION = "/life/__action";
+
+getChildrenIndex = ele => {
+                            //IE
+                            if(ele.sourceIndex){
+                                return ele.sourceIndex - ele.parentNode.sourceIndex - 1;
+                            }
+                            //other
+                            var i=0;
+                            while(ele = ele.previousElementSibling){
+                                i++;
+                            }
+                            return i;
+                        };
+
 Controller = new function () {
     this.days = [];
     this.events = [];
@@ -27,10 +42,11 @@ Controller = new function () {
         this._id = maxid;   // id从最大元素id+1开始标起
         let lastday; // 临时存一下day
         for (let i = 0; i < DOMs.length; i++) {
-            dom = $(DOMs[i]);
+            let dom = $(DOMs[i]);
             if (dom.hasClass('t-verbar')) {
                 // continue;
-            } else if (dom.hasClass('t-event-day')) {
+            }
+            else if (dom.hasClass('t-event-day')) {
                 let day = new Day(
                     /*Date*/dom.attr('date'),
                     /*DateStr*/dom.find('.t-e-right-day')[0].innerHTML,
@@ -40,9 +56,8 @@ Controller = new function () {
                 this.days.push(day);
                 lastday = day;
                 dom.prop('id', day.id);
-                //  console.log('Created day.');
-                //  console.log(day);
-            } else if (dom.hasClass('t-event')) {
+            }
+            else if (dom.hasClass('t-event')) {
                 // let left on yourself.
                 if (!lastday) {
                     console.log('Unparented event found.' + dom);
@@ -64,10 +79,46 @@ Controller = new function () {
                 dom.prop('id', event.id);
                 //  console.log('Created event.');
                 //  console.log(event);
-            } else if (dom.hasClass('t-plan')){
-                lastday.task = dom.find('.t-plan-div')[0].innerHTML;
+            }
+            else if (dom.hasClass('t-plan')){
+                let task = new Task();
+                let id = dom.prop('id');
+                if(id && id.length > 5 && id[id.length-1]==='k') {
+                    task.id = parseInt(id);
+                } else {
+                    console.log('Unexpected plan id: '+ id);
+                    task.id = Controller.getid();
+                }
+                let lines_dom = dom.find('.t-plan-line');
+                for(let i = 0; i<lines_dom.length; i++){
+                    let line = $(lines_dom[i]).html();
+                    let regex = /class=\"inner *(\S*?)\"><\/div/g;
+                    let res = regex.exec(line);
+                    let check;
+                    if(res!= null){
+                        check = res[1];
+                    }else{
+                        check = "";
+                    }
+                    task.check.push(check);
+
+                    regex = /t-plan-text.*>(.*)<\/div>/g;
+                    res = regex.exec(line);
+                    let content;
+                    if(res!= null){
+                        content = res[1];
+                    }else{
+                        content = "";
+                    }
+                    task.lines.push(content);
+                }
+                task.day = lastday;
+                lastday.task = task;
+
+
             } else {
-                console.log('有什么奇怪的东西混进去了。');
+                console.log('有什么奇怪的东西混进去了:');
+                console.log(dom);
             }
         }
     };
@@ -113,25 +164,18 @@ Controller = new function () {
 
     this.createDescript = obj => {
         let dayid = $(obj).closest('.t-event-day').prop('id');
-        //console.log(dayid);
         let day = this.days.find(value => value.id == dayid);
-        //console.log(day);
-        // add description
         day.addDesc();
     };
 
     this.createTask = obj => {
         let dayid = $(obj).closest('.t-event-day').prop('id');
-        //console.log(dayid);
         let day = this.days.find(value => value.id == dayid);
-        //console.log(day);
-        // create event
         day.addTask();
     };
 
     this.editDate = obj => {
         let dayid = $(obj).closest('.t-event-day').prop('id');
-        //console.log(dayid);
         let day = this.days.find(value => value.id == dayid);
         day.date._str = day.date.show();
         day.date._date = null;
@@ -139,20 +183,15 @@ Controller = new function () {
 
     this.setDate = obj => {
         let dayid = $(obj).closest('.t-event-day').prop('id');
-        //console.log(dayid);
         let day = this.days.find(value => value.id == dayid);
         day.date._str = null;
         let datestr = prompt('请输入日期', new Date());
         day.date._date = new Date(datestr);
-        console.log(day);
     };
 
     this.deleteTask = obj => {
         let dayid = $(obj).closest('.t-event-day').prop('id');
-        //console.log(dayid);
         let day = this.days.find(value => value.id == dayid);
-        //console.log(day);
-        // create event
         day.delTask();
     };
 
@@ -183,9 +222,8 @@ Controller = new function () {
     };
 
     this.deleteDay = obj => {
-        if (!confirm('是否删除此天的所有内容？！此操作难以恢复。')) return;
+        if (!confirm('是否删除此天的所有内容？！此操作可能无法恢复。')) return;
         let dayid = $(obj).closest('.t-event-day').prop('id');
-        //console.log(dayid);
         this.days = this.days.filter(val => val.id != dayid);
     };
 
@@ -253,8 +291,6 @@ Controller = new function () {
         let alldiv = '<div class="t-verbar"></div>';
         for (let i = 0; i < this.days.length; i++) {
             let day = this.days[i];
-            // day.update();
-            // create div
             let daydiv =
                 '<div class="t-event t-event-day" id="' + day.id + '" date="'+ (day.date._str?"":day.date._date) +'">' +
                 '<div class="t-e-left">' +
@@ -283,7 +319,7 @@ Controller = new function () {
                 '</div>' +
                 '</div>';
             if(day.task){
-                daydiv += "<div class=\"t-plan\" id=\""+ day.id +"_task\"><div class=\"t-plan-div\">" + day.task + "</div></div>";
+                daydiv += day.task.html();
             }
             for (let i = 0; i < day.events.length; i++) {
                 let event = day.events[i];
@@ -321,27 +357,25 @@ Controller = new function () {
 
         for (let i = 0; i < this.events.length; i++) {
             let eventid = this.events[i].id;
+            let $event = $('#' + eventid);
 
             // 在事件标题中按回车，添加事件，并修改焦点
-            $('#' + eventid).find('.event-title').keypress(function (event) {
+            $event.find('.event-title').keypress(function (event) {
                 var keynum = (event.keyCode ? event.keyCode : event.which);
                 if (keynum === 13) {
-                    // alert('You pressed a "Enter" key in somewhere');
-                    //console.log(this);
                     Controller.createEventFromEvent($('#' + eventid));
                     return false;
                 }
                 else
                     Controller._last_input = Date.now();
             });
-            // 写description时Ctrl+Enter也可以添加事件
-            $('#' + eventid).find('.event-descript').keypress(function (event) {
-                // console.log(event);
+
+            // 写description时Ctrl+Enter也可以添加事件。
+            $event.find('.event-descript').keypress(function (event) {
                 var keynum = (event.keyCode ? event.keyCode : event.which);
                 if ((keynum === 10 || keynum === 13) && event.ctrlKey) {
                     // Windows上Ctrl+Enter的键码是10；Mac、Linux等上是13。
                     console.log('You pressed a "Ctrl+Enter" key in somewhere');
-                    //console.log(this);
                     Controller.createEventFromEvent($('#' + eventid));
                     return false;
                 }
@@ -350,27 +384,83 @@ Controller = new function () {
             });
         }
 
-        /* 计划列表换行事件，临时写在这里。 */
-        $('.t-plan-text').on('keypress',function (event) {
-                Controller._last_input = Date.now();
-                var keynum = (event.keyCode ? event.keyCode : event.which);
-                if (keynum === 13) {
 
-                    let dayid = parseInt($(this).closest('.t-plan').prop('id'));
-                    //console.log(dayid);
-                    Controller.initFromDOM();
-                    let day = Controller.days.find(value => value.id == dayid);
+        $('.t-plan-text').on('keydown', function (event) {
+            Controller._last_input = Date.now();
+            var keynum = (event.keyCode ? event.keyCode : event.which);
+            // 计划列表换行事件
+            if (keynum === 13) {
+                let dayid = parseInt($(this).closest('.t-plan').prop('id'));
+                Controller.initFromDOM();
+                // 顺序不能错。
 
-                    day.task += '<div class="t-plan-line"><div class="t-plan-check"><div class="inner"></div></div><div class="t-plan-text" contenteditable=true>Example task.</div></div>';
-                    console.log(day);
+                let day = Controller.days.find(value => value.id == dayid);
+                let task = day.task;
+                let index = getChildrenIndex($(this).parent()[0])-1;
+                task.addItem(index);
 
-                    Controller.updateAll();
-                    Controller.updateDOM();
+                Controller.updateDOM();
 
+                try {
+                    let a = $($($('#' + day.id + '_task').children().children()[index + 2]).children()[1]);
+                    if(a && a.length) {
+                        a.focus();
+                    }
+                }
+                finally {
                     return false;
                 }
-            });
+            }
+            // 计划列表回车删行
+            else if(keynum === 8) {
+                if($(this).text() === ""){
+                    let dayid = parseInt($(this).closest('.t-plan').prop('id'));
+                    Controller.initFromDOM();
+                    // 顺序不能错。
 
+                    let day = Controller.days.find(value => value.id == dayid);
+                    let task = day.task;
+                    let index = getChildrenIndex($(this).parent()[0])-1;
+                    task.removeItem(index);
+
+                    Controller.updateDOM();
+
+                    try {
+                        if(!index){
+                            let a = $($($('#' + day.id + '_task').children().children()[index + 1]).children()[1]);
+                            if (a && a.length) {
+                                a.focus();
+                            }
+                        }else {
+                            let a = $($($('#' + day.id + '_task').children().children()[index]).children()[1]);
+                            if (a && a.length) {
+                                setCaretPosition(a[0], a.text().length);
+                            }
+                        }
+                    }
+                    finally {
+                        return false;
+                    }
+                }
+            }
+        });
+
+        $('.t-plan-check').on('click', function(event) {
+            let dayid = parseInt($(this).closest('.t-plan').prop('id'));
+            Controller.initFromDOM();
+            // 顺序不能错。
+
+            let day = Controller.days.find(value => value.id == dayid);
+            let task = day.task;
+            let index = getChildrenIndex($(this).parent()[0])-1;
+            if(task.check[index]==="")task.check[index]="checked";
+            else if(task.check[index]==="checked")task.check[index]="crossed";
+            else task.check[index] = "";
+
+            Controller.updateDOM();
+        });
+
+        // 用于保留焦点
         if(caretDiv){
             setCaretPosition(document.getElementById(caretDiv), caretPos);
         }
@@ -396,7 +486,7 @@ Controller = new function () {
             formData.append("autosave", "1");
         }
         $.ajax({
-            url: '/life/__action',
+            url: URL_ACTION,
             type: 'post',
             data: formData,
             processData: false,
@@ -455,7 +545,7 @@ function Day(date, datestr, desc="", id=0) {
     this.id = id?id:Controller.getid();
     this.date = new MyDate(date, datestr);
     this.desc = desc;
-    this.task = "";
+    this.task = null;
     this.events = [];
     this.update = () => {
         this.events.sort((a, b) => a.compareTime(b));
@@ -468,21 +558,16 @@ function Day(date, datestr, desc="", id=0) {
     };
 
     this.addTask = () => {
-        console.log('added');
-        this.task =
-            "<div class=\"t-plan-title\">Tasks</div>" +
-            "<div class=\"t-plan-line\">" +
-                "<div class=\"t-plan-check\">" +
-                "<div class=\"inner\"></div>" +
-                "</div>" +
-                "<div class='t-plan-text' contenteditable=true>Example task.</div>" +
-            "</div>";
-        this.taskid = Controller.getid();
+        if(this.task == null){
+            this.task = new Task();
+            this.task.init();
+            this.task.day = this;
+        }
+        // 已有task，不做改动
     };
 
     this.delTask = () => {
-        this._task = this.task;
-        this.task = "";
+        this.task = null;
     };
 
     this.addEvent = event => {
@@ -499,6 +584,45 @@ function Day(date, datestr, desc="", id=0) {
         this.events = this.events.filter(val => val.id != eventid);
         this.update();
     };
+}
+
+function Task() {
+    this.id = 0;
+    this.day = null;
+    this.check = []; // "", "checked", "crossed"
+    this.lines = [];
+    this.init = () => {
+        this.id = Controller.getid();
+        this.check.push("");
+        this.lines.push("Example task.");
+    };
+    this.addItem = i => {
+        console.log(i);
+        console.log(this.check);
+        this.check.splice(i+1, 0, "");
+        this.lines.splice(i+1, 0, "");
+    };
+    this.removeItem = i => {
+        this.check.splice(i, 1);
+        this.lines.splice(i, 1);
+    };
+    this.html = () => {
+        let ret =  "<div class=\"t-plan\" id=\""+ this.day.id +"_task\">" +
+            "<div class=\"t-plan-div\">" +
+            "<div class=\"t-plan-title\">Tasks</div>";
+        for(let i = 0; i<this.lines.length; i++){
+            ret += "<div class=\"t-plan-line\">" +
+                "<div class=\"t-plan-check\">" +
+                "<div class=\"inner " + this.check[i] + "\"></div>" +
+                "</div>" +
+                "<div class=\"t-plan-text\" contenteditable=true>" + this.lines[i] + "</div>" +
+            "</div>\n";
+        }
+        ret += "</div>" + //t-plan-div
+            "</div>"; //t-plan
+        return ret;
+    };
+
 }
 
 function Event(name, hasdesc, canedit, desc, time, id=0) {
@@ -532,11 +656,8 @@ function Event(name, hasdesc, canedit, desc, time, id=0) {
             if (time[i] === 'p') t += 720;
             else if (time[i] === 'a') i++;
             else t = 99999;
-            //    console.log('Time: ' + time + ', Result: ' + t);
             return t;
         };
-        //console.log(this.time);
-        //console.log(this.time.match(regex));
         let a_times = this.time.match(regex);
         let b_times = b.time.match(regex);
         if (!a_times) return 1;
@@ -562,7 +683,7 @@ Settings = new function (){
         formData.append("saveid", Controller.saveid);
         formData.append("action", "rollback");
         $.ajax({
-            url: '/life/__action',
+            url: URL_ACTION,
             type: 'post',
             data: formData,
             processData: false,
@@ -571,6 +692,7 @@ Settings = new function (){
             success: function (msg) {
                 msg = JSON.parse(msg);
                 if(msg.success == 'false'){
+                    console.log("Init rollback failed.");
                     console.log(msg.msg)
                 }
                 else{
@@ -615,8 +737,9 @@ Menu = new function() {
         });
 
         $('#settings-help').on("click", ()=>{
-            $('#t-float').css("display","initial");
-            $('#t-float').css("height", "450px");
+            let $t_float = $('#t-float');
+            $t_float.css("display","initial");
+            $t_float.css("height", "450px");
             let title = "帮助与支持";
             let content = " - 这个页面可以用来记录日程、任务清单，帮助你规划和跟踪时间。\n" +
                 " - 左侧的蓝色圆形可以调出菜单；\n" +
