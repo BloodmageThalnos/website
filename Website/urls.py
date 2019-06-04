@@ -44,7 +44,6 @@ urlpatterns = [
 
     # music
     path('music/<slug:path>', siteViews.showMusic),
-    # path('musicAdd/<slug:path>', siteViews.addMusic),
 
     # life app
     path('life/__action', siteViews.lifeAction),
