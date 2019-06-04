@@ -1,15 +1,10 @@
 const URL_ACTION = "/life/__action";
 
-getChildrenIndex = ele => {
-                            //IE
-                            if(ele.sourceIndex){
-                                return ele.sourceIndex - ele.parentNode.sourceIndex - 1;
-                            }
+getChildrenIndex = ele => { //IE
+                            if(ele.sourceIndex) return ele.sourceIndex - ele.parentNode.sourceIndex - 1;
                             //other
                             var i=0;
-                            while(ele = ele.previousElementSibling){
-                                i++;
-                            }
+                            while(ele = ele.previousElementSibling) i++;
                             return i;
                         };
 
@@ -22,10 +17,11 @@ Controller = new function () {
     // 但效果不好，已移除。
 
     this.init = () => {
-        $('#settings-save').on('click', Controller.save);                   // 手动保存
-        setTimeout(setInterval, 60000, Controller.try_auto_save, 60000);  // 每1分钟自动保存一次。
-        $(window).unload(Controller.save);                                  // 关闭网站时自动保存
-        Controller.setCloseEvent(300000);                                   // 标签页失去焦点的时候自动保存一次，冷却时间5分钟、
+        $('#settings-save').on('click', Controller.save);                   // 手动保存（trick：会传入一个event参数）
+        // setTimeout(setInterval, 60000, Controller.try_auto_save, 60000); // 每1分钟自动保存一次。
+                                                                            // 输入事件发生后，10秒没有下次输入事件，就自动保存。
+        $(window).unload(Controller.save);                                  // 关闭网站时自动保存。
+        Controller.setCloseEvent(60000);                                    // 标签页失去焦点的时候自动保存，冷却时间1分钟。
     };
 
     this.initFromDOM = () => {
@@ -265,25 +261,18 @@ Controller = new function () {
         };//获取当前光标位置
         const setCaretPosition = function (element, pos) {
             var range, selection;
-            if (document.createRange)//Firefox, Chrome, Opera, Safari, IE 9+
-            {
-            range = document.createRange();//创建一个选中区域
-            range.selectNodeContents(element);//选中节点的内容
-            if(element.innerHTML.length > 0) {
-              range.setStart(element.childNodes[0], pos); //设置光标起始为指定位置
-            }
-            range.collapse(true);       //设置选中区域为一个点
-            selection = window.getSelection();//获取当前选中区域
-            selection.removeAllRanges();//移出所有的选中范围
-            selection.addRange(range);//添加新建的范围
-            }
-            else if (document.selection)//IE 8 and lower
-            {
-            range = document.body.createTextRange();//Create a range (a range is a like the selection but invisible)
-            range.moveToElementText(element);//Select the entire contents of the element with the range
-            range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
-            range.select();//Select the range (make it the visible selection
-            }
+            try {
+                range = document.createRange();//创建一个选中区域
+                range.selectNodeContents(element);//选中节点的内容
+                if (element.innerHTML.length > 0) {
+                    range.setStart(element.childNodes[0], pos); //设置光标起始为指定位置
+                }
+                range.collapse(true);       //设置选中区域为一个点
+                selection = window.getSelection();//获取当前选中区域
+                selection.removeAllRanges();//移出所有的选中范围
+                selection.addRange(range);//添加新建的范围
+
+            }finally{}
         };//设置光标位置
         let caretDiv = $(document.activeElement).prop('id');
         let caretPos = getCaretPosition(document.activeElement);
@@ -375,7 +364,7 @@ Controller = new function () {
                 var keynum = (event.keyCode ? event.keyCode : event.which);
                 if ((keynum === 10 || keynum === 13) && event.ctrlKey) {
                     // Windows上Ctrl+Enter的键码是10；Mac、Linux等上是13。
-                    console.log('You pressed a "Ctrl+Enter" key in somewhere');
+                    // console.log('You pressed a "Ctrl+Enter" key in somewhere');
                     Controller.createEventFromEvent($('#' + eventid));
                     return false;
                 }
@@ -468,11 +457,11 @@ Controller = new function () {
 
     this._last_input = Date.now();
     this._last_save = Date.now();
-    this.save = (type='auto') => {
+    this.save = auto => {
         // 无保存权限的页面
         if(!Controller.saveid) return;
         // 保存
-        if(type !== 'auto') {
+        if(auto !== true) {
             Controller.initFromDOM();
             Controller.updateAll();
             Controller.updateDOM();
@@ -482,7 +471,7 @@ Controller = new function () {
         formData.append("content", $('#t-div').html());
         formData.append("saveid", Controller.saveid);
         formData.append("action", "save");
-        if(type === 'auto') {
+        if(auto === true) {
             formData.append("autosave", "1");
         }
         $.ajax({
@@ -493,43 +482,25 @@ Controller = new function () {
             contentType: false,
             success: function (msg) {
                 if(type === 'auto'){
-                    console.log('自动保存 '+Date(Date.now()));
-                    console.log(msg);
+                    console.log('自动保存 '+Date(Date.now())+' 成功。');
                 }else {
                     alert(msg);
                 }
             }
         });
         this._last_save = Date.now();
-        // return false;
-    };
-    this.try_auto_save = () => {
-        // 当自动保存事件触发时，如果用户正在输入，则CSMA/CD避让。
-        if(Date.now() - this._last_save < 30000){
-            // 30秒内已经保存过一次啦！直接返回
-            return;
-        }
-        if(Date.now() - this._last_input < 3000){
-            // 3秒内刚进行过键盘输入，认为是正在打字，过一会再来试试。
-            setTimeout(this.try_auto_save, 3000);
-            return;
-        }
-
-        this.save();
     };
 
-    this._visibility_save = true;
     this.setCloseEvent = lag => {
         var hiddenProperty = 'hidden' in document ? 'hidden' :'webkitHidden' in document ? 'webkitHidden' : 'mozHidden' in document ? 'mozHidden' : null;
         var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');
+        _vsave = true;
         document.addEventListener(visibilityChangeEvent, event => {
             if(document[hiddenProperty]) {
-                if(this._visibility_save) {
-                    this.save();
-                    this._visibility_save = false;
-                    setTimeout(() => {
-                        this._visibility_save = true;
-                    }, lag);
+                if(_vsave) {
+                    this.save(true);    // quiet save
+                    _vsave = false;
+                    setTimeout(() => {_vsave = true;}, lag);
                 }
             }
         });
@@ -746,7 +717,8 @@ Menu = new function() {
                 " - 在编辑event时按回车键可以跳到下一个event，在编辑description时则需要 Ctrl+Enter 键；\n" +
                 " - 熟练使用 Tab 和 Shift+Tab，可以轻松地不用鼠标编辑所有event;\n" +
                 " - 日期会自动递增，或自动赋值为今天的日期。如果需要修改日期，选择 Set date，如果需要自己输入标题，选择 Edit date；\n" +
-                " - Show Task可以调出任务清单，同样可以用Enter输入哦！";
+                " - Show Task可以调出任务清单，同样可以用Enter输入！\n" +
+                " - 可以手动保存，也会自动保存。";
             $('#float_title').text(title);
             $('#float_content').html(content.replace(/\n/g,'<br />'));
         });
