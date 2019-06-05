@@ -56,7 +56,6 @@ def addMusic(request):
             if chunk:
                 file_size += 4096
                 f.write(chunk)
-                print("Downloading: "+str(file_size//1024)+"KB.")
                 if file_size > MAX_FILE:
                     f.close()
                     os.remove(save_path)
