@@ -4,6 +4,7 @@ import django
 os.environ['DJANGO_SETTINGS_MODULE'] = 'Website.settings'
 django.setup()
 
+'''
 import gzip
 files = os.listdir('./life')
 for file in files:
@@ -13,7 +14,7 @@ for file in files:
     gzip_c = gzip.compress(content.encode("gbk"))
     with open(name, mode="wb") as f:
         f.write(gzip_c)
-
+'''
 
 '''
 from mainApp.models import *

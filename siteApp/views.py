@@ -10,7 +10,7 @@ from .models import *
 from hashlib import sha256
 import datetime
 
-from .view.music import showMusic
+from .view.music import showMusic, addMusic
 
 logger = logging.getLogger(__name__)
 

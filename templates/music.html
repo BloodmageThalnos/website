@@ -21,7 +21,6 @@
         $(document).ready(function(){
             var description = 'The sharp edge of a razor is difficult to pass over;\n' +
              ' thus the wise say the path to Salvation is hard.';
-
             $('body').ttwMusicPlayer(myPlaylist, {
                 autoPlay:false, 
                 description:description,
@@ -30,6 +29,20 @@
                 },
             });
         });
+        function doita(i){
+            $.ajax('/addmusic',{
+                type: 'POST',
+                data: new FormData(i),
+                async: true,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(msg) {
+                    alert(msg);
+                }
+            });
+            return false;
+        }
     </script>
 </head>
 <body>
@@ -40,6 +53,15 @@
     <li><a href="/music/{{ list }}">{{ list }}</a></li>
     {% endfor %}
 </ul>
+<br/>
+<br/>
+<br/>
+<form method="POST" onsubmit="return doita(this);">
+    URL: <input name="url"><br/>
+    Folder: <input name="folder"><br/>
+    Name: <input name="name"><br/>
+    <button>Submit</button>
+</form>
 </div>
 </body>
 <script>

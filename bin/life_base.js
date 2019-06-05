@@ -17,7 +17,7 @@ Controller = new function () {
     // 但效果不好，已移除。
 
     this.init = () => {
-        $('#settings-save').on('click', Controller.save);                   // 手动保存（trick：会传入一个event参数）
+        $('#settings-save').on('click', ()=>{Controller.save(false,true);}); // 手动保存（trick：会传入一个event参数）
         // setTimeout(setInterval, 60000, Controller.try_auto_save, 60000); // 每1分钟自动保存一次。
                                                                             // 输入事件发生后，10秒没有下次输入事件，就自动保存。
         $(window).unload(Controller.save);                                  // 关闭网站时自动保存。
@@ -457,7 +457,7 @@ Controller = new function () {
 
     this._last_input = Date.now();
     this._last_save = Date.now();
-    this.save = auto => {
+    this.save = (auto, doAlert) => {
         // 无保存权限的页面
         if(!Controller.saveid) return;
         // 保存
@@ -481,7 +481,7 @@ Controller = new function () {
             processData: false,
             contentType: false,
             success: function (msg) {
-                if(type === 'auto'){
+                if(doAlert === true){
                     console.log('自动保存 '+Date(Date.now())+' 成功。');
                 }else {
                     alert(msg);

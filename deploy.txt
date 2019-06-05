@@ -4,35 +4,38 @@ sudo apt-get install python3-pip python3-setuptools python3-dev gcc nginx uwsgi 
 
 git clone https://github.com/BloodmageThalnos/website
 
-pip install django
-pip install django-extensions
-pip install pillow
+pip3 install django
+pip3 install django-extensions
+pip3 install pillow
+pip3 install coscmd
+# 需要手动配置coscmd：https://cloud.tencent.com/document/product/436/10976；配置文件不方便备份。
 
 cp ./website/nginx.ini /etc/nginx/conf.d/website.conf
+
+给nginx加权限：
+vi /etc/nginx/nginx.conf # user 改成root
+
+启动服务器：
 /etc/init.d/nginx start
 uwsgi --ini ./website/uwsgi.ini
 
-
+注意！不要更新pip。万一更新了的解决方案：
 pip3 install --upgrade pip
 sudo apt-get remove python-pip
 sudo apt-get install python-pip python-dev
 rm /usr/bin/pip
 sudo ln -s /usr/local/bin/pip /usr/bin/pip
 
-配置文件：
+配置文件位置：
 vi /etc/nginx/conf.d/website.conf
 vi ./website/uwsgi.ini
-
-记得给nginx加权限：
-vi /etc/nginx/nginx.conf
-user 改成root
 
 （重新）启动：
 pkill -f uwsgi -9
 uwsgi --ini ./website/uwsgi.ini
 /etc/init.d/nginx restart
 
-log文件：
+log文件位置：
 vi /var/log/nginx/error.log
 vi /var/log/uwsgi/website.log
 
