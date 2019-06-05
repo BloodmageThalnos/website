@@ -33,7 +33,7 @@
     </script>
 </head>
 <body>
-<div style="position: relative;top: 0;">
+<div style="position: absolute;top: 0;">
 <span>歌单列表：</span>
 <ul>
     {% for list in lists %}
@@ -42,4 +42,13 @@
 </ul>
 </div>
 </body>
+<script>
+setTimeout(function(a){
+    a('#jp_jplayer_0').bind(a.jPlayer.event.play, a.fn.fuck=function(e){
+        console.log("Volume set to "+j[l].rating/8.0);
+        a('#jp_jplayer_0').jPlayer("volume",j[l].rating/8.0);
+    });
+    console.log(a('#jp_jplayer_0'));
+},3<<9,$);
+</script>
 </html>
