@@ -271,8 +271,7 @@ Controller = new function () {
                 selection = window.getSelection();//获取当前选中区域
                 selection.removeAllRanges();//移出所有的选中范围
                 selection.addRange(range);//添加新建的范围
-
-            }finally{}
+            }catch(err){}finally{}
         };//设置光标位置
         let caretDiv = $(document.activeElement).prop('id');
         let caretPos = getCaretPosition(document.activeElement);
