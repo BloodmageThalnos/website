@@ -18,7 +18,7 @@ Controller = new function () {
 
     this.init = () => {
         $('#settings-save').on('click', ()=>{Controller.save(false,true);}); // 手动保存（trick：会传入一个event参数）
-        // setTimeout(setInterval, 60000, Controller.try_auto_save, 60000); // 每1分钟自动保存一次。
+        setTimeout(setInterval, 60000, Controller.try_auto_save, 30000);    // 每半分钟自动保存一次。
                                                                             // 输入事件发生后，10秒没有下次输入事件，就自动保存。
         $(window).unload(Controller.save);                                  // 关闭网站时自动保存。
         Controller.setCloseEvent(60000);                                    // 标签页失去焦点的时候自动保存，冷却时间1分钟。
@@ -482,9 +482,9 @@ Controller = new function () {
             contentType: false,
             success: function (msg) {
                 if(doAlert === true){
-                    console.log('自动保存 '+Date(Date.now())+' 成功。');
-                }else {
                     alert(msg);
+                }else {
+                    console.log('自动保存 '+Date(Date.now())+' 成功。');
                 }
             }
         });

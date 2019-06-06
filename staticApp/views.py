@@ -21,6 +21,10 @@ def showMusic(request, path):
         with open('./music/' + path, mode="rb") as f:
             html = f.read()
         return HttpResponse(html, content_type="audio/mpeg3")
+    if path.endswith('m4a'):
+        with open('./music/' + path, mode="rb") as f:
+            html = f.read()
+        return HttpResponse(html, content_type="audio/mp4")
 
 
 def showAssets(request, path):
