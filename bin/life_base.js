@@ -1,27 +1,42 @@
 const URL_ACTION = "/life/__action";
+const AUTO_SAVE_INTERVAL = 10 * 1000;
 
-getChildrenIndex = ele => { //IE
-                            if(ele.sourceIndex) return ele.sourceIndex - ele.parentNode.sourceIndex - 1;
-                            //other
-                            var i=0;
-                            while(ele = ele.previousElementSibling) i++;
-                            return i;
-                        };
+Static = new function() { // static functions
+    this.getChildrenIndex = ele => { //IE
+        if (ele.sourceIndex) return ele.sourceIndex - ele.parentNode.sourceIndex - 1;
+        //other
+        var i = 0;
+        while (ele = ele.previousElementSibling) i++;
+        return i;
+    };
+}();
 
 Controller = new function () {
     this.days = [];
     this.events = [];
     this.saveid = 0;
-    // this.dirty = false;
-    // 曾经有检测上次保存后是否有修改的功能，防止重复的自动保存。
-    // 但效果不好，已移除。
 
+    this.dirty = false; // 界面是否被修改
+    this.updatingDom = false; // 正在updateDom等
+    this.needSave = false; // 是否需要保存
     this.init = () => {
-        $('#settings-save').on('click', ()=>{Controller.save(false,true);}); // 手动保存（trick：会传入一个event参数）
-        setTimeout(setInterval, 60000, Controller.try_auto_save, 30000);    // 每半分钟自动保存一次。
-                                                                            // 输入事件发生后，10秒没有下次输入事件，就自动保存。
-        $(window).unload(Controller.save);                                  // 关闭网站时自动保存。
-        Controller.setCloseEvent(60000);                                    // 标签页失去焦点的时候自动保存，冷却时间1分钟。
+        // 保存相关
+        document.body.addEventListener("DOMCharacterDataModified",function(e){
+            if(Controller.updatingDom)return;
+            Controller.dirty = true;
+        });
+        setTimeout(setInterval, 10000, function(e){
+            if(Controller.dirty){
+                _ldirty = true;
+                Controller.dirty = false;
+            }else if(_ldirty){
+                Controller.try_auto_save();
+                _ldirty = false;
+            }
+        }, AUTO_SAVE_INTERVAL); // 如果发现内容是脏的，且10秒没有更新过了，就提交一次save。
+        $('#settings-save').on('click', ()=>{Controller.save(false,true);}); // 手动保存
+        $(window).unload(Controller.try_auto_save); // 关闭网站时自动保存。
+        Controller.setCloseEvent(60000); // 标签页失去焦点的时候自动保存，冷却时间1分钟。
     };
 
     this.initFromDOM = () => {
@@ -36,7 +51,7 @@ Controller = new function () {
             }
         }
         this._id = maxid;   // id从最大元素id+1开始标起
-        let lastday; // 临时存一下day
+        let lastday; // lastday表示最近的一个day（当前day）
         for (let i = 0; i < DOMs.length; i++) {
             let dom = $(DOMs[i]);
             if (dom.hasClass('t-verbar')) {
@@ -73,8 +88,7 @@ Controller = new function () {
                 this.events.push(event);
                 lastday.events.push(event);
                 dom.prop('id', event.id);
-                //  console.log('Created event.');
-                //  console.log(event);
+                //  console.log('Created event:\n'+event);
             }
             else if (dom.hasClass('t-plan')){
                 let task = new Task();
@@ -88,14 +102,9 @@ Controller = new function () {
                 let lines_dom = dom.find('.t-plan-line');
                 for(let i = 0; i<lines_dom.length; i++){
                     let line = $(lines_dom[i]).html();
-                    let regex = /class=\"inner *(\S*?)\"><\/div/g;
+                    let regex = /class=\"inner *(\S*?)\"><\/div/g; //从class name获取打勾打叉信息
                     let res = regex.exec(line);
-                    let check;
-                    if(res!= null){
-                        check = res[1];
-                    }else{
-                        check = "";
-                    }
+                    let check = res?res[1]:"";
                     task.check.push(check);
 
                     regex = /t-plan-text.*>(.*)<\/div>/g;
@@ -113,8 +122,7 @@ Controller = new function () {
 
 
             } else {
-                console.log('有什么奇怪的东西混进去了:');
-                console.log(dom);
+                console.log('有什么奇怪的东西混进去了:\n'+dom);
             }
         }
     };
@@ -130,17 +138,15 @@ Controller = new function () {
             }
         }
         if(!lastdate) {
-            lastdate = new Date();
+            lastdate = new Date(); // 当前日期（今天）
         }
         else{
-            lastdate = new Date(lastdate.getTime() + 24*60*60*1000);
+            lastdate = new Date(lastdate.getTime() + 24*60*60*1000); // 上一个日期+1
         }
 
-        // create day
         let day = new Day(lastdate);
         day.addDesc();
 
-        //create event
         let event = new Event('', true, true, '', '');
         day.addEvent(event);
         this.events.push(event);
@@ -152,7 +158,6 @@ Controller = new function () {
         let dayid = $(obj).closest('.t-event-day').prop('id');
         let day = this.days.find(value => value.id == dayid);
 
-        //create event
         let event = new Event('', true, true, '', '');
         day.addEvent(event);
         this.events.push(event);
@@ -206,7 +211,6 @@ Controller = new function () {
         }
         this.updateDOM();
         $('#' + event.id).find('.event-title').focus();
-        this._last_input = Date.now();
     };
 
     this.deleteEvent = obj => {
@@ -271,7 +275,7 @@ Controller = new function () {
                 selection = window.getSelection();//获取当前选中区域
                 selection.removeAllRanges();//移出所有的选中范围
                 selection.addRange(range);//添加新建的范围
-            }catch(err){}finally{}
+            }catch(err){}finally{} //可能会
         };//设置光标位置
         let caretDiv = $(document.activeElement).prop('id');
         let caretPos = getCaretPosition(document.activeElement);
@@ -341,7 +345,15 @@ Controller = new function () {
             }
             alldiv += daydiv;
         }
+        this.updatingDom = true;
+        // 更新整个网页
         $('#t-div').html(alldiv);
+
+        // 用于保留焦点
+        if(caretDiv){
+            setCaretPosition(document.getElementById(caretDiv), caretPos);
+        }
+        this.updatingDom = false;
 
         for (let i = 0; i < this.events.length; i++) {
             let eventid = this.events[i].id;
@@ -354,8 +366,6 @@ Controller = new function () {
                     Controller.createEventFromEvent($('#' + eventid));
                     return false;
                 }
-                else
-                    Controller._last_input = Date.now();
             });
 
             // 写description时Ctrl+Enter也可以添加事件。
@@ -367,16 +377,13 @@ Controller = new function () {
                     Controller.createEventFromEvent($('#' + eventid));
                     return false;
                 }
-                else
-                    Controller._last_input = Date.now();
             });
         }
 
 
         $('.t-plan-text').on('keydown', function (event) {
-            Controller._last_input = Date.now();
             var keynum = (event.keyCode ? event.keyCode : event.which);
-            // 计划列表换行事件
+            // 计划列表回车换行事件
             if (keynum === 13) {
                 let dayid = parseInt($(this).closest('.t-plan').prop('id'));
                 Controller.initFromDOM();
@@ -384,7 +391,7 @@ Controller = new function () {
 
                 let day = Controller.days.find(value => value.id == dayid);
                 let task = day.task;
-                let index = getChildrenIndex($(this).parent()[0])-1;
+                let index = Static.getChildrenIndex($(this).parent()[0])-1;
                 task.addItem(index);
 
                 Controller.updateDOM();
@@ -399,7 +406,7 @@ Controller = new function () {
                     return false;
                 }
             }
-            // 计划列表回车删行
+            // 计划列表退格删行
             else if(keynum === 8) {
                 if($(this).text() === ""){
                     let dayid = parseInt($(this).closest('.t-plan').prop('id'));
@@ -408,7 +415,7 @@ Controller = new function () {
 
                     let day = Controller.days.find(value => value.id == dayid);
                     let task = day.task;
-                    let index = getChildrenIndex($(this).parent()[0])-1;
+                    let index = Static.getChildrenIndex($(this).parent()[0])-1;
                     task.removeItem(index);
 
                     Controller.updateDOM();
@@ -440,24 +447,17 @@ Controller = new function () {
 
             let day = Controller.days.find(value => value.id == dayid);
             let task = day.task;
-            let index = getChildrenIndex($(this).parent()[0])-1;
+            let index = Static.getChildrenIndex($(this).parent()[0])-1;
             if(task.check[index]==="")task.check[index]="checked";
             else if(task.check[index]==="checked")task.check[index]="crossed";
             else task.check[index] = "";
 
             Controller.updateDOM();
         });
-
-        // 用于保留焦点
-        if(caretDiv){
-            setCaretPosition(document.getElementById(caretDiv), caretPos);
-        }
     };
 
-    this._last_input = Date.now();
-    this._last_save = Date.now();
     this.save = (auto, doAlert) => {
-        // 无保存权限的页面
+        // 无保存权限的页面。为防止saveid伪造，后台也会进行check
         if(!Controller.saveid) return;
         // 保存
         if(auto !== true) {
@@ -465,7 +465,6 @@ Controller = new function () {
             Controller.updateAll();
             Controller.updateDOM();
         }
-        this._last_save = Date.now();
         var formData = new FormData();
         formData.append("content", $('#t-div').html());
         formData.append("saveid", Controller.saveid);
@@ -485,9 +484,17 @@ Controller = new function () {
                 }else {
                     console.log('自动保存 '+Date(Date.now())+' 成功。');
                 }
+            },
+            fail: function (msg) {
+
             }
         });
-        this._last_save = Date.now();
+    };
+
+    this.try_auto_save = _ => {
+        if(this.dirty){
+            this.save(true,false);
+        }
     };
 
     this.setCloseEvent = lag => {
@@ -497,7 +504,7 @@ Controller = new function () {
         document.addEventListener(visibilityChangeEvent, event => {
             if(document[hiddenProperty]) {
                 if(_vsave) {
-                    this.save(true);    // quiet save
+                    this.try_auto_save();
                     _vsave = false;
                     setTimeout(() => {_vsave = true;}, lag);
                 }
@@ -505,7 +512,7 @@ Controller = new function () {
         });
     };
 
-    this._id = 100;
+    this._id = 1; // 会在initfromdom函数中更新。
     this.getid = () => {
         return ++this._id;
     };
@@ -522,7 +529,7 @@ function Day(date, datestr, desc="", id=0) {
     };
 
     this.addDesc = () => {
-        if(this.desc == "") {
+        if(! this.desc) {
             this.desc = "平凡的一天....."
         }
     };
@@ -661,7 +668,7 @@ Settings = new function (){
             async: true,
             success: function (msg) {
                 msg = JSON.parse(msg);
-                if(msg.success == 'false'){
+                if(msg.success === 'false'){
                     console.log("Init rollback failed.");
                     console.log(msg.msg)
                 }

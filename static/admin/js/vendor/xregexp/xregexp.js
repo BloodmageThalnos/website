@@ -711,7 +711,7 @@ XRegExp = XRegExp || (function (undef) {
  * });
  * // -> 'Smith, John'
  *
- * // Global string search/replacement
+ * // Static string search/replacement
  * XRegExp.replace('RegExp builds RegExps', 'RegExp', 'XRegExp', 'all');
  * // -> 'XRegExp builds XRegExps'
  */

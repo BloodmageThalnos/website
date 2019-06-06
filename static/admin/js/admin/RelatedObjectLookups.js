@@ -129,7 +129,7 @@
         win.close();
     }
 
-    // Global for testing purposes
+    // Static for testing purposes
     window.id_to_windowname = id_to_windowname;
     window.windowname_to_id = windowname_to_id;
 
