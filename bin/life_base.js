@@ -1,5 +1,5 @@
 const URL_ACTION = "/life/__action";
-const AUTO_SAVE_INTERVAL = 8 * 1000;
+const AUTO_SAVE_INTERVAL = 3 * 1000;
 
 Static = new function() { // static functions
     this.getChildrenIndex = ele => { //IE
