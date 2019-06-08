@@ -1,9 +1,11 @@
 sudo apt-get update
 sudo apt-get upgrade
-sudo apt-get install python3-pip python3-setuptools python3-dev gcc nginx uwsgi build-essential
+sudo apt-get install python3-pip python3-setuptools python3-dev gcc nginx build-essential git uwsgi uwsgi-plugin-python3
 
 git clone https://github.com/BloodmageThalnos/website
+mkdir ./website/log
 
+pip3 install uwsgi
 pip3 install django
 pip3 install django-extensions
 pip3 install pillow
@@ -19,7 +21,13 @@ vi /etc/nginx/nginx.conf # user 改成root
 /etc/init.d/nginx start
 uwsgi --ini ./website/uwsgi.ini
 
-注意！不要更新pip。万一更新了的解决方案：
+注意！如果装的uwsgi版本是2.0.12 debian等的话，则需要在uwsgi.ini中加一句话：
+vi ./website/uwsgi.ini
+    [...]
+    plugin=python3
+
+注意！不要更新pip到10.0以上。
+万一更新了的解决方案：
 pip3 install --upgrade pip
 sudo apt-get remove python-pip
 sudo apt-get install python-pip python-dev

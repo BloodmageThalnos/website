@@ -1,5 +1,5 @@
 const URL_ACTION = "/life/__action";
-const AUTO_SAVE_INTERVAL = 10 * 1000;
+const AUTO_SAVE_INTERVAL = 8 * 1000;
 
 Static = new function() { // static functions
     this.getChildrenIndex = ele => { //IE
@@ -18,7 +18,6 @@ Controller = new function () {
 
     this.dirty = false; // 界面是否被修改
     this.updatingDom = false; // 正在updateDom等
-    this.needSave = false; // 是否需要保存
     this.init = () => {
         // 保存相关
         document.body.addEventListener("DOMCharacterDataModified",function(e){
@@ -33,10 +32,12 @@ Controller = new function () {
                 Controller.try_auto_save();
                 _ldirty = false;
             }
-        }, AUTO_SAVE_INTERVAL); // 如果发现内容是脏的，且10秒没有更新过了，就提交一次save。
-        $('#settings-save').on('click', ()=>{Controller.save(false,true);}); // 手动保存
-        $(window).unload(Controller.try_auto_save); // 关闭网站时自动保存。
-        Controller.setCloseEvent(60000); // 标签页失去焦点的时候自动保存，冷却时间1分钟。
+        }, AUTO_SAVE_INTERVAL); // 如果发现内容是脏的，且8秒没有更新过了，就提交一次save。
+        $('#settings-save').on('click', ()=>{Controller.save(false, true);}); // 手动保存
+        $(window).unload(function(e){
+            if(Controller.dirty || _ldirty) Controller.save(true, false);
+        }) // 关闭网站时，如果内容脏，强制保存。
+        // Controller.onCloseEvent(60000); // 标签页失去焦点的时候自动保存，冷却时间1分钟。
     };
 
     this.initFromDOM = () => {
@@ -152,6 +153,8 @@ Controller = new function () {
         this.events.push(event);
 
         this.days.splice(0, 0, day);
+
+        Controller.dirty = true;
     };
 
     this.createEvent = obj => {
@@ -161,18 +164,24 @@ Controller = new function () {
         let event = new Event('', true, true, '', '');
         day.addEvent(event);
         this.events.push(event);
+
+        Controller.dirty = true;
     };
 
     this.createDescript = obj => {
         let dayid = $(obj).closest('.t-event-day').prop('id');
         let day = this.days.find(value => value.id == dayid);
         day.addDesc();
+
+        Controller.dirty = true;
     };
 
     this.createTask = obj => {
         let dayid = $(obj).closest('.t-event-day').prop('id');
         let day = this.days.find(value => value.id == dayid);
         day.addTask();
+
+        Controller.dirty = true;
     };
 
     this.editDate = obj => {
@@ -180,6 +189,8 @@ Controller = new function () {
         let day = this.days.find(value => value.id == dayid);
         day.date._str = day.date.show();
         day.date._date = null;
+
+        Controller.dirty = true;
     };
 
     this.setDate = obj => {
@@ -188,12 +199,16 @@ Controller = new function () {
         day.date._str = null;
         let datestr = prompt('请输入日期', new Date());
         day.date._date = new Date(datestr);
+
+        Controller.dirty = true;
     };
 
     this.deleteTask = obj => {
         let dayid = $(obj).closest('.t-event-day').prop('id');
         let day = this.days.find(value => value.id == dayid);
         day.delTask();
+
+        Controller.dirty = true;
     };
 
     this.createEventFromEvent = obj => {
@@ -211,6 +226,8 @@ Controller = new function () {
         }
         this.updateDOM();
         $('#' + event.id).find('.event-title').focus();
+
+        Controller.dirty = true;
     };
 
     this.deleteEvent = obj => {
@@ -219,18 +236,24 @@ Controller = new function () {
         let day = event.day;
         this.events = this.events.filter(val => val.id != eventid);
         day.events = day.events.filter(val => val.id != eventid);
+
+        Controller.dirty = true;
     };
 
     this.deleteDay = obj => {
         if (!confirm('是否删除此天的所有内容？！此操作可能无法恢复。')) return;
         let dayid = $(obj).closest('.t-event-day').prop('id');
         this.days = this.days.filter(val => val.id != dayid);
+
+        Controller.dirty = true;
     };
 
     this.addDescription = obj => {
         let eventid = $(obj).closest('.t-event').prop('id');
         let event = this.events.find(val => val.id == eventid);
         event.hasDesc = true;
+
+        Controller.dirty = true;
     };
 
     this.updateAll = () => {
@@ -492,22 +515,18 @@ Controller = new function () {
     };
 
     this.try_auto_save = _ => {
-        if(this.dirty){
-            this.save(true,false);
+        if(!_lsave || Date.now() - _lsave > AUTO_SAVE_INTERVAL) {
+            Controller.save(true, false);
         }
     };
 
-    this.setCloseEvent = lag => {
+    this.onCloseEvent = _ => {
         var hiddenProperty = 'hidden' in document ? 'hidden' :'webkitHidden' in document ? 'webkitHidden' : 'mozHidden' in document ? 'mozHidden' : null;
         var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');
         _vsave = true;
         document.addEventListener(visibilityChangeEvent, event => {
             if(document[hiddenProperty]) {
-                if(_vsave) {
-                    this.try_auto_save();
-                    _vsave = false;
-                    setTimeout(() => {_vsave = true;}, lag);
-                }
+                // something when the page goes out.
             }
         });
     };
