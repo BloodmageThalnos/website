@@ -512,8 +512,10 @@ Controller = new function () {
 
             }
         });
+        _lsave = Date.now();
     };
 
+    _lsave = 0;
     this.try_auto_save = _ => {
         if(!_lsave || Date.now() - _lsave > AUTO_SAVE_INTERVAL) {
             Controller.save(true, false);
