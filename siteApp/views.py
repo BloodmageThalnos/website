@@ -128,7 +128,9 @@ def showLife(request, path):
             if not os.path.exists('./life/life_'+path+'.html'):
                 from shutil import copyfile
                 copyfile('./life/example.html','./life/life_'+path+'.html')
+
             gzip_content = open('./life/life_'+path+'.html', mode="rb").read()
+
             content = gzip.decompress(gzip_content).decode('gbk')
         context['content']=content
         if request.user.username == path:
@@ -175,13 +177,10 @@ def saveLife(request):
             os.remove('./life/'+lifeauto[i])
 
     if auto == '1':
-        with open(datetime.datetime.now().strftime('./life/life_'+username+'_AUTOSAVE-%m:%d_%H:%M:%S.html'), mode="wb") as f:
+        with open(datetime.datetime.now().strftime('./life/life_'+username+'_AUTO-%m.%d_%H.%M.%S.html'), mode="wb") as f:
             f.write(gzip_content)
     else:
-        try:
-            os.rename('./life/life_'+username+'.html',datetime.datetime.now().strftime('./life/life_'+username+'-%m:%d_%H:%M:%S.html'))
-        except:
-            pass
+        os.rename('./life/life_'+username+'.html',datetime.datetime.now().strftime('./life/life_'+username+'-%m.%d_%H.%M.%S.html'))
         with open('./life/life_'+username+'.html', mode="wb") as f:
             f.write(gzip_content)
     return HttpResponse('保存成功。')

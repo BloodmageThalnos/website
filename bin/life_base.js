@@ -24,6 +24,7 @@ Controller = new function () {
             if(Controller.updatingDom)return;
             Controller.dirty = true;
         });
+        _ldirty = false;
         setTimeout(setInterval, 10000, function(e){
             if(Controller.dirty){
                 _ldirty = true;
