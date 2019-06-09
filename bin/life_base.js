@@ -33,7 +33,7 @@ Controller = new function () {
                 Controller.try_auto_save();
                 _ldirty = false;
             }
-        }, AUTO_SAVE_INTERVAL); // 如果发现内容是脏的，且8秒没有更新过了，就提交一次save。
+        }, AUTO_SAVE_INTERVAL); // 如果发现内容是脏的，且X秒没有更新过了，就提交一次save。
         $('#settings-save').on('click', ()=>{Controller.save(false, true);}); // 手动保存
         $(window).unload(function(e){
             if(Controller.dirty || _ldirty) Controller.save(true, false);
@@ -420,46 +420,43 @@ Controller = new function () {
 
                 Controller.updateDOM();
 
-                try {
-                    let a = $($($('#' + day.id + '_task').children().children()[index + 2]).children()[1]);
-                    if(a && a.length) {
-                        a.focus();
-                    }
+                let a = $($($('#' + day.id + '_task').children().children()[index + 2]).children()[1]);
+                if(a && a.length) {
+                    a.focus();
                 }
-                finally {
-                    return false;
-                }
+                return false;
             }
             // 计划列表退格删行
             else if(keynum === 8) {
                 if($(this).text() === ""){
                     let dayid = parseInt($(this).closest('.t-plan').prop('id'));
                     Controller.initFromDOM();
-                    // 顺序不能错。
 
                     let day = Controller.days.find(value => value.id == dayid);
                     let task = day.task;
                     let index = Static.getChildrenIndex($(this).parent()[0])-1;
+
+                    // 只有一个点的时候退格不删光
+                    if(!index && task.event.length === 1){
+                        return false;
+                    }
+
                     task.removeItem(index);
 
                     Controller.updateDOM();
 
-                    try {
-                        if(!index){
-                            let a = $($($('#' + day.id + '_task').children().children()[index + 1]).children()[1]);
-                            if (a && a.length) {
-                                a.focus();
-                            }
-                        }else {
-                            let a = $($($('#' + day.id + '_task').children().children()[index]).children()[1]);
-                            if (a && a.length) {
-                                setCaretPosition(a[0], a.text().length);
-                            }
+                    if(!index){ // 如果是在第一行删除，则光标移到第二行开头
+                        let a = $($($('#' + day.id + '_task').children().children()[index + 1]).children()[1]);
+                        if (a && a.length) {
+                            a.focus();
+                        }
+                    }else { // 否则移到上一行的结尾
+                        let a = $($($('#' + day.id + '_task').children().children()[index]).children()[1]);
+                        if (a && a.length) {
+                            setCaretPosition(a[0], a.text().length);
                         }
                     }
-                    finally {
-                        return false;
-                    }
+                    return false;
                 }
             }
         });
