@@ -437,7 +437,7 @@ Controller = new function () {
                     let index = Static.getChildrenIndex($(this).parent()[0])-1;
 
                     // 只有一个点的时候退格不删光
-                    if(!index && task.event.length === 1){
+                    if(!index && task.check.length === 1){
                         return false;
                     }
 
@@ -656,7 +656,8 @@ function Event(name, hasdesc, canedit, desc, time, id=0) {
         };
         let a_times = this.time.match(regex);
         let b_times = b.time.match(regex);
-        if (!a_times) return 1;
+        if (!a_times && !b_times) return 0;
+        else if (!a_times) return 1;
         else if (!b_times) return -1;
         a_times = a_times.map(cal);
         b_times = b_times.map(cal);
