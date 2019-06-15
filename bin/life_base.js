@@ -490,6 +490,7 @@ Controller = new function () {
         formData.append("content", $('#t-div').html());
         formData.append("saveid", Controller.saveid);
         formData.append("action", "save");
+        formData.append("page" , Controller.page);
         if(auto === true) {
             formData.append("autosave", "1");
         }
@@ -671,13 +672,15 @@ function Event(name, hasdesc, canedit, desc, time, id=0) {
 Settings = new function (){
     this.initAll = () => {
         setTimeout(()=>this.initRollback(), 1200); // saveid will be set after 1000 milliseconds
+        setTimeout(()=>this.initPagelist(), 1200); // saveid will be set after 1000 milliseconds
     };
 
     this.initRollback = () => {
-        if(!Controller.saveid) return;
+        if (!Controller.saveid) return;
         // 保存
         var formData = new FormData();
         formData.append("saveid", Controller.saveid);
+        formData.append("page", Controller.page);
         formData.append("action", "rollback");
         $.ajax({
             url: URL_ACTION,
@@ -688,19 +691,48 @@ Settings = new function (){
             async: true,
             success: function (msg) {
                 msg = JSON.parse(msg);
-                if(msg.success === 'false'){
+                if (msg.success === 'false') {
                     console.log("Init rollback failed.");
+                    console.log(msg.msg)
+                } else {
+                    content = '<ul class="list-group t-settings-ul">';
+                    for (let i = 0; i < parseInt(msg['length']); i++) {
+                        content += '<li class="list-group-item t-settings-li" ' +
+                            'onclick="document.location=document.location.toString().split(\'?\')[0]+\'?use_saved=' + msg['' + i] + '\'">' + msg['' + i] + '</li>';
+                    }
+                    content += '</ul>';
+                    $('#settings-right-rollback').html(content);
+                }
+            }
+        });
+    };
+
+    this.initPagelist = () => {
+        // 用户列表
+        var formData = new FormData();
+        formData.append("action", "listpage");
+        formData.append("user", Controller.user);
+        $.ajax({
+            url: URL_ACTION,
+            type: 'post',
+            data: formData,
+            processData: false,
+            contentType: false,
+            async: true,
+            success: function (msg) {
+                msg = JSON.parse(msg);
+                if(msg.success === 'false'){
+                    console.log("Init pagelist failed.");
                     console.log(msg.msg)
                 }
                 else{
                     content = '<ul class="list-group t-settings-ul">';
-                    for(let i=0;i<parseInt(msg['length']);i++) {
+                    for(let i=1;i<parseInt(msg['length']);i++) {
                         content += '<li class="list-group-item t-settings-li" ' +
-                        'onclick="document.location=document.location.toString().split(\'?\')[0]+\'?use_saved=' + msg[''+i] + '\'"' +
-                            '>' + msg['' + i] + '</li>';
+                        'onclick="document.location=document.location.toString().split(\'?\')[0]+\'?page=' + msg['' + i] + '\'">' + msg['_' + i] + '</li>';
                     }
                     content += '</ul>';
-                    $('#settings-right-rollback').html(content);
+                    $('#settings-right-pagelist').html(content);
                 }
             }
         });
@@ -726,11 +758,23 @@ Menu = new function() {
 
         $('#settings-rollback').on("click",()=>{
             $('#settings-right-rollback').addClass('show');
+            $('#settings-right-pagelist').removeClass('show');
             Menu.buttonClicked = true;
         });
 
         $('#settings-right-rollback').on("mouseleave", function(){
             $('#settings-right-rollback').removeClass('show');
+        });
+
+
+        $('#settings-pagelist').on("click",()=>{
+            $('#settings-right-pagelist').addClass('show');
+            $('#settings-right-rollback').removeClass('show');
+            Menu.buttonClicked = true;
+        });
+
+        $('#settings-right-pagelist').on("mouseleave", function(){
+            $('#settings-right-pagelist').removeClass('show');
         });
 
         $('#settings-help').on("click", ()=>{

@@ -1,7 +1,6 @@
 import os
 import random
 import subprocess
-import urllib
 
 import requests
 from django.http import HttpResponse

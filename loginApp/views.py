@@ -2,16 +2,14 @@ from django.http import *
 from django.contrib.auth import *
 from django.template import loader
 from django.contrib.auth.models import User
-from django.shortcuts import render
-
-# Create your views here.
-
 
 def showLoginPage(request):
     template=loader.get_template('login.html')
     nextpage = request.GET.get('next')
     context={}
     if nextpage is not None:
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(nextpage)
         context['next']=nextpage
     return HttpResponse(template.render(context,request))
 
@@ -20,7 +18,6 @@ def doLogout(request):
     logout(request)
     nextpage = request.GET.get('next')
     return HttpResponseRedirect(nextpage if nextpage else '/home')
-
 
 
 def doLogin(request):
@@ -39,6 +36,7 @@ def doLogin(request):
         if nextpage is not None:
             context['next']=nextpage
         return HttpResponse(template.render(context,request))
+
 
 def doRegister(request):
     name = request.POST.get('name')

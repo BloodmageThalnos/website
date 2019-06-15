@@ -40,6 +40,16 @@
                                 </div>
                                     Roll back
                                 </li>
+                                <li class="list-group-item t-settings-li" id="settings-pagelist">
+                                <div class="t-settings-right" id="settings-right-pagelist">
+                                    <ul class="list-group t-settings-ul">
+                                        <li class="list-group-item t-settings-li">加</li>
+                                        <li class="list-group-item t-settings-li">载</li>
+                                        <li class="list-group-item t-settings-li">中</li>
+                                    </ul>
+                                </div>
+                                    Switch page
+                                </li>
                                 <li class="list-group-item t-settings-li" id="settings-help">
                                     Help
                                 </li>
@@ -122,6 +132,8 @@
 <script type='text/javascript' src='/bin/life_base.js'></script>
 <script type='text/javascript' src='/bin/wp-embed.min.js'></script>
 <script>$(()=>setTimeout(() => {
+    Controller.page = '{{ page }}';
+    Controller.user = '{{ user }}';
     Controller.saveid = '{{ saveid }}';
 }, 1000));</script>
 </body>
