@@ -36,7 +36,7 @@ def showLife(request, path):
             gzip_content = open('./life/'+username+'/'+use, mode="rb").read()
             content = gzip.decompress(gzip_content).decode('gbk')
         else:
-            if not os.path.exists('./life/'+username):
+            if not os.path.exists('./life/'+username) or len(os.listdir('./life/'+username))<2:
                 os.makedirs('./life/'+username+'/auto', exist_ok=True) # exist_ok = true 防止多线程crash
                 shutil.copyfile('./life/example.html','./life/'+username+'/example.html')
 
@@ -67,10 +67,10 @@ def showLife(request, path):
 
         context['content']=content
         context['page']=page
-        context['user']=username
+        context['user']=request.user.username
         # 当前用户访问自己的主页，才能获得编辑权限
-        if request.user.username == username:
-            context['saveid']=sha256((username+str(request.user.id)).encode()).hexdigest()[16:48]
+        if request.user.username == username or username.startswith(request.user.username+'_'):
+            context['saveid']=sha256((request.user.username+str(request.user.id)).encode()).hexdigest()[16:48]
         return HttpResponse(template.render(context,request))
     else:
         return HttpResponseRedirect('/login?next=/life/'+path)
@@ -85,6 +85,8 @@ def lifeAction(request):
         return showLifeList(request)
     elif action == 'listpage':
         return showPageList(request)
+    elif action == 'addpage':
+        return addPage(request)
 
 AUTO_SAVE_MAX = 5
 SAVE_MAX = 5
@@ -175,12 +177,29 @@ def showPageList(request):
     ret = {}
     username = request.POST.get('user')
 
-    # 每个用户只保存几个auto和几个手动保存记录，按修改时间倒序，超过的删掉。
-    # TODO: SHOULD UPDATE MINUTELY
-    life=[x for x in os.listdir('./life/') if x.startswith(username) ]
+    life = [x for x in os.listdir('./life/') if x.startswith(username+'_') or x == username ]
     ret['success']='true'
     ret['length']=len(life)
     for i in range(1, len(life)+1):
         ret[str(i)]=str(i)
         ret['_'+str(i)]=life[i-1] # TODO: 添加数据库，改为页名
     return HttpResponse(json.dumps(ret))
+
+def addPage(request):
+    ret = {}
+    saveid = request.POST.get('saveid')
+    if saveid != sha256((request.user.username+str(request.user.id)).encode()).hexdigest()[16:48]:
+        ret={'success':'false','msg':'没有权限查看。'}
+        return HttpResponse(json.dumps(ret))
+    username = request.user.username
+
+    life = [x for x in os.listdir('./life/') if x.startswith(username) ]
+    index = len(life)+1
+    username = username + "_p" + str(index)
+    os.makedirs('./life/' + username + '/auto', exist_ok=True)
+    ret['success']='true'
+    ret['url']='/life/'+request.user.username+'?page='+str(index)
+    return HttpResponse(json.dumps(ret))
+
+def delPage(request):
+    pass

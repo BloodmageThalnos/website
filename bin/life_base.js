@@ -34,7 +34,7 @@ Controller = new function () {
                 _ldirty = false;
             }
         }, AUTO_SAVE_INTERVAL); // 如果发现内容是脏的，且X秒没有更新过了，就提交一次save。
-        $('#settings-save').on('click', ()=>{Controller.save(false, true);}); // 手动保存
+        $('#settings-save').on('click', ()=>{Controller.save(false, true);}); // 手动保存。
         $(window).unload(function(e){
             if(Controller.dirty || _ldirty) Controller.save(true, false);
         }) // 关闭网站时，如果内容脏，强制保存。
@@ -477,7 +477,7 @@ Controller = new function () {
         });
     };
 
-    this.save = (auto, doAlert) => {
+    this.save = (auto, doAlert, callBack) => {
         // 无保存权限的页面。为防止saveid伪造，后台也会进行check
         if(!Controller.saveid) return;
         // 保存
@@ -506,9 +506,10 @@ Controller = new function () {
                 }else {
                     console.log('自动保存 '+Date(Date.now())+' 成功。');
                 }
+                if(callBack) callBack();
             },
             fail: function (msg) {
-
+                console.log('保存失败：'+msg);
             }
         });
         _lsave = Date.now();
@@ -727,7 +728,7 @@ Settings = new function (){
                 }
                 else{
                     content = '<ul class="list-group t-settings-ul">';
-                    for(let i=1;i<parseInt(msg['length']);i++) {
+                    for(let i=1;i<=parseInt(msg['length']);i++) {
                         content += '<li class="list-group-item t-settings-li" ' +
                         'onclick="document.location=document.location.toString().split(\'?\')[0]+\'?page=' + msg['' + i] + '\'">' + msg['_' + i] + '</li>';
                     }
@@ -775,6 +776,27 @@ Menu = new function() {
 
         $('#settings-right-pagelist').on("mouseleave", function(){
             $('#settings-right-pagelist').removeClass('show');
+        });
+
+        $('#settings-addpage').on("click",()=>{
+            var formData = new FormData();
+            formData.append("saveid", Controller.saveid);
+            formData.append("action", "addpage");
+            $.ajax({
+                url: URL_ACTION,
+                type: 'post',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (msg) {
+                    msg = JSON.parse(msg);
+                    console.log(msg['url']);
+                    Controller.save(true, false, ()=>{
+                        console.log(msg['url']);
+                        document.location = msg['url'];
+                    });
+                },
+            });
         });
 
         $('#settings-help').on("click", ()=>{
