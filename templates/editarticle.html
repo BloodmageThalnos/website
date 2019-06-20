@@ -3,7 +3,6 @@
 <!--[if IE 7]> <html lang="en" class="ie7"> <![endif]-->
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
 <html lang="en">
 <!--<![endif]-->
 <head>
@@ -25,20 +24,13 @@
             a.async = 1;
             a.src = g;
             m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-        ga('create', 'UA-1860414-2', 'auto');
+        })(window, document, 'script', '', 'ga');
+        ga('create', 'UA2', 'auto');
         ga('send', 'pageview');
     </script>
 
     <link rel='dns-prefetch' href='//s.w.org'/>
     <script type="text/javascript">
-        /*window._wpemojiSettings = {
-            "baseUrl": "https:\/\/s.w.org\/images\/core\/emoji\/11\/72x72\/",
-            "ext": ".png",
-            "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/",
-            "svgExt": ".svg",
-            "source": {"concatemoji": "https:\/\/news.sta.edu\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.10"}
-        };*/
         !function (a, b, c) {
             function d(a, b) {
                 var c = String.fromCharCode;
@@ -107,6 +99,7 @@
           href='../bin/style.css' type='text/css' media='all'/>
     <link rel='stylesheet' id='story-css-css'
           href='../bin/story.css' type='text/css' media='all'/>
+    <link rel='stylesheet' href='../bin/prism.css' type='text/css'/>
     <script type='text/javascript'
             src='../bin/jquery_1.12.4.js'></script>
     <script type='text/javascript'
@@ -125,41 +118,56 @@
                         sel.text = myValue;
                         this.focus();
                     } else
-                        if ($t.selectionStart || $t.selectionStart == 0) {
-                            var startPos = $t.selectionStart;
-                            var endPos = $t.selectionEnd;
-                            var scrollTop = $t.scrollTop;
-                            $t.value = $t.value.substring(0, startPos) + myValue + $t.value.substring(endPos, $t.value.length);
-                            this.focus();
-                            $t.selectionStart = startPos + myValue.length;
-                            $t.selectionEnd = startPos + myValue.length;
-                            $t.scrollTop = scrollTop;
-                        } else {
-                            this.value += myValue;
-                            this.focus();
-                        }
+                    if ($t.selectionStart || $t.selectionStart === 0) {
+                        var startPos = $t.selectionStart;
+                        var endPos = $t.selectionEnd;
+                        var scrollTop = $t.scrollTop;
+                        $t.value = $t.value.substring(0, startPos) + myValue + $t.value.substring(endPos, $t.value.length);
+                        this.focus();
+                        $t.selectionStart = startPos + myValue.length;
+                        $t.selectionEnd = startPos + myValue.length;
+                        $t.scrollTop = scrollTop;
+                    } else {
+                        this.value += myValue;
+                        this.focus();
+                    }
                 }
             });
         })(jQuery);
+        function converta(content){
+            var converter = new showdown.Converter(), html = converter.makeHtml(content);
+            return html;//console.log(html);
+        }
         function doit(){
             $('#story-title').text($('#exampleInput1').val())
-            $('#story-content').html($('#exampleInput2').val())
+            $('#story-content').html(converta($('#exampleInput2').val()))
             $('#story-author').text('BY '+$('#exampleInput3').val())
             $('#story-excerpt').text($('#exampleInput4').val())
             return false;
         }
         function doita(){
-            url = $('#image_url').val()
-            cls = $('#image_cls').val()
-            sty = $('#image_style').val()
+            var url = $('#image_url').val(),
+            cls = $('#image_cls').val(),
+            sty = $('#image_style').val();
             $('#exampleInput2').insertAtCaret('' +
                 '<div class="'+cls+'" style="' + sty +'">\n' +
                 '\t<img src="'+url+'" alt=" ">\n'+
-                '\t<br/><p class="media-caption"> </p>\n' +
-                '</div>')
+                '\t<br/>\n</div>')
             return false;
         }
-        page = 1;
+        s_doitat = false;
+        function doitat(i){
+            if(s_doitat){
+                $(i).text('显示转换后的html');
+                $('#converted').hide();
+                s_doitat = false;
+            }else{
+                $(i).text('隐藏转换后的html');
+                $('#converted').show();
+                s_doitat = true;
+            }
+        }
+        page = 1; //TODO: 图片管理器翻页
         function doitata(){
             var formData = new FormData();
             formData.append("act", "manage_img");
@@ -172,8 +180,6 @@
                 processData: false,
                 contentType: false,
                 success: function (msg) {
-                    msg==='_'?
-                        alert('Please check the supercode and try again.'):
                     $('#upload_div').html(msg);
                 }
             });
@@ -196,7 +202,8 @@
             });
         }
         loaded2 = false;
-        function load_label(){
+        function on_load(){
+            // 加载文章列表信息
             if(loaded2)return;
             loaded2 = true;
             var formData = new FormData();
@@ -212,6 +219,16 @@
                     $('#loadlabel_div').html(msg);
                 }
             });
+            // 隐藏converted框
+            $('#converted').hide();
+            // converter 初始化
+            markdown.setFlavor('github')
+        }
+        function on_submit(i){
+            if(!$('#front-image_url').val()){alert('请选择至少一张封面图片！');return false;}
+            if(!$('#exampleInput5').val()){alert('请选择文章分类！');return false;}
+
+            return true;
         }
     </script>
     <style>.post-thumbnail img[src$='.svg'] {
@@ -222,10 +239,10 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
           type="text/css"/>
 </head>
-<body class="post-template-default single single-post postid-26689 single-format-standard" onload="load_label()">
+<body class="post-template-default single single-post postid-26689 single-format-standard" onload="on_load()">
 
 <div style="min-height:500px;padding:20px 10% 0 10%;">
-    <form method="POST" enctype="multipart/form-data" action="/action" onsubmit="if(!$('#front-image_url').val()){alert('请选择至少一张封面图片！');return false;}return true;">
+    <form method="POST" enctype="multipart/form-data" action="/action" onsubmit="return on_submit(this);">
         <label>
         <input type="radio" name="act" value="up_article" checked="checked">
         上传新的文章
@@ -250,9 +267,12 @@
         </div>
         <div class="form-group">
             <label for="exampleInput2">正文：</label><br/>
-            <textarea class="form-control" id="exampleInput2" rows="15" name="c">
-                <p>Maps that show where sharks and tunas roam in the eastern Pacific Ocean, and where fishing vessels travel in this vast expanse, could help ocean managers to identify regions of the high seas where vulnerable species may be at risk.</p><p>Maps that show where sharks and tunas roam in the eastern Pacific Ocean, and where fishing vessels travel in this vast expanse, could help ocean managers to identify regions of the high seas where vulnerable species may be at risk.</p><p>Maps that show where sharks and tunas roam in the eastern Pacific Ocean, and where fishing vessels travel in this vast expanse, could help ocean managers to identify regions of the high seas where vulnerable species may be at risk.</p>
+            <textarea class="form-control" id="exampleInput2" onkeyup="$('#converted').val(converta($(this).val()));" rows="15">
             </textarea>
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn-u" onclick="doitat(this);">显示转换后的html</button>
+            <textarea class="form-control" id="converted" onkeyup="$('#converted').val(converta($(this).val()));" rows="15" name="c"></textarea>
         </div>
         <div class="form-group">
             <label for="exampleInput5">标签：</label><br />
@@ -285,11 +305,6 @@
         <div class="form-group">
             <label >封面图片：</label><br/>
             <input class="form-control" name="p" id="front-image_url" value="" style="width: 200px;">
-        </div>
-        <div class="form-group">
-            <label >Superuser code：</label><br/>
-            <input class="form-control" name="supercode" id="sc" value="" style="width: 150px;">
-            <small class="form-text text-muted">用户系统的暂时替代品。目前只有Superuser可以直接发表文章，其他用户可以将此处留空，则文章会进入待审核区域。</small>
         </div>
         <center>
             <button type="button" class="btn-u" onclick="doit();">预览</button><br />
@@ -364,11 +379,10 @@
                                 fishing vessels travel in this vast expanse, could help ocean managers to identify
                                 regions of the high seas where vulnerable species may be at risk.</p>
                             <div class="pull-right pull-right-wide">
-                                <a href="https://news-media.stanford.edu/wp-content/uploads/2019/03/08211737/overlap_andersonTOPP.jpg">
+                                <a>
                                 <img class="size-medium wp-image-26690 img-responsive"
                                     src="https://news-media.stanford.edu/wp-content/uploads/2019/03/08211737/overlap_andersonTOPP-555x370.jpg"
                                     alt="Salmon shark"
-                                    srcset="https://news-media.stanford.edu/wp-content/uploads/2019/03/08211737/overlap_andersonTOPP-555x370.jpg 555w, https://news-media.stanford.edu/wp-content/uploads/2019/03/08211737/overlap_andersonTOPP-795x530.jpg 795w, https://news-media.stanford.edu/wp-content/uploads/2019/03/08211737/overlap_andersonTOPP-960x640.jpg 960w, https://news-media.stanford.edu/wp-content/uploads/2019/03/08211737/overlap_andersonTOPP-705x470.jpg 705w, https://news-media.stanford.edu/wp-content/uploads/2019/03/08211737/overlap_andersonTOPP-345x230.jpg 345w, https://news-media.stanford.edu/wp-content/uploads/2019/03/08211737/overlap_andersonTOPP-375x250.jpg 375w, https://news-media.stanford.edu/wp-content/uploads/2019/03/08211737/overlap_andersonTOPP.jpg 1500w"
                                     sizes="(max-width: 555px) 100vw, 555px"/>
                                 </a>
                                 <p class="media-caption">By combining maps of habitats of marine predators, like this
@@ -411,8 +425,6 @@
                             <div class="pull-right pull-right-wide">
                                 <img class="wp-image-26717 size-medium img-responsive"
                                     src="https://news-media.stanford.edu/wp-content/uploads/2019/03/11122149/overlap_70-2-555x401.jpg"
-                                    alt="Pacific bluefin tuna being released back into the ocean"
-                                    srcset="https://news-media.stanford.edu/wp-content/uploads/2019/03/11122149/overlap_70-2-555x401.jpg 555w, https://news-media.stanford.edu/wp-content/uploads/2019/03/11122149/overlap_70-2-795x575.jpg 795w, https://news-media.stanford.edu/wp-content/uploads/2019/03/11122149/overlap_70-2-960x694.jpg 960w, https://news-media.stanford.edu/wp-content/uploads/2019/03/11122149/overlap_70-2.jpg 1436w"
                                     sizes="(max-width: 555px) 100vw, 555px"/>
                                 <p class="media-caption">A Pacific bluefin tuna is released with an archival tag from
                                     the eastern Pacific Ocean off the F/V Shogun in the California Current.<span
@@ -544,7 +556,6 @@
                                         src="https://news-media.stanford.edu/wp-content/uploads/2019/03/12113413/PlanetaryHealth_disease-200x200.jpg"
                                         class="attachment-post-thumbnail size-post-thumbnail wp-post-image"
                                         alt="Mosquito"
-                                        srcset="https://news-media.stanford.edu/wp-content/uploads/2019/03/12113413/PlanetaryHealth_disease-200x200.jpg 200w, https://news-media.stanford.edu/wp-content/uploads/2019/03/12113413/PlanetaryHealth_disease-100x100.jpg 100w"
                                         sizes="(max-width: 200px) 100vw, 200px"/></a>
                             </div>
                             <div class="card-content">
@@ -567,7 +578,6 @@
                                         src="https://news-media.stanford.edu/wp-content/uploads/2019/03/14111103/gradday_anika-200x200.jpg"
                                         class="attachment-post-thumbnail size-post-thumbnail wp-post-image"
                                         alt="GRAD Diversity Day"
-                                        srcset="https://news-media.stanford.edu/wp-content/uploads/2019/03/14111103/gradday_anika-200x200.jpg 200w, https://news-media.stanford.edu/wp-content/uploads/2019/03/14111103/gradday_anika-100x100.jpg 100w"
                                         sizes="(max-width: 200px) 100vw, 200px"/></a>
                             </div>
                             <div class="card-content">
@@ -674,6 +684,8 @@
 <script type='text/javascript' src='../bin/awesome-weather-widget-frontend.js?ver=1.1'></script>
 <script type='text/javascript' src='../bin/modernizr.js'></script>
 <script type='text/javascript' src='../bin/bootstrap.js'></script>
+<script type='text/javascript' src='../bin/showdown.min.js'></script>
+<script type='text/javascript' src='../bin/prism.js'></script>
 <script type='text/javascript' src='../bin/base.js'></script>
 <script type='text/javascript' src='../bin/wp-embed.min.js'></script>
 </body>
@@ -681,6 +693,7 @@
 {% else %}
 <html>
 <head>
+    <!-- 不是管理员或未登录，跳转到login页面 -->
     <meta http-equiv="refresh" content="0;url=/admin/login/?next=/__admin__/upload">
 </head>
 </html>
