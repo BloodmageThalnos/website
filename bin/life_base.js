@@ -682,6 +682,7 @@ Settings = new function (){
         var formData = new FormData();
         formData.append("saveid", Controller.saveid);
         formData.append("page", Controller.page);
+        formData.append("user", Controller.user);
         formData.append("action", "rollback");
         $.ajax({
             url: URL_ACTION,
@@ -699,7 +700,7 @@ Settings = new function (){
                     content = '<ul class="list-group t-settings-ul">';
                     for (let i = 0; i < parseInt(msg['length']); i++) {
                         content += '<li class="list-group-item t-settings-li" ' +
-                            'onclick="document.location=document.location.toString().split(\'?\')[0]+\'?use_saved=' + msg['' + i] + '\'">' + msg['' + i] + '</li>';
+                            'onclick="document.location=\''+ msg['_'+i]+'\'">' + msg['' + i] + '</li>';
                     }
                     content += '</ul>';
                     $('#settings-right-rollback').html(content);

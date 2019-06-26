@@ -25,6 +25,9 @@ def showLife(request, path):
             page = '1'
         if page != '1':
             username = username + '_p' + page
+            if not os.path.exists('./life/'+username):
+                logger.log('[life showLife] page not exist %s'%username)
+                return HttpResponseRedirect('/life/'+path) # 页面不存在，跳转回该用户主页
         if use is not None:
             # 查看历史保存
             context['use_saved'] = True
@@ -67,7 +70,7 @@ def showLife(request, path):
 
         context['content']=content
         context['page']=page
-        context['user']=request.user.username
+        context['user']=path # 当前被访问页面的username；与request.user.username区分。
         # 当前用户访问自己的主页，才能获得编辑权限
         if request.user.username == username or username.startswith(request.user.username+'_'):
             context['saveid']=sha256((request.user.username+str(request.user.id)).encode()).hexdigest()[16:48]
@@ -140,7 +143,7 @@ def showLifeList(request):
     if saveid != sha256((request.user.username+str(request.user.id)).encode()).hexdigest()[16:48]:
         ret={'success':'false','msg':'没有权限查看。'}
         return HttpResponse(json.dumps(ret))
-    username = request.user.username
+    username = request.POST.get('user')
     page = request.POST.get('page')
     if not page: # 无page参数，或为空
         page = '1'
@@ -171,6 +174,7 @@ def showLifeList(request):
     ret['length']=len(lifemerge)
     for i in range(len(lifemerge)):
         ret[str(i)]=lifemerge[i]
+        ret['_'+str(i)]='/life/'+username+'?use_saved='+lifemerge[i]+'&page='+page
     return HttpResponse(json.dumps(ret))
 
 def showPageList(request):
@@ -182,7 +186,7 @@ def showPageList(request):
     ret['length']=len(life)
     for i in range(1, len(life)+1):
         ret[str(i)]=str(i)
-        ret['_'+str(i)]=life[i-1] # TODO: 添加数据库，改为页名
+        ret['_'+str(i)]=life[i-1] # TODO: 添加数据库，给每页起名字
     return HttpResponse(json.dumps(ret))
 
 def addPage(request):
