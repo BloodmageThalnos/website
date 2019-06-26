@@ -144,32 +144,36 @@ def showLifeList(request):
         ret={'success':'false','msg':'没有权限查看。'}
         return HttpResponse(json.dumps(ret))
     username = request.POST.get('user')
+    userpage = username
     page = request.POST.get('page')
     if not page: # 无page参数，或为空
         page = '1'
     if page != '1':
-        username = username + '_p' + page
-    os.makedirs('./life/'+username+'/auto', exist_ok=True) # exist_ok = true 防止多线程crash
+        userpage = userpage + '_p' + page
+        if not os.path.exists('./life/'+userpage):
+            logger.log('[life showLife] page not exist %s'%userpage)
+            return HttpResponseRedirect('/life/'+username) # 页面不存在，跳转回该用户主页
+    os.makedirs('./life/'+userpage+'/auto', exist_ok=True) # exist_ok = true 防止多线程crash
 
     # 每个用户只保存几个auto和几个手动保存记录，按修改时间倒序，超过的删掉。
     # TODO: SHOULD UPDATE MINUTELY
-    life=sorted([x for x in os.listdir('./life/'+username) ],
-                key=lambda x: os.path.getmtime('./life/'+username+'/'+x),reverse=True)
-    lifeauto=sorted([x for x in os.listdir('./life/'+username+'/auto') ],
-                key=lambda x: os.path.getmtime('./life/'+username+'/auto/'+x),reverse=True)
+    life=sorted([x for x in os.listdir('./life/'+userpage) ],
+                key=lambda x: os.path.getmtime('./life/'+userpage+'/'+x),reverse=True)
+    lifeauto=sorted([x for x in os.listdir('./life/'+userpage+'/auto') ],
+                key=lambda x: os.path.getmtime('./life/'+userpage+'/auto/'+x),reverse=True)
     life.remove('auto') # 文件夹
     if len(life)>SAVE_MAX:
         for i in range(SAVE_MAX,len(life)):
-            os.remove('./life/'+username+'/'+life[i])
+            os.remove('./life/'+userpage+'/'+life[i])
     if len(lifeauto)>AUTO_SAVE_MAX:
         for i in range(AUTO_SAVE_MAX,len(lifeauto)):
-            os.remove('./life/'+username+'/auto/'+lifeauto[i])
+            os.remove('./life/'+userpage+'/auto/'+lifeauto[i])
 
     # 对于自动保存的，路径前面加上auto/，这样到时候直接'life/'+path就可以访问两种，避免到处判断
     for i in range(min(AUTO_SAVE_MAX,len(lifeauto))):
         lifeauto[i] = 'auto/'+lifeauto[i]
 
-    lifemerge = sorted(life[:SAVE_MAX]+lifeauto[:AUTO_SAVE_MAX], key=lambda x: os.path.getmtime('./life/'+username+'/'+x), reverse=True)
+    lifemerge = sorted(life[:SAVE_MAX]+lifeauto[:AUTO_SAVE_MAX], key=lambda x: os.path.getmtime('./life/'+userpage+'/'+x), reverse=True)
     ret['success']='true'
     ret['length']=len(lifemerge)
     for i in range(len(lifemerge)):
