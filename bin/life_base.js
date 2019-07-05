@@ -408,7 +408,7 @@ Controller = new function () {
         $('.t-plan-text').on('keydown', function (event) {
             var keynum = (event.keyCode ? event.keyCode : event.which);
             // 计划列表回车换行事件
-            if (keynum === 13) {
+            if (keynum === 13 && !event.shiftKey) { // Shift+Enter 正常换行
                 let dayid = parseInt($(this).closest('.t-plan').prop('id'));
                 Controller.initFromDOM();
                 // 顺序不能错。
@@ -427,37 +427,35 @@ Controller = new function () {
                 return false;
             }
             // 计划列表退格删行
-            else if(keynum === 8) {
-                if($(this).text() === ""){
-                    let dayid = parseInt($(this).closest('.t-plan').prop('id'));
-                    Controller.initFromDOM();
+            else if(keynum === 8 && $(this).text() === ""){
+                let dayid = parseInt($(this).closest('.t-plan').prop('id'));
+                Controller.initFromDOM();
 
-                    let day = Controller.days.find(value => value.id == dayid);
-                    let task = day.task;
-                    let index = Static.getChildrenIndex($(this).parent()[0])-1;
+                let day = Controller.days.find(value => value.id == dayid);
+                let task = day.task;
+                let index = Static.getChildrenIndex($(this).parent()[0])-1;
 
-                    // 只有一个点的时候退格不删光
-                    if(!index && task.check.length === 1){
-                        return false;
-                    }
-
-                    task.removeItem(index);
-
-                    Controller.updateDOM();
-
-                    if(!index){ // 如果是在第一行删除，则光标移到第二行开头
-                        let a = $($($('#' + day.id + '_task').children().children()[index + 1]).children()[1]);
-                        if (a && a.length) {
-                            a.focus();
-                        }
-                    }else { // 否则移到上一行的结尾
-                        let a = $($($('#' + day.id + '_task').children().children()[index]).children()[1]);
-                        if (a && a.length) {
-                            setCaretPosition(a[0], a.text().length);
-                        }
-                    }
+                // 只有一个点的时候退格不删光
+                if(!index && task.check.length === 1){
                     return false;
                 }
+
+                task.removeItem(index);
+
+                Controller.updateDOM();
+
+                if(!index){ // 如果是在第一行删除，则光标移到第二行开头
+                    let a = $($($('#' + day.id + '_task').children().children()[index + 1]).children()[1]);
+                    if (a && a.length) {
+                        a.focus();
+                    }
+                }else { // 否则移到上一行的结尾
+                    let a = $($($('#' + day.id + '_task').children().children()[index]).children()[1]);
+                    if (a && a.length) {
+                        setCaretPosition(a[0], a.text().length);
+                    }
+                }
+                return false;
             }
         });
 
