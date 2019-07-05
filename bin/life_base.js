@@ -109,7 +109,7 @@ Controller = new function () {
                     let check = res?res[1]:"";
                     task.check.push(check);
 
-                    regex = /t-plan-text.*>(.*)<\/div>/g;
+                    regex = /class="t-plan-text" contenteditable="true">(.*)<\/div>/g;
                     res = regex.exec(line);
                     let content;
                     if(res!= null){
