@@ -49,18 +49,21 @@ def doVisit(request):
     elif act == '2':
         id = request.POST.get('i')
         time = int(request.POST.get('t')) # millisecond
-        vm = VisitModel.objects.get(id=int(id))
-        if time - vm.duration > 60 + vm.duration**0.5: # perhaps attack, ignore it
-            pass
-        vm.duration = max(vm.duration, time)
+        try:
+            vm = VisitModel.objects.get(id=int(id))
+        except:
+            return None # 数据库中没有id，直接无视
+        if time - vm.duration > 60 + vm.duration**0.5 or time < vm.duration: # 不合法的更新，无视之
+            return None
+        vm.duration = time
         vm.save()
         return HttpResponse(vm.id)
     else:
-        pass # error.
+        pass # error act_id
 
 
 # /debug/<slug:path>
-# 显示debug用的一些页面，包括errlog、infolog、doshelllog
+# 显示 debug 用的一些后台页面，包括 errlog、infolog、doshelllog
 # 访问dopullshell会执行服务器上的../do.sh，用来进行git pull等操作。
 def showDebug(request, path=''):
     if request.user.username != "dva":

@@ -11,6 +11,7 @@ class VisitModel(models.Model):
     duration = models.IntegerField()
     b_id = models.CharField(max_length=64)
 
+
 def id_(str):
     ret = ''
     for i in range(0,len(str),2):
