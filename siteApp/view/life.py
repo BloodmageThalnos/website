@@ -21,7 +21,7 @@ def showLife(request, path):
         try:
             ip=request.META['HTTP_X_FORWARDED_FOR'] if request.META.__contains__('HTTP_X_FORWARDED_FOR') else request.META[
                 'REMOTE_ADDR']
-            vm = VisitModel(user_id=request.user.id, user_ip=ip, b_id='', url='/life/'+path, duration=0)
+            vm = VisitModel(user_id=request.user.id, user_ip=ip, b_id=request.user.username, url='/life/'+path, duration=0)
             vm.save()
         except Exception as e:
             logger.error("Error logging user in showLife："+e.__str__())
