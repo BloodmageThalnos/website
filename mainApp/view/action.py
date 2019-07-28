@@ -117,6 +117,7 @@ def action(request):
         if os.path.isfile('./images/upload/' + id_):
             if os.path.isfile('./images/upload' + id_ + '_thumb' + id_[-6:]): # 删除缩略图
                 os.remove('./images/upload' + id_ + '_thumb' + id_[-6:])
+            os.makedirs('./images/deleted/', exist_ok=True)
             shutil.move('./images/upload/' + id_, './images/deleted/' + id_)
             return HttpResponse(json.dumps({'success': 'true', 'msg': 'delete ok.'}))
         else:

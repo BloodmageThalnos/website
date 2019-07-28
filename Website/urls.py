@@ -48,6 +48,7 @@ urlpatterns = [
 
     # life app
     path('life/__action', siteViews.lifeAction),
+    path('life/__check', siteViews.doCheck),
     path('life/<slug:path>', siteViews.showLife),
 
     # login app
