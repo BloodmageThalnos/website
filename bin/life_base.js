@@ -544,6 +544,14 @@ function Day(date, datestr, desc="", id=0) {
     this.task = null;
     this.events = [];
     this.update = () => {
+        // stable sort
+        for(i in this.events){
+            this.events[i]._id = i;
+        }
+        if(!document.alibaba) {
+            console.log(this.events);
+            document.alibaba = 1;
+        }
         this.events.sort((a, b) => a.compareTime(b));
     };
 
@@ -656,7 +664,7 @@ function Event(name, hasdesc, canedit, desc, time, id=0) {
         };
         let a_times = this.time.match(regex);
         let b_times = b.time.match(regex);
-        if (!a_times && !b_times) return 0;
+        if (!a_times && !b_times) return (this._id - b._id) || 0;
         else if (!a_times) return 1;
         else if (!b_times) return -1;
         a_times = a_times.map(cal);
