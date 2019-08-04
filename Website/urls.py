@@ -43,12 +43,12 @@ urlpatterns = [
     path('disqus/', mainViews.showDisqus),
 
     # music
-    path('music/<slug:path>', siteViews.showMusic),
+    path('music/<str:path>', siteViews.showMusic),
     # path('addmusic', siteViews.addMusic),
 
     # life app
     path('life/__action', siteViews.lifeAction),
-    path('life/__check', siteViews.doCheck),
+    # path('life/__check', siteViews.doCheck),
     path('life/<slug:path>', siteViews.showLife),
 
     # login app
