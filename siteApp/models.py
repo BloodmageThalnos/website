@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from mainApp.models import *
 
@@ -11,6 +12,12 @@ class VisitModel(models.Model):
     duration = models.IntegerField()
     b_id = models.CharField(max_length=64)
 
+class LifeModel(models.Model):
+    user_id = models.IntegerField()
+    page_id = models.IntegerField()
+    p_alias = models.CharField(max_length=32)
+    password = models.CharField(max_length=32, null=True)
+    extra = models.TextField(null=True)
 
 def id_(str):
     ret = ''
