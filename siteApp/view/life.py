@@ -60,25 +60,29 @@ def showLife(request, path):
     to_user = User.objects.get(username=path)
     to_user_name = to_user.username
     dirname = to_user_name
+
     page = request.GET.get('page')
-    if not page:
-        page = '1'
+
+    if not page: # 未指定页面，（暂时）自动进入最新的那页
+        latest_id = LifeModel.objects.filter(user_id=to_user.id).order_by('-page_id').first()
+        if latest_id is None: # 说明用户的life页面第一次被打开，在这里进行初始化操作
+            # auto 文件夹，用于存放自动保存的文件
+            os.makedirs('./life/'+dirname+'/auto',exist_ok=True)  # exist_ok = true 防止多线程crash
+            # example.html，最初打开的模板文件
+            shutil.copyfile('./life/example.html','./life/'+dirname+'/example.html')
+            # 初始化数据库
+            life_model=LifeModel(user_id=to_user.id,page_id=1,p_alias="default page")
+            life_model.save()
+            page = '1'
+        else:
+            page = str(latest_id)
+
     if page != '1':
         dirname = dirname + '_p' + page
     if not os.path.exists('./life/'+dirname): # 页面不存在，跳转回to_user的主页
         logger.info('[life showLife] page not exist %s'%dirname)
 
-        # HACK：如果page==1，而且文件夹不存在，说明用户的life页面第一次被打开，在这里进行初始化操作。
-        if page == '1':
-            # auto 文件夹，用于存放自动保存的文件
-            os.makedirs('./life/'+dirname+'/auto', exist_ok=True) # exist_ok = true 防止多线程crash
-            # example.html，最初打开的模板文件
-            shutil.copyfile('./life/example.html','./life/'+dirname+'/example.html')
-            # 初始化数据库
-            life_model = LifeModel(user_id=to_user.id,page_id=1,p_alias="default page")
-            life_model.save()
-        else:
-            return HttpResponseRedirect('/life/'+path)
+        return HttpResponseRedirect('/life/'+path)
 
     try:
         pageid = int(page)
@@ -180,7 +184,6 @@ def saveLife(request):
     logger.info('Before zip: %d bytes, After zip, %d bytes', len(content.encode('gbk')), len(gzip_content))
 
     # 每个用户只保存几个auto和几个手动保存记录，按修改时间倒序，超过的删掉。
-    # TODO: SHOULD UPDATE MINUTELY
     life=sorted([x for x in os.listdir('./life/'+username) ],
                 key=lambda x: os.path.getmtime('./life/'+username+'/'+x),reverse=True)
     lifeauto=sorted([x for x in os.listdir('./life/'+username+'/auto') ],
@@ -265,8 +268,10 @@ def addPage(request):
         return HttpResponse(json.dumps(ret))
     username = request.user.username
 
-    life = [x for x in os.listdir('./life/') if x.startswith(username) ]
-    index = len(life)+1
+    latest_id=LifeModel.objects.filter(user_id=request.user.id).order_by('-page_id').first()
+    if latest_id is None:
+        return None
+    index = latest_id + 1
     dirname = username + "_p" + str(index)
 
     life_model = LifeModel(user_id=request.user.id,page_id=index,p_alias="default page "+str(index))
