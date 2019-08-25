@@ -64,8 +64,8 @@ def showLife(request, path):
     page = request.GET.get('page')
 
     if not page: # 未指定页面，（暂时）自动进入最新的那页
-        latest_id = LifeModel.objects.filter(user_id=to_user.id).order_by('-page_id').first()
-        if latest_id is None: # 说明用户的life页面第一次被打开，在这里进行初始化操作
+        latest = LifeModel.objects.filter(user_id=to_user.id).order_by('-page_id').first()
+        if latest is None: # 说明用户的life页面第一次被打开，在这里进行初始化操作
             # auto 文件夹，用于存放自动保存的文件
             os.makedirs('./life/'+dirname+'/auto',exist_ok=True)  # exist_ok = true 防止多线程crash
             # example.html，最初打开的模板文件
@@ -75,7 +75,7 @@ def showLife(request, path):
             life_model.save()
             page = '1'
         else:
-            page = str(latest_id)
+            page = str(latest.id)
 
     if page != '1':
         dirname = dirname + '_p' + page
