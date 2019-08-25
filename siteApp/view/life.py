@@ -15,11 +15,11 @@ from siteApp.models import VisitModel, LifeModel
 logger = logging.getLogger(__name__)
 
 # TODO: 操作不安全，应当设置随机token并存数据库
-def createSaveId(request):
-    return sha256((request.user.username+str(request.user.id)).encode()).hexdigest()[16:48]
+def createSaveId(user):
+    return sha256((user.username+str(user.id)).encode()).hexdigest()[16:48]
 
-def checkSaveId(request, saveid):
-    return saveid != sha256((request.user.username+str(request.user.id)).encode()).hexdigest()[16:48]
+def checkSaveId(user, saveid):
+    return saveid == sha256((user.username+str(user.id)).encode()).hexdigest()[16:48]
 
 # 页面密码
 def setPassword(userid, pageid, pwd):
@@ -75,7 +75,7 @@ def showLife(request, path):
             life_model.save()
             page = '1'
         else:
-            page = str(latest.id)
+            page = str(latest.page_id)
 
     if page != '1':
         dirname = dirname + '_p' + page
@@ -144,7 +144,7 @@ def showLife(request, path):
 
     # 当前用户访问自己的主页，才能获得saveid(编辑权限)
     if from_user.username == to_user_name:
-        context['saveid']=createSaveId(request)
+        context['saveid']=createSaveId(request.user)
 
     return HttpResponse(template.render(context,request))
 
@@ -169,7 +169,7 @@ def saveLife(request):
     content = request.POST.get('content')
     auto = request.POST.get('autosave')
     username = request.user.username
-    if saveid != sha256((username+str(request.user.id)).encode()).hexdigest()[16:48]:
+    if not checkSaveId(request.user, saveid):
         return HttpResponse('保存失败，登录状态出现问题，或没有权限。')
 
     page = request.POST.get('page')
@@ -209,7 +209,7 @@ def saveLife(request):
 def showLifeList(request):
     ret = {}
     saveid = request.POST.get('saveid')
-    if saveid != sha256((request.user.username+str(request.user.id)).encode()).hexdigest()[16:48]:
+    if not checkSaveId(request.user, saveid):
         ret={'success':'false','msg':'没有权限查看。'}
         return HttpResponse(json.dumps(ret))
     username = request.POST.get('user')
@@ -263,21 +263,23 @@ def showPageList(request):
 def addPage(request):
     ret = {}
     saveid = request.POST.get('saveid')
-    if not checkSaveId(request, saveid):
+    if not checkSaveId(request.user, saveid):
         ret={'success':'false','msg':'没有权限查看。'}
         return HttpResponse(json.dumps(ret))
     username = request.user.username
 
-    latest_id=LifeModel.objects.filter(user_id=request.user.id).order_by('-page_id').first()
-    if latest_id is None:
+    latest=LifeModel.objects.filter(user_id=request.user.id).order_by('-page_id').first()
+    if latest is None:
         return None
-    index = latest_id + 1
+    index = latest.page_id + 1
     dirname = username + "_p" + str(index)
 
     life_model = LifeModel(user_id=request.user.id,page_id=index,p_alias="default page "+str(index))
     life_model.save()
 
     os.makedirs('./life/' + dirname + '/auto', exist_ok=True)
+    # example.html，最初打开的模板文件
+    shutil.copyfile('./life/example.html','./life/'+dirname+'/example.html')
 
     ret['success']='true'
     ret['url']='/life/' + username + '?page='+str(index)
