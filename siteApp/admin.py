@@ -8,5 +8,9 @@ class VisitAdmin(admin.ModelAdmin):
     date_hierarchy = 'v_time'
     list_display = ('url', 'v_time', 'user_ip', 'duration', 'b_id')
 
+@admin.register(LifeModel)
+class LifeAdmin(admin.ModelAdmin):
+    list_display=('user_id','page_id','p_alias','extra')
+
 
 # admin.site.register(VisitModel, VisitAdmin)
