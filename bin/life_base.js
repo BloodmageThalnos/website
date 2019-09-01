@@ -126,7 +126,7 @@ Controller = new function () {
 
 
             } else {
-                console.log('有什么奇怪的东西混进去了:\n'+dom);
+                console.log('有什么奇怪的东西混进去了:\n'+dom.html());
             }
         }
     };
