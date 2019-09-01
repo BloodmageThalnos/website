@@ -15,6 +15,7 @@ Controller = new function () {
     this.days = [];
     this.events = [];
     this.saveid = 0;
+    this.customScript = "";
 
     this.dirty = false; // 界面是否被修改
     this.updatingDom = false; // 正在updateDom等
@@ -44,6 +45,7 @@ Controller = new function () {
     this.initFromDOM = () => {
         this.days = [];
         this.events = [];
+        this.customScript = $('#custom').html()?$('#custom').html():"";
         let DOMs = $('#t-div').children();
         let maxid = 0;
         for(let i = 0; i < DOMs.length; i++) {
@@ -305,6 +307,8 @@ Controller = new function () {
         let caretPos = getCaretPosition(document.activeElement);
 
         let alldiv = '<div class="t-verbar"></div>';
+        let customdiv = '<script id="custom">'+this.customScript+'</script>';
+        alldiv += customdiv;
         for (let i = 0; i < this.days.length; i++) {
             let day = this.days[i];
             let daydiv =
@@ -545,6 +549,8 @@ function Day(date, datestr, desc="", id=0) {
     this.events = [];
     this.update = () => {
         // stable sort
+        // 按时间排序功能，没啥用，暂时注释掉了
+        /*
         for(i in this.events){
             this.events[i]._id = i;
         }
@@ -553,6 +559,7 @@ function Day(date, datestr, desc="", id=0) {
             document.alibaba = 1;
         }
         this.events.sort((a, b) => a.compareTime(b));
+        */
     };
 
     this.addDesc = () => {
