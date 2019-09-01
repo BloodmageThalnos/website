@@ -215,8 +215,8 @@ def showLifeList(request):
     username = request.POST.get('user')
     userpage = username
     page = request.POST.get('page')
-    if not page: # 无page参数，或为空
-        page = '1'
+    if not page: # 现在正常情况下不会空page了
+        return None
     if page != '1':
         userpage = userpage + '_p' + page
         if not os.path.exists('./life/'+userpage):

@@ -1,12 +1,12 @@
 import gzip
 import logging
 import json
-
 import subprocess
-from .models import VisitModel, id_
 
+from .models import VisitModel, id_
 from .view.music import *
 from .view.life import *
+from .view.quest import *
 
 logger = logging.getLogger(__name__)
 
