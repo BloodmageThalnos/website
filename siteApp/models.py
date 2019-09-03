@@ -16,8 +16,8 @@ class LifeModel(models.Model):
     user_id = models.IntegerField()
     page_id = models.IntegerField()
     p_alias = models.CharField(max_length=32)
-    password = models.CharField(max_length=32, null=True)
-    extra = models.TextField(null=True)
+    password = models.CharField(max_length=32, null=True, blank=True)
+    extra = models.TextField(null=True, blank=True)
 
 def id_(str):
     ret = ''

@@ -11,6 +11,7 @@ class VisitAdmin(admin.ModelAdmin):
 @admin.register(LifeModel)
 class LifeAdmin(admin.ModelAdmin):
     list_display=('user_id','page_id','p_alias','extra')
+    list_editable=('p_alias',)
 
 
 # admin.site.register(VisitModel, VisitAdmin)
