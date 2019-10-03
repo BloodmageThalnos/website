@@ -5,7 +5,7 @@ import os
 from string import ascii_lowercase, ascii_uppercase, digits
 
 from django.db.models import Count
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 
 from mainApp.models import thumb_from_cover_img, ArticleModel
@@ -13,7 +13,7 @@ from mainApp.models import thumb_from_cover_img, ArticleModel
 
 ###
 # action 集成了各种后台操作，POST请求中act字段表示具体的操作类型：
-#  edit_article 编辑文章  需要登录
+#  edit_article 编辑文章
 #  up_article 上传文章
 #  up_img  上传图片
 #  manage_img 显示图片管理器
@@ -25,6 +25,12 @@ from mainApp.models import thumb_from_cover_img, ArticleModel
 #  load_load 加载单篇文章（编辑文章功能使用）
 ###
 def action(request):
+    # 权限控制
+    # 目前权限控制采用一把梭：所有操作强制只能 dva，因为没有第二名管理员；若增加管理员则可考虑采用is_staff
+    # if not request.user.is_staff:
+    if not request.user.username == 'dva':
+        return HttpResponse(json.dumps({'success':'false', 'msg':'未登录或没有权限！'}))
+
     act = request.POST.get('act')
     if act is None:
         return HttpResponse(json.dumps({'success':'false'}))
@@ -40,7 +46,7 @@ def action(request):
         try:
             am = ArticleModel.objects.get(id=int(id_))
         except:
-            return HttpResponse(json.dumps({'success':'false', 'msg':'id error.'}))
+            return HttpResponse(json.dumps({'success':'false', 'msg':'id error, please check.'}))
         am.title=title
         am.content=content
         am.cover_img=pic
@@ -62,15 +68,27 @@ def action(request):
         am.cover_img_thumb=pic_path[1:]+'_thumb'+pic_path[-6:]
 
         am.save()
-        return HttpResponse(json.dumps({'success': 'true'}))
+
+        # 成功，跳转到文章页面
+        return HttpResponseRedirect('/article-'+str(am.id))
     elif act == 'up_article':
-        title = request.POST.get('t')
-        content = request.POST.get('c')
-        pic = request.POST.get('p')    # 封面图片
-        excerpt = request.POST.get('e')
-        arthur = request.POST.get('a')
+        title=request.POST.get('t')   # 标题
+        content=request.POST.get('c') # 内容
+        pic=request.POST.get('p')     # 封面图片
+        excerpt=request.POST.get('e') # 摘要
+        arthur=request.POST.get('a')  # 作者
+        label=request.POST.get('l')   # 分类
         type_ = 1
-        am = ArticleModel(title=title, content=content, author_id=0, cover_img=pic, author_name=arthur, excerpt=excerpt, type=type_)
+        am = ArticleModel(
+            title=title,
+            content=content,
+            author_id=0,
+            cover_img=pic,
+            author_name=arthur,
+            excerpt=excerpt,
+            category=label,
+            type=type_
+        )
 
         # 处理缩略图
         pic_path='./images/upload'+pic[pic.rfind('/'):]
@@ -79,7 +97,9 @@ def action(request):
         am.cover_img_thumb=pic_path[1:]+'_thumb'+pic_path[-6:]
 
         am.save()
-        return HttpResponse(json.dumps({'success': 'true'}))
+
+        # 成功，跳转到文章页面
+        HttpResponseRedirect('/article-'+str(am.id))
     elif act == 'up_img':
         pic=request.FILES.get('p')  # 封面图片
         if pic==None:
@@ -91,10 +111,6 @@ def action(request):
                 f.write(chunk)
         return HttpResponse(json.dumps({'success': 'true', 'url':'.'+pic_url}))
     elif act == 'manage_img':
-        if request.user.is_staff:
-            pass
-        else:
-            return HttpResponse('_')
         page = request.POST.get('page')
         imgs = []
         imgfrom = 10*(int(page)-1)
