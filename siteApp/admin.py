@@ -15,3 +15,4 @@ class LifeAdmin(admin.ModelAdmin):
 
 
 # admin.site.register(VisitModel, VisitAdmin)
+
