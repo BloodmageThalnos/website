@@ -35,8 +35,13 @@ def action(request):
     if act is None:
         return HttpResponse(json.dumps({'success':'false'}))
     elif act == 'edit_article':
+        extra={}
+
         title=request.POST.get('t')   # 标题
         content=request.POST.get('c') # 内容
+        if request.POST.get('c_latex'):
+            content=request.POST.get('c_latex')  # 内容（latex转html版本）
+            extra['latex']=request.POST.get('c')
         pic=request.POST.get('p')     # 封面图片
         excerpt=request.POST.get('e') # 摘要
         arthur=request.POST.get('a')  # 作者
@@ -60,6 +65,7 @@ def action(request):
             '''
         am.type=type_
         am.category=label
+        am.extra=str(extra)
 
         # 处理缩略图
         pic_path='./images/upload'+pic[pic.rfind('/'):]
@@ -99,7 +105,7 @@ def action(request):
         am.save()
 
         # 成功，跳转到文章页面
-        HttpResponseRedirect('/article-'+str(am.id))
+        return HttpResponseRedirect('/article-'+str(am.id))
     elif act == 'up_img':
         pic=request.FILES.get('p')  # 封面图片
         if pic==None:

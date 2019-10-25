@@ -35,6 +35,7 @@ class ArticleModel(models.Model):
 
         return self.cover_img_thumb
     type = models.IntegerField(default=1) # 1为正常文章，2为待审核，3为已删除
+    extra = models.TextField(default="")
     # url = models.CharField(max_length=64, default="")
     # related_img
 

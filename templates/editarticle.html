@@ -155,16 +155,17 @@
                 '\t<br/>\n</div>')
             return false;
         }
-        s_doitat = false;
+        do_latex_convert = false;
         function doitat(i){
-            if(s_doitat){
-                $(i).text('显示转换后的html');
+            if(do_latex_convert){
+                $(i).text('latex转换为html');
                 $('#converted').hide();
-                s_doitat = false;
+                $('#converted').val('');
+                do_latex_convert = false;
             }else{
-                $(i).text('隐藏转换后的html');
+                $(i).text('取消转换');
                 $('#converted').show();
-                s_doitat = true;
+                do_latex_convert = true;
             }
         }
         page = 1; //TODO: 图片管理器翻页
@@ -221,12 +222,14 @@
             });
             // 隐藏converted框
             $('#converted').hide();
+            do_latex_convert = false;
+
             // converter 初始化
             markdown.setFlavor('github')
         }
         function on_submit(i){
             if(!$('#front-image_url').val()){alert('请选择至少一张封面图片！');return false;}
-            if(!$('#exampleInput5').val()){alert('请选择文章分类！');return false;}
+            if(!$('#article_catalog').val()){alert('请选择文章分类！');return false;}
 
             return true;
         }
@@ -267,16 +270,16 @@
         </div>
         <div class="form-group">
             <label for="exampleInput2">正文：</label><br/>
-            <textarea class="form-control" id="exampleInput2" onkeyup="$('#converted').val(converta($(this).val()));" rows="15">
+            <textarea class="form-control" id="exampleInput2" onkeyup="$('#converted').val(converta($(this).val()));" rows="15" name="c">
             </textarea>
         </div>
         <div class="form-group">
-            <button type="button" class="btn-u" onclick="doitat(this);">显示转换后的html</button>
-            <textarea class="form-control" id="converted" onkeyup="$('#converted').val(converta($(this).val()));" rows="15" name="c"></textarea>
+            <button type="button" class="btn-u" onclick="doitat(this);">latex转换为html</button>
+            <textarea class="form-control" id="converted" rows="15" name="c_latex"></textarea>
         </div>
         <div class="form-group">
-            <label for="exampleInput5">标签：</label><br />
-            <input type="text" list="labelloader" id="exampleInput5" size="30" name="l">
+            <label for="article_catalog">标签：</label><br />
+            <input type="text" list="labelloader" id="article_catalog" size="30" name="l">
             <div id="loadlabel_div"></div>
         </div>
         <div class="form-group">
