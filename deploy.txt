@@ -9,7 +9,7 @@ pip3 install uwsgi
 pip3 install django
 pip3 install django-extensions
 pip3 install pillow
-pip3 install coscmd
+# pip3 install coscmd
 # 需要手动配置coscmd：https://cloud.tencent.com/document/product/436/10976；配置文件不方便备份。
 
 cp ./website/nginx.ini /etc/nginx/conf.d/website.conf
@@ -65,11 +65,14 @@ ss.json内容：
     "method": "rc4-md5"
 }
 
+配置v_2_ray：
+wget -N --no-check-certificate https://raw.githubusercontent.com/FunctionClub/v2ray.fun/master/install.sh && bash install.sh
+
 
 Go 环境配置+SimpleChatroom：
 
 wget https://dl.google.com/go/go1.12.5.linux-amd64.tar.gz
-tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
+tar -C /usr/local -xzf go1.12.5.linux-amd64.tar.gz
 export PATH=$PATH:/usr/local/go/bin
 mkdir ~/goworkspace
 export GOPATH=~/goworkspace
