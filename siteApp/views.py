@@ -77,7 +77,7 @@ def showDebug(request, path=''):
         return HttpResponse(template.render(context, request))
 
     elif path == 'errlog':
-        lines = subprocess.check_output(['tail', '-n', '120', './log/err.log']).decode()  # 只显示最后120行
+        lines = subprocess.check_output(['tail', '-n', '300', './log/err.log']).decode()  # 只显示最后300行
         context = {"name":"Error.log", "output": lines}
         return HttpResponse(template.render(context, request))
 
@@ -87,7 +87,7 @@ def showDebug(request, path=''):
         #     return HttpResponse(template.render(context, request))
 
     elif path=='infolog':
-        lines = subprocess.check_output(['tail', '-n', '120', './log/info.log']).decode()  # 只显示最后120行
+        lines = subprocess.check_output(['tail', '-n', '300', './log/info.log']).decode()  # 只显示最后300行
         context = {"name":"Info.log", "output": lines}
         return HttpResponse(template.render(context, request))
 
