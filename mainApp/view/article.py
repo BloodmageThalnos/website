@@ -63,8 +63,8 @@ def showArticle(request, id_):
     articleId = int(id_)
     article = ArticleModel.objects.get(id=articleId)
 
-    create_time = article.create_time
-    create_date_str = create_time.strftime("%b %d, %Y")
+    create_date = article.create_date
+    create_date_str = create_date.strftime("%b %d, %Y")
 
     template = loader.get_template('readarticle.html')
     context = {

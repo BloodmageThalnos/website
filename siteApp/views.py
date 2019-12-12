@@ -1,3 +1,4 @@
+# encoding:utf-8
 import gzip
 import logging
 import json
@@ -69,30 +70,41 @@ def doVisit(request):
 def showDebug(request, path=''):
     if request.user.username != "dva":
         return HttpResponseRedirect('/login?next=/__debug__/'+path)
+
+    template = loader.get_template('log.html')
     if path == '':
-        template = loader.get_template('log.html')
-        context = {"name": "View logs..."}
+        context = {"name": "View logs...", "output": "Click to see logs or execute shell."}
         return HttpResponse(template.render(context, request))
+
     elif path == 'errlog':
-        with open('./log/err.log', mode='r', encoding='utf-8') as f:
-            template = loader.get_template('log.html')
-            context = {"name":"Error.log", "output": f.read()}
-            return HttpResponse(template.render(context, request))
+        lines = subprocess.check_output(['tail', '-n', '120', './log/err.log']).decode()  # 只显示最后120行
+        context = {"name":"Error.log", "output": lines}
+        return HttpResponse(template.render(context, request))
+
+        # with open('./log/err.log', mode='r', encoding='utf-8') as f:
+        #      template = loader.get_template('log.html')
+        #     context = {"name":"Error.log", "output": f.read()}
+        #     return HttpResponse(template.render(context, request))
 
     elif path=='infolog':
-        with open('./log/info.log', mode='r', encoding='utf-8') as f:
-            template = loader.get_template('log.html')
-            context = {"name":"Info.log", "output": f.read()}
-            return HttpResponse(template.render(context, request))
+        lines = subprocess.check_output(['tail', '-n', '120', './log/info.log']).decode()  # 只显示最后120行
+        context = {"name":"Info.log", "output": lines}
+        return HttpResponse(template.render(context, request))
 
     elif path=='doshelllog':
-        with open('../do.txt', mode='r', encoding='utf-8') as f:
+        with open('./do.txt', mode='r', encoding='utf-8') as f:
             template = loader.get_template('log.html')
             context = {"name":"Shell.log", "output": f.read()}
             return HttpResponse(template.render(context, request))
 
     elif path=='dopullshell':
-        subprocess.Popen(["sleep 0.1 && sh ../do.sh > ../do.txt 2>&1"]
+        subprocess.Popen(["sleep 0.1 && sh ./do.sh > ./do.txt 2>&1"]
+                             , shell=True, universal_newlines=True)
+        return HttpResponse(
+            '<html><head><meta http-equiv="refresh" content="3;url=/__debug__/doshelllog"></head></html>'
+        )
+    elif path=='doforcepull':
+        subprocess.Popen(["sleep 0.1 && sh ./do_force.sh > ./do.txt 2>&1"]
                              , shell=True, universal_newlines=True)
         return HttpResponse(
             '<html><head><meta http-equiv="refresh" content="3;url=/__debug__/doshelllog"></head></html>'
@@ -103,5 +115,6 @@ def showDebug(request, path=''):
             f.write('Log cleared. \n')
         with open('./log/err.log', mode="w") as f:
             f.write('Log cleared. \n')
+        return HttpResponseRedirect('/__debug__/')
 
     return HttpResponseRedirect('/__debug__/')
