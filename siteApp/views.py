@@ -51,9 +51,11 @@ def doVisit(request):
         try:
             vm = VisitModel.objects.get(id=int(id))
         except:
-            return None # 数据库中没有id，直接无视
-        if time - vm.duration > 60 + vm.duration**0.5 or time < vm.duration: # 不合法的更新，无视之
-            return None
+            logger.info('doVisit ERROR: id not found %s' % id)
+            return HttpResponse("") # 数据库中没有id，直接无视
+        if time - vm.duration > 3000 + 45 * (vm.duration**0.5) or time < vm.duration + 1: # 不合法的更新，无视之
+            logger.info('doVisit ERROR: time bad, ignore, vm.duration=%d vs time=%d' % (vm.duration, time))
+            return HttpResponse("")
         vm.duration = time
         vm.save()
         return HttpResponse(vm.id)
