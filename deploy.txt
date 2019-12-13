@@ -9,17 +9,17 @@ pip3 install uwsgi
 pip3 install django
 pip3 install django-extensions
 pip3 install pillow
-# pip3 install coscmd
-# 需要手动配置coscmd：https://cloud.tencent.com/document/product/436/10976；配置文件不方便备份。
+pip3 install requests
 
 cp ./website/nginx.ini /etc/nginx/conf.d/website.conf
 
-给nginx加权限：
+# 给nginx加权限：
 vi /etc/nginx/nginx.conf # user 改成root
 
-启动服务器：
+# 启动服务器：
 /etc/init.d/nginx start
 uwsgi --ini ./website/uwsgi.ini
+
 
 注意！如果装的uwsgi版本是2.0.12 debian等的话，则需要在uwsgi.ini中加一句话：
 vi ./website/uwsgi.ini
