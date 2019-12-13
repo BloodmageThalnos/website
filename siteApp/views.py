@@ -77,40 +77,54 @@ def showDebug(request, path=''):
         return HttpResponse(template.render(context, request))
 
     elif path == 'errlog':
-        lines = subprocess.check_output(['tail', '-n', '300', './log/err.log']).decode()  # 只显示最后300行
-        context = {"name":"Error.log", "output": lines}
+        context = {"name": "Error.log"}
+        try:
+            lines = subprocess.check_output(['tail', '-n', '300', './log/err.log']).decode()  # 只显示最后300行
+            context["output"] = lines
+        except Exception:
+            logger.error('Running <tail -n> error. Are you on Windows?')
+            logger.error('Trying to read log manually.')
+            with open('./log/err.log', mode='r', encoding='utf-8') as f:
+                context["output"] = f.read()
         return HttpResponse(template.render(context, request))
 
-        # with open('./log/err.log', mode='r', encoding='utf-8') as f:
-        #      template = loader.get_template('log.html')
-        #     context = {"name":"Error.log", "output": f.read()}
-        #     return HttpResponse(template.render(context, request))
-
-    elif path=='infolog':
-        lines = subprocess.check_output(['tail', '-n', '300', './log/info.log']).decode()  # 只显示最后300行
-        context = {"name":"Info.log", "output": lines}
+    elif path == 'infolog':
+        context = {"name": "Info.log"}
+        try:
+            lines = subprocess.check_output(['tail', '-n', '300', './log/info.log']).decode()  # 只显示最后300行
+            context["output"] = lines
+        except Exception:
+            logger.error('Running <tail -n> error. Are you on Windows?')
+            logger.error('Trying to read log manually.')
+            with open('./log/info.log', mode='r', encoding='utf-8') as f:
+                context["output"] = f.read()
         return HttpResponse(template.render(context, request))
 
-    elif path=='doshelllog':
-        with open('./do.txt', mode='r', encoding='utf-8') as f:
-            template = loader.get_template('log.html')
-            context = {"name":"Shell.log", "output": f.read()}
-            return HttpResponse(template.render(context, request))
+    elif path == 'doshelllog':
+        context = {"name": "Shell.log"}
+        try:
+            with open('./do.txt', mode='r', encoding='utf-8') as f:
+                context["output"] = f.read()
+                return HttpResponse(template.render(context, request))
+        except FileNotFoundError:
+            context["output"] = "Shell.log not found."
+        return HttpResponse(template.render(context, request))
 
-    elif path=='dopullshell':
+
+    elif path == 'dopullshell':
         subprocess.Popen(["sleep 0.1 && sh ./do.sh > ./do.txt 2>&1"]
                              , shell=True, universal_newlines=True)
         return HttpResponse(
             '<html><head><meta http-equiv="refresh" content="3;url=/__debug__/doshelllog"></head></html>'
         )
-    elif path=='doforcepull':
+    elif path == 'doforcepull':
         subprocess.Popen(["sleep 0.1 && sh ./do_force.sh > ./do.txt 2>&1"]
                              , shell=True, universal_newlines=True)
         return HttpResponse(
             '<html><head><meta http-equiv="refresh" content="3;url=/__debug__/doshelllog"></head></html>'
         )
 
-    elif path=='clearlog':
+    elif path == 'clearlog':
         with open('./log/info.log', mode="w") as f:
             f.write('Log cleared. \n')
         with open('./log/err.log', mode="w") as f:
