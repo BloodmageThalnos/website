@@ -1,4 +1,4 @@
-cd /root/website
+cd ~/website
 git pull
 if [ $? != 0 ];then
     echo '================================='
@@ -6,7 +6,4 @@ if [ $? != 0 ];then
     exit 1
 fi
 echo 'GIT PULL SUCCESS.'
-cd /root
-pkill -f uwsgi -9
-uwsgi --ini ./website/uwsgi.ini
-/etc/init.d/nginx restart
+sh ./restart.sh
