@@ -42,7 +42,7 @@ def doVisit(request):
         ip = request.META['HTTP_X_FORWARDED_FOR']if request.META.__contains__('HTTP_X_FORWARDED_FOR')else request.META['REMOTE_ADDR']
         url = request.POST.get("u")
         id = request.POST.get("b")
-        user_id = request.user.id
+        user_id = request.user.id if request.user.id else 0
         vm = VisitModel(user_id=user_id, user_ip=ip, b_id=id_(id), url=url, duration=0)
         vm.save()
         return HttpResponse(str(vm.id))
@@ -54,7 +54,7 @@ def doVisit(request):
         except:
             logger.info('doVisit ERROR: id not found %s' % id)
             return HttpResponse("") # 数据库中没有id，直接无视
-        if time - vm.duration > 3000 + 45 * (vm.duration**0.5) or time < vm.duration + 1: # 不合法的更新，无视之
+        if time - vm.duration > 10000 + 45 * (vm.duration**0.5) or time < vm.duration + 1: # 不合法的更新，无视之
             logger.info('doVisit ERROR: time bad, ignore, vm.duration=%d vs time=%d' % (vm.duration, time))
             return HttpResponse("")
         vm.duration = time
@@ -79,7 +79,7 @@ def showDebug(request, path=''):
     elif path == 'errlog':
         context = {"name": "Error.log"}
         try:
-            lines = subprocess.check_output(['tail', '-n', '300', './log/err.log']).decode()  # 只显示最后300行
+            lines = subprocess.check_output(['tail', '-n', '1000', './log/err.log']).decode()  # 只显示最后1000行
             context["output"] = lines
         except Exception:
             logger.error('Running <tail -n> error. Are you on Windows?')
@@ -91,7 +91,7 @@ def showDebug(request, path=''):
     elif path == 'infolog':
         context = {"name": "Info.log"}
         try:
-            lines = subprocess.check_output(['tail', '-n', '300', './log/info.log']).decode()  # 只显示最后300行
+            lines = subprocess.check_output(['tail', '-n', '1000', './log/info.log']).decode()
             context["output"] = lines
         except Exception:
             logger.error('Running <tail -n> error. Are you on Windows?')
