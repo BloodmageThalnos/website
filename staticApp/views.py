@@ -12,9 +12,10 @@ def showPage(request, path):
     try:
         with open('./html/' + path, encoding='UTF-8') as f:
             html = f.read()
+        return HttpResponse(html)
     except FileNotFoundError:
         logger.error('File not found: %s' % path)
-    return HttpResponse(html)
+        return HttpResponse(None)
 
 def showMusic(request, path):
     try:
@@ -28,6 +29,7 @@ def showMusic(request, path):
             return HttpResponse(html, content_type="audio/mp4")
     except FileNotFoundError:
         logger.error('File not found: %s' % path)
+        return HttpResponse(None)
 
 def showAssets(request, path):
     try:
@@ -54,7 +56,7 @@ def showAssets(request, path):
         logger.error('File not found: %s' % path)
 
     logging.info('Accessing /%s with showAssets matched nothing.' % path)
-    return None
+    return HttpResponse(None)
 
 
 def showImages(request, path):
@@ -71,7 +73,7 @@ def showImages(request, path):
         logger.error('File not found: %s' % path)
 
     logging.info('Accessing /%s with showImages matched nothing.' % path)
-    return None
+    return HttpResponse(None)
 
 
 def showSource(request, path):
@@ -84,7 +86,7 @@ def showSource(request, path):
         logger.error('File not found: %s' % path)
 
     logging.info('Accessing /%s with showSource matched nothing.' % path)
-    return None
+    return HttpResponse(None)
 
 def showBin(request, path):
     try:
@@ -111,7 +113,7 @@ def showBin(request, path):
         logger.error('File not found: %s' % path)
 
     logging.info('Accessing /%s with showBin matched nothing.' % path)
-    return None
+    return HttpResponse(None)
 
 def showStatic(request, path):
     try:
@@ -148,7 +150,7 @@ def showStatic(request, path):
         logger.error('File not found: %s' % path)
 
     logging.info('Accessing /%s with showBin matched nothing.' % path)
-    return None
+    return HttpResponse(None)
 
 def showFont(request, path):
     try:
@@ -165,4 +167,4 @@ def showFont(request, path):
         logger.error('File not found: %s' % path)
 
     logging.info('Accessing /%s with showFont matched nothing.' % path)
-    return None
+    return HttpResponse(None)
