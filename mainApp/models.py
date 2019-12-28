@@ -2,13 +2,10 @@ import logging
 import os
 
 from django.db import models
-from django.core.cache import cache
-import pickle
 from PIL import Image, ImageOps
 
 logger = logging.getLogger(__name__)
 
-# Create your models here.
 class ArticleModel(models.Model):
     title = models.TextField()
     content = models.TextField()
@@ -28,7 +25,7 @@ class ArticleModel(models.Model):
             self.cover_img_thumb=pic_path[1:]+'_thumb'+pic_path[-6:]
             self.save()
 
-        # 缩略图url bug处理：开头不应有.
+        # 缩略图url bug hack：开头不应有.
         while self.cover_img_thumb.startswith('.'):
             self.cover_img_thumb = self.cover_img_thumb[1:]
             self.save()
@@ -55,10 +52,8 @@ def thumb_from_cover_img(img_path, img_path_new):
     except Exception as e:
         logger.error(e)
 
-
 class CommentModel(models.Model):
     pass
-
 
 class DisqusModel(models.Model):
     user_id = models.IntegerField()
