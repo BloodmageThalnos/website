@@ -83,6 +83,11 @@
             Saved file {{ saved_filename }} not found.
         </div>
         {% endif %}
+        {% if permission_error %}
+        <div style="font-size:20px; color:red;">
+            {{ permission_error_text }}
+        </div>
+        {% endif %}
 
         <div class="t-float" id="t-float">
             <div class="t-float-close">X</div>
@@ -92,7 +97,7 @@
             </div>
         </div>
 
-        <div class="container">
+        <div class="container" style="display:flex;">
             <div class="t-div" id="t-div">
                 {{ content|safe }}
             </div>

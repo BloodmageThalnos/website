@@ -1,19 +1,47 @@
 .t-div{
-    position: relative;
     overflow: initial;
+    display: flex;
+}
+.t-timeline{
+    position: relative;
     padding-top: 60px;
-    /*DEBUG*/
-    /*background-color: #abfecd;*/
+}
+.t-task{
+    position: relative;
+    padding-top: 30px;
+    overflow: hidden;
+    padding-left: 20px;
+}
+@media (min-width: 1080px){
+    .t-timeline{
+        flex:2;
+    }
+    .t-task{
+        flex:1;
+    }
+}
+@media (max-width: 1079px){
+    .t-task{
+        display: none;
+    }
 }
 .t-verbar{
-    height: 1000px;
+    height: 100px;
     width: 2px;
     position: absolute;
-    left: 25%;
     top: 0;
-    background-color: #e2e7ed;
     z-index: 0;
     content: " ";
+}
+#t-task-bar{
+    left: 10px;
+    width: 1px;
+    background-color: #dddddd;
+    margin-top: 30px;
+}
+#t-timeline-bar{
+    left: 24%;
+    background-color: #e2e7ed;
 }
 .t-event{
     min-height: 40px;
@@ -83,13 +111,13 @@
     overflow: initial;
 }
 .t-e-left{
-    flex: 1;
+    flex: 24;
     text-align: right;
     text-align: -moz-right;
     text-align: -webkit-right;
 }
 .t-e-right{
-    flex: 3;
+    flex: 76;
 }
 .t-e-left-day{
     padding-right: 50px;
@@ -119,7 +147,7 @@
     position: absolute;
     transform: translate3d(0px, 38px, 0px);
     top: 0;
-    left: calc(25%);
+    left: calc(24%);
     will-change: transform;
     font-size: 16px;
     cursor:default;
@@ -128,7 +156,7 @@
     position: absolute;
 }
 .ball-day{
-    left: calc(25% - 13px + 1px);
+    left: calc(24% - 13px + 1px);
     top: 3px;
     width: 26px;
     height: 26px;
@@ -137,7 +165,7 @@
     border-radius: 50%;
 }
 .ball-event{
-    left: calc(25% - 8px + 1px);
+    left: calc(24% - 8px + 1px);
     top: 5px;
     width: 16px;
     height: 16px;
@@ -222,4 +250,30 @@
     text-align: center;
     font-size: 27px;
     color: whitesmoke;
+}
+.t-task-title{
+    font-size: 36px;
+    margin-left: 10px;
+    font-family: 'Source Serif Pro', 'Times New Roman', Times, serif;
+    line-height: 80px;
+}
+.t-task-text{
+    font-size: 18px;
+    color: #85866d;
+    line-height: 30px;
+    margin-left: 10px;
+}
+.t-task-doneline{
+    width: calc(100% - 10px);
+    height: 3px;
+    display:flex;
+    margin-left: 10px;
+}
+.t-doneline-left{
+    background-color: #00d084;
+    flex: 3;
+}
+.t-doneline-right{
+    background-color: rgba(173, 173, 173, 0.5);
+    flex: 2;
 }

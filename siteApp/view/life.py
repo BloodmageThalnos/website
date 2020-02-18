@@ -57,15 +57,18 @@ def showLife(request, path):
         return HttpResponseRedirect('/login?next=/life/'+path)
 
     from_user = request.user
+    from_user_name = from_user.username
     to_user = User.objects.get(username=path)
     to_user_name = to_user.username
     dirname = to_user_name
+    context = {}
 
     page = request.GET.get('page')
+    _ = LifeModel.objects.filter(user_id=to_user.id).order_by('-page_id').first()
+    latest = str(_.page_id) if _ else ''
 
     if not page: # 未指定页面，（暂时）自动进入最新的那页
-        latest = LifeModel.objects.filter(user_id=to_user.id).order_by('-page_id').first()
-        if latest is None: # 说明用户的life页面第一次被打开，在这里进行初始化操作
+        if not latest: # 说明用户的life页面第一次被打开，在这里进行初始化操作
             # auto 文件夹，用于存放自动保存的文件
             os.makedirs('./life/'+dirname+'/auto',exist_ok=True)  # exist_ok = true 防止多线程crash
             # example.html，最初打开的模板文件
@@ -75,7 +78,12 @@ def showLife(request, path):
             life_model.save()
             page = '1'
         else:
-            page = str(latest.page_id)
+            page = latest
+    elif page != latest and from_user_name != to_user_name and to_user_name == "dva":
+        # 暂时设置 dva 的页面被别人查看时，只显示最新的一页
+        page = latest
+        context["permission_error"] = True
+        context["permission_error_text"] = "由于权限设置，当前用户只显示三个月内的页面。(Permission error: 503)"
 
     if page != '1':
         dirname = dirname + '_p' + page
@@ -106,11 +114,10 @@ def showLife(request, path):
     template=loader.get_template('life.html')
     # 查看历史保存
     use = request.GET.get('use_saved')
-    context = {}
     if use is not None:
         context['use_saved'] = True
         context['saved_filename'] = use
-        if use.startswith("."):# 防 hack，开头不应有.
+        if use.startswith("."): # 防 hack，开头不应有.
             return None
         if from_user.username != to_user_name: # 暂时写死一个权限控制：只有自己能看自己的历史记录
             return None

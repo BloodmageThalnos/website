@@ -43,10 +43,20 @@ Controller = new function () {
     };
 
     this.initFromDOM = () => {
+        //软升级逻辑，从无Tasks版本升级到有Tasks版本；
+        {
+            let h = $('#t-div').html();
+            if(h.indexOf('class="t-timeline"')===-1) {
+                h = '<div class="t-timeline" id="t-timeline">' + h + '</div><div class="t-task" id="t-task"><div class="t-verbar"></div></div>';
+                $('#t-div').html(h);
+                console.log("Warning: updated from old html.");
+            }
+        }
+
         this.days = [];
         this.events = [];
         this.customScript = $('#custom').html()?$('#custom').html():"";
-        let DOMs = $('#t-div').children();
+        let DOMs = $('#t-timeline').children();
         let maxid = 0;
         for(let i = 0; i < DOMs.length; i++) {
             dom = $(DOMs[i]);
@@ -59,7 +69,6 @@ Controller = new function () {
         for (let i = 0; i < DOMs.length; i++) {
             let dom = $(DOMs[i]);
             if (dom.hasClass('t-verbar')) {
-                // continue;
             }
             else if (dom.hasClass('t-event-day')) {
                 let day = new Day(
@@ -123,10 +132,11 @@ Controller = new function () {
                 }
                 task.day = lastday;
                 lastday.task = task;
-
-
-            } else {
-                console.log('有什么奇怪的东西混进去了:\n'+dom.html());
+            }
+            else if(dom[0].id === "custom"){// custom script, we may have a check here.
+            }
+            else {
+                console.log('有奇混:\n'+dom[0].outerHTML);
             }
         }
     };
@@ -136,7 +146,8 @@ Controller = new function () {
         let lastdate = null;
         for(let i = 0; i<this.days.length; i++){
             let day = this.days[i];
-            if(day.date._str);  // day,date._str 非空表示date为手动输入的，而非日期。
+            if(day.date._str) {  // day,date._str 非空表示date为手动输入的，而非日期。
+            }
             else {
                 lastdate = day.date._date;break;
             }
@@ -306,9 +317,10 @@ Controller = new function () {
         let caretDiv = $(document.activeElement).prop('id');
         let caretPos = getCaretPosition(document.activeElement);
 
-        let alldiv = '<div class="t-verbar"></div>';
+        let alldiv = '';
         let customdiv = '<script id="custom">'+this.customScript+'</script>';
         alldiv += customdiv;
+        let timelinediv = '<div class="t-timeline" id="t-timeline"><div class="t-verbar" id="t-timeline-bar"></div>';
         for (let i = 0; i < this.days.length; i++) {
             let day = this.days[i];
             let daydiv =
@@ -324,7 +336,7 @@ Controller = new function () {
                 '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.editDate(this);Controller.updateDOM();">Edit Date</span>' +
                 '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.setDate(this);Controller.updateDOM();">Set Date</span>' +
                 '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createEvent(this);Controller.updateDOM();">Add Event</span>' +
-                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createDescript(this);Controller.updateDOM();">Add Description</span>' +
+                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createDescript(this);Controller.updateDOM();">Add Desc</span>' +
                 '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createTask(this);Controller.updateDOM();">Show Task</span>' +
                 '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.deleteTask(this);Controller.updateDOM();">Hide Task</span>' +
                 '</div>' +
@@ -371,11 +383,21 @@ Controller = new function () {
                     '</div>';
                 daydiv += eventdiv;
             }
-            alldiv += daydiv;
+            timelinediv += daydiv;
         }
+        timelinediv += '</div>';
+        alldiv += timelinediv;
+        let tasksdiv_s = '<div class="t-task" id="t-task"><div class="t-verbar" id="t-task-bar"></div><span class="t-task-title">Tasks</span>';
+        const tasksdiv_e = '</div>';
+        let donediv = '<div class="t-task-doneline"><div class="t-doneline-left"></div><div class="t-doneline-right"></div></div><div class="t-task-text">3 / 5 done.</div>';
+        alldiv += tasksdiv_s + donediv + tasksdiv_e;
         this.updatingDom = true;
+
         // 更新整个网页
         $('#t-div').html(alldiv);
+
+        // 更新bar的高度
+        $('.t-verbar').css("height",($('#t-div').height()-30)+"px");
 
         // 用于保留焦点
         if(caretDiv){
@@ -548,9 +570,9 @@ function Day(date, datestr, desc="", id=0) {
     this.task = null;
     this.events = [];
     this.update = () => {
-        // stable sort
-        // 按时间排序功能，没啥用，暂时注释掉了
+        // 把任务按时间排序的功能，没啥用且会导致问题，暂时注释掉了
         /*
+        // stable sort
         for(i in this.events){
             this.events[i]._id = i;
         }
@@ -620,7 +642,7 @@ function Task() {
     this.html = () => {
         let ret =  "<div class=\"t-plan\" id=\""+ this.day.id +"_task\">" +
             "<div class=\"t-plan-div\">" +
-            "<div class=\"t-plan-title\">Tasks</div>";
+            "<div class=\"t-plan-title\">Todo</div>";
         for(let i = 0; i<this.lines.length; i++){
             ret += "<div class=\"t-plan-line\">" +
                 "<div class=\"t-plan-check\">" +
@@ -768,8 +790,6 @@ Menu = new function() {
                 $('.show').removeClass('show');
             }, 50);
         });
-
-        $('.t-verbar').css("height",($('#t-div').height()-10)+"px");
 
         $('#settings-rollback').on("click",()=>{
             $('#settings-right-rollback').addClass('show');
