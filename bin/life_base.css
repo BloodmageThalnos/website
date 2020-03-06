@@ -63,8 +63,8 @@
 }
 .t-plan-div{
     position: relative;
-    margin: auto;
-    width: 80%;
+    margin-left: 24%;
+    width: 70%;
     max-width: 500px;
     min-height: 40px;
     border: 1px solid #888e94;
@@ -252,13 +252,13 @@
     color: whitesmoke;
 }
 .t-task-title{
-    font-size: 36px;
+    font-size: 32px;
     margin-left: 10px;
     font-family: 'Source Serif Pro', 'Times New Roman', Times, serif;
-    line-height: 80px;
+    line-height: 75px;
 }
 .t-task-text{
-    font-size: 18px;
+    font-size: 16px;
     color: #85866d;
     line-height: 30px;
     margin-left: 10px;
@@ -276,4 +276,18 @@
 .t-doneline-right{
     background-color: rgba(173, 173, 173, 0.5);
     flex: 2;
+}
+.t-task-outer{
+    margin-top: 30px;
+}
+.t-task-icon{
+    position: absolute;
+    left: 28px;
+    width: 34px;
+    height: 34px;
+}
+.t-task-task{
+    font-size: 20px;
+    margin-left: 50px;
+    line-height: 34px;
 }
