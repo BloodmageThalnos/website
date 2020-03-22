@@ -96,13 +96,8 @@ Controller = new function () {
                 $('#t-div').html(h)
             }
             else{
-                if($('#version')[0]) {
-                    h = '<div id="version" data-version="' + VERSION + '"></div>' + h;
-                    $('#t-div').html(h);
-                }
-                else{
-                    $('#version').attr('data-version',VERSION);
-                }
+                h = '<div id="version" data-version="' + VERSION + '"></div>' + h;
+                $('#t-div').html(h);
             }
         }
 
