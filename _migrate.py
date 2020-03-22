@@ -3,7 +3,6 @@ import sys
 import django
 os.environ['DJANGO_SETTINGS_MODULE'] = 'Website.settings'
 django.setup()
-
 '''
 import gzip
 files = os.listdir('./life')
@@ -14,7 +13,15 @@ for file in files:
     gzip_c = gzip.compress(content.encode("gbk"))
     with open(name, mode="wb") as f:
         f.write(gzip_c)
-'''
+        '''
+
+import gzip
+name = './life/example.html'
+with open(name, mode="rb") as f:
+    content = f.read()
+gzip_uc = gzip.decompress(content)
+with open(name, mode="w", encoding="GBK") as f:
+    f.write(bytes.decode(gzip_uc, encoding="GBK"))
 
 '''
 from mainApp.models import *

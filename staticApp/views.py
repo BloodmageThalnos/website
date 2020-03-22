@@ -109,6 +109,11 @@ def showBin(request, path):
             with open('./bin/' + path, mode="rb") as f:
                 html = f.read()
             return HttpResponse(html, content_type="application/x-font-ttf")
+
+        if path.endswith('svg'):
+            with open('./bin/' + path, mode="rb") as f:
+                html = f.read()
+            return HttpResponse(html, content_type="text/xml")
     except FileNotFoundError:
         logger.error('File not found: %s' % path)
 

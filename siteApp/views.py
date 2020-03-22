@@ -3,6 +3,7 @@ import gzip
 import logging
 import json
 import subprocess
+from django.conf import settings
 
 from .models import VisitModel, id_
 from .view.music import *
@@ -13,6 +14,10 @@ logger = logging.getLogger(__name__)
 def showRoot(request):
     template = loader.get_template('root.html')
     context = {}
+
+    if settings.DEBUG and settings.DEBUG_ROOT:
+        return HttpResponseRedirect(settings.DEBUG_ROOT)
+
     return HttpResponse(template.render(context, request))
 
 

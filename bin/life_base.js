@@ -1,13 +1,59 @@
 const URL_ACTION = "/life/__action";
 const AUTO_SAVE_INTERVAL = 3 * 1000;
+const VERSION = '10002.01';
 
 Static = new function() { // static functions
+    // 获取当前div在其兄弟中的index
     this.getChildrenIndex = ele => { //IE
         if (ele.sourceIndex) return ele.sourceIndex - ele.parentNode.sourceIndex - 1;
         //other
         var i = 0;
         while (ele = ele.previousElementSibling) i++;
         return i;
+    };
+    //获取当前光标位置
+    this.getCaretPosition = element => {
+        var caretOffset = 0;
+        var doc = element.ownerDocument || element.document;
+        var win = doc.defaultView || doc.parentWindow;
+        var sel;
+        if (typeof win.getSelection !== "undefined") {//谷歌、火狐
+            sel = win.getSelection();
+            if (sel.rangeCount > 0) {//选中的区域
+                var range = win.getSelection().getRangeAt(0);
+                var preCaretRange = range.cloneRange();//克隆一个选中区域
+                preCaretRange.selectNodeContents(element);//设置选中区域的节点内容为当前节点
+                preCaretRange.setEnd(range.endContainer, range.endOffset);  //重置选中区域的结束位置
+                caretOffset = preCaretRange.toString().length;
+            }
+        } else if ((sel = doc.selection) && sel.type !== "Control") {//IE
+            var textRange = sel.createRange();
+            var preCaretTextRange = doc.body.createTextRange();
+            preCaretTextRange.moveToElementText(element);
+            preCaretTextRange.setEndPoint("EndToEnd", textRange);
+            caretOffset = preCaretTextRange.text.length;
+        }
+        return caretOffset;
+    };
+    //设置光标位置
+    this.setCaretPosition = (element, pos) => {
+        var range, selection;
+        try {
+            range = document.createRange();//创建一个选中区域
+            range.selectNodeContents(element);//选中节点的内容
+            if (element.innerHTML.length > 0) {
+                range.setStart(element.childNodes[0], pos); //设置光标起始为指定位置
+            }
+            range.collapse(true);       //设置选中区域为一个点
+            selection = window.getSelection();//获取当前选中区域
+            selection.removeAllRanges();//移出所有的选中范围
+            selection.addRange(range);//添加新建的范围
+        }catch(err){}finally{}
+    };
+    //稳定排序，需下标为数字
+    this.stable_sort = (arr, comp) => {
+        for(let i in arr) arr[i]._ind = i;
+        return arr.sort((a,b)=>{return comp(a,b)||(a._ind-b._ind);});
     };
 }();
 
@@ -43,14 +89,27 @@ Controller = new function () {
     };
 
     this.initFromDOM = () => {
-        //软升级逻辑，从无Tasks版本升级到有Tasks版本；
-        {
+        if(!$('#version')[0]){ // remove later
             let h = $('#t-div').html();
             if(h.indexOf('class="t-timeline"')===-1) {
-                h = '<div class="t-timeline" id="t-timeline">' + h + '</div><div class="t-task" id="t-task"><div class="t-verbar"></div></div>';
-                $('#t-div').html(h);
-                console.log("Warning: updated from old html.");
+                h = '<div id="version" data-version="10001.00"></div><div class="t-timeline" id="t-timeline">' + h + '</div>';
+                $('#t-div').html(h)
             }
+            else{
+                if($('#version')[0]) {
+                    h = '<div id="version" data-version="' + VERSION + '"></div>' + h;
+                    $('#t-div').html(h);
+                }
+                else{
+                    $('#version').attr('data-version',VERSION);
+                }
+            }
+        }
+
+        this.version = $('#version').attr('data-version');
+        if(this.version === '10001.00'){
+            console.log('Warning: Protected version.');
+            return;
         }
 
         this.days = [];
@@ -65,12 +124,10 @@ Controller = new function () {
             }
         }
         this._id = maxid;   // id从最大元素id+1开始标起
-        let lastday; // lastday表示最近的一个day（当前day）
-        for (let i = 0; i < DOMs.length; i++) {
+        let lastday = null; // lastday表示最近的一个day（当前day）
+        for(let i = 0; i < DOMs.length; i++) {
             let dom = $(DOMs[i]);
-            if (dom.hasClass('t-verbar')) {
-            }
-            else if (dom.hasClass('t-event-day')) {
+            if (dom.hasClass('t-event-day')) {
                 let day = new Day(
                     /*Date*/dom.attr('date'),
                     /*DateStr*/dom.find('.t-e-right-day')[0].innerHTML,
@@ -79,7 +136,6 @@ Controller = new function () {
                 );
                 this.days.push(day);
                 lastday = day;
-                dom.prop('id', day.id);
             }
             else if (dom.hasClass('t-event')) {
                 // let left on yourself.
@@ -100,8 +156,6 @@ Controller = new function () {
                 event.day = lastday;
                 this.events.push(event);
                 lastday.events.push(event);
-                dom.prop('id', event.id);
-                //  console.log('Created event:\n'+event);
             }
             else if (dom.hasClass('t-plan')){
                 let task = new Task();
@@ -133,11 +187,50 @@ Controller = new function () {
                 task.day = lastday;
                 lastday.task = task;
             }
+            else if (dom.hasClass('t-verbar')) {
+            }
             else if(dom[0].id === "custom"){// custom script, we may have a check here.
             }
             else {
-                console.log('有奇混:\n'+dom[0].outerHTML);
+                console.log('Something unexcepted:\n'+dom[0].outerHTML);
             }
+        }
+
+        this.tasks = [];
+        this.subtasks = [];
+        DOMs = $('#t-task-dynamic').children();
+        let last_task = null;
+        for(let i = 0; i < DOMs.length; i++) {
+            let dom = $(DOMs[i]);
+            if (dom.hasClass('t-task-outer')){
+                let task = new TaskV2();
+                if(!task.fromHtml(dom)){
+                    console.log('Something unexcepted:\n'+dom[0].outerHTML);
+                    continue;
+                }
+                this.tasks.push(task);
+                last_task = task;
+            }
+            else if(dom.hasClass('t-subtask-outer')){
+                if(!last_task){
+                    console.log('Found unparented subtask.\n');
+                    continue;
+                }
+                let subtask = new Subtask();
+                if(!subtask.fromHtml(dom)){
+                    console.log('Something unexcepted:\n'+dom[0].outerHTML);
+                    continue;
+                }
+                last_task.addSubtask(subtask);
+                subtask.parent = last_task;
+                this.subtasks.push(subtask);
+            }
+            else {
+                console.log('Something unexcepted:\n'+dom[0].outerHTML);
+            }
+        }
+        for(let i = 0; i < this.tasks.length; i++){
+            this.tasks[i].checkStatus();
         }
     };
 
@@ -225,20 +318,20 @@ Controller = new function () {
         Controller.dirty = true;
     };
 
-    this.createEventFromEvent = obj => {
-        this.initFromDOM();
-        let eventid = $(obj).prop('id');
-        let day = this.events.find(val => val.id == eventid).day;
+    this.createEventFromEvent = (obj, before=0) => {   // before=1表示在Event之前插入，否则在之后插入
+        Controller.initFromDOM();
+        let eventid = parseInt($(obj).prop('id'));
+        let day = this.events.find(val => val.id === eventid).day;
         let event = new Event('', true, true, '', '');
         this.events.push(event);
         for (let i = 0; i < day.events.length; i++) {
-            if (day.events[i].id == eventid) {
-                day.events.splice(i + 1, 0, event);
+            if (day.events[i].id === eventid) {
+                day.events.splice(i + !before, 0, event);
                 event.day = day;
                 break;
             }
         }
-        this.updateDOM();
+        Controller.updateDOM();
         $('#' + event.id).find('.event-title').focus();
 
         Controller.dirty = true;
@@ -263,62 +356,42 @@ Controller = new function () {
     };
 
     this.addDescription = obj => {
-        let eventid = $(obj).closest('.t-event').prop('id');
-        let event = this.events.find(val => val.id == eventid);
+        Controller.initFromDOM();
+
+        let eventid = parseInt($(obj).closest('.t-event').prop('id'));
+        let event = this.events.find(val => val.id === eventid);
         event.hasDesc = true;
+        event.desc = "";
+
+        Controller.updateDOM();
+        $('#' + event.id).find('.event-descript').focus();
 
         Controller.dirty = true;
     };
 
     this.updateAll = () => {
+        if(this.version === '10001.00'){
+            return;
+        }
+
         for (let i = 0; i < this.days.length; i++) {
             this.days[i].update();
         }
+
+        Static.stable_sort(this.tasks, TaskV2.comp);
     };
 
     this.updateDOM = () => {
-        const getCaretPosition = function (element) {
-            var caretOffset = 0;
-            var doc = element.ownerDocument || element.document;
-            var win = doc.defaultView || doc.parentWindow;
-            var sel;
-            if (typeof win.getSelection != "undefined") {//谷歌、火狐
-            sel = win.getSelection();
-            if (sel.rangeCount > 0) {//选中的区域
-              var range = win.getSelection().getRangeAt(0);
-              var preCaretRange = range.cloneRange();//克隆一个选中区域
-              preCaretRange.selectNodeContents(element);//设置选中区域的节点内容为当前节点
-              preCaretRange.setEnd(range.endContainer, range.endOffset);  //重置选中区域的结束位置
-              caretOffset = preCaretRange.toString().length;
-            }
-            } else if ((sel = doc.selection) && sel.type !== "Control") {//IE
-            var textRange = sel.createRange();
-            var preCaretTextRange = doc.body.createTextRange();
-            preCaretTextRange.moveToElementText(element);
-            preCaretTextRange.setEndPoint("EndToEnd", textRange);
-            caretOffset = preCaretTextRange.text.length;
-            }
-            return caretOffset;
-        };//获取当前光标位置
-        const setCaretPosition = function (element, pos) {
-            var range, selection;
-            try {
-                range = document.createRange();//创建一个选中区域
-                range.selectNodeContents(element);//选中节点的内容
-                if (element.innerHTML.length > 0) {
-                    range.setStart(element.childNodes[0], pos); //设置光标起始为指定位置
-                }
-                range.collapse(true);       //设置选中区域为一个点
-                selection = window.getSelection();//获取当前选中区域
-                selection.removeAllRanges();//移出所有的选中范围
-                selection.addRange(range);//添加新建的范围
-            }catch(err){}finally{} //可能会
-        };//设置光标位置
+        if(this.version === '10001.00'){
+            console.log('Warning: Protected version.');
+            return;
+        }
+
         let caretDiv = $(document.activeElement).prop('id');
-        let caretPos = getCaretPosition(document.activeElement);
+        let caretPos = Static.getCaretPosition(document.activeElement);
 
         let alldiv = '';
-        let customdiv = '<script id="custom">'+this.customScript+'</script>';
+        let customdiv = '<script id="custom">'+this.customScript+'</script><div id="version" data-version="' + this.version + '"></div>';
         alldiv += customdiv;
         let timelinediv = '<div class="t-timeline" id="t-timeline"><div class="t-verbar" id="t-timeline-bar"></div>';
         for (let i = 0; i < this.days.length; i++) {
@@ -364,7 +437,7 @@ Controller = new function () {
                     '</div>' +
                     '<div class="t-e-ball ball-event" onclick="return Menu.show(this);"></div>' +
                     '<div class="t-menu dropdown-menu">' +
-                    '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.addDescription(this);Controller.updateDOM();">Add Description</span>' +
+                    '<span class="dropdown-item" onclick="Controller.addDescription(this);">Add Description</span>' +
                     '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.deleteEvent(this);Controller.updateDOM();">Delete Event</span>' +
                     '</div>' +
                     '<div class="t-e-right">' +
@@ -389,8 +462,14 @@ Controller = new function () {
         alldiv += timelinediv;
         let tasksdiv_s = '<div class="t-task" id="t-task"><div class="t-verbar" id="t-task-bar"></div><span class="t-task-title">Tasks</span>';
         const tasksdiv_e = '</div>';
-        let donediv = '<div class="t-task-doneline"><div class="t-doneline-left"></div><div class="t-doneline-right"></div></div><div class="t-task-text">3 / 5 done.</div>';
-        alldiv += tasksdiv_s + donediv + tasksdiv_e;
+        let donediv = '<div class="t-task-doneline"><div class="t-doneline-left"></div><div class="t-doneline-right"></div></div><div class="t-task-donetext">3 / 5 done.</div>';
+        let tasksdiv = '<div id="t-task-dynamic">';
+        for (let i = 0; i < this.tasks.length; i++) {
+            let task = this.tasks[i];
+            tasksdiv += task.getHtml();
+        }
+        tasksdiv += '</div>';
+        alldiv += tasksdiv_s + donediv + tasksdiv + tasksdiv_e;
         this.updatingDom = true;
 
         // 更新整个网页
@@ -401,7 +480,7 @@ Controller = new function () {
 
         // 用于保留焦点
         if(caretDiv){
-            setCaretPosition(document.getElementById(caretDiv), caretPos);
+            Static.setCaretPosition(document.getElementById(caretDiv), caretPos);
         }
         this.updatingDom = false;
 
@@ -413,7 +492,8 @@ Controller = new function () {
             $event.find('.event-title').keypress(function (event) {
                 var keynum = (event.keyCode ? event.keyCode : event.which);
                 if (keynum === 13) {
-                    Controller.createEventFromEvent($('#' + eventid));
+                    let insertBefore = Static.getCaretPosition(this)===0;
+                    Controller.createEventFromEvent($('#' + eventid), insertBefore);
                     return false;
                 }
             });
@@ -422,14 +502,13 @@ Controller = new function () {
             $event.find('.event-descript').keypress(function (event) {
                 var keynum = (event.keyCode ? event.keyCode : event.which);
                 if ((keynum === 10 || keynum === 13) && event.ctrlKey) {
+                    let insertBefore = Static.getCaretPosition(this)===0;
                     // Windows上Ctrl+Enter的键码是10；Mac、Linux等上是13。
-                    // console.log('You pressed a "Ctrl+Enter" key in somewhere');
-                    Controller.createEventFromEvent($('#' + eventid));
+                    Controller.createEventFromEvent($('#' + eventid), insertBefore);
                     return false;
                 }
             });
         }
-
 
         $('.t-plan-text').on('keydown', function (event) {
             var keynum = (event.keyCode ? event.keyCode : event.which);
@@ -439,9 +518,10 @@ Controller = new function () {
                 Controller.initFromDOM();
                 // 顺序不能错。
 
-                let day = Controller.days.find(value => value.id == dayid);
+                let day = Controller.days.find(value => value.id === dayid);
                 let task = day.task;
                 let index = Static.getChildrenIndex($(this).parent()[0])-1;
+                if(Static.getCaretPosition(this)===0 && $(this).text()) index--; // 在行首按回车跳到上一行
                 task.addItem(index);
 
                 Controller.updateDOM();
@@ -457,7 +537,7 @@ Controller = new function () {
                 let dayid = parseInt($(this).closest('.t-plan').prop('id'));
                 Controller.initFromDOM();
 
-                let day = Controller.days.find(value => value.id == dayid);
+                let day = Controller.days.find(value => value.id === dayid);
                 let task = day.task;
                 let index = Static.getChildrenIndex($(this).parent()[0])-1;
 
@@ -478,7 +558,7 @@ Controller = new function () {
                 }else { // 否则移到上一行的结尾
                     let a = $($($('#' + day.id + '_task').children().children()[index]).children()[1]);
                     if (a && a.length) {
-                        setCaretPosition(a[0], a.text().length);
+                        Static.setCaretPosition(a[0], a.text().length);
                     }
                 }
                 return false;
@@ -490,7 +570,7 @@ Controller = new function () {
             Controller.initFromDOM();
             // 顺序不能错。
 
-            let day = Controller.days.find(value => value.id == dayid);
+            let day = Controller.days.find(value => value.id === dayid);
             let task = day.task;
             let index = Static.getChildrenIndex($(this).parent()[0])-1;
             if(task.check[index]==="")task.check[index]="checked";
@@ -499,9 +579,120 @@ Controller = new function () {
 
             Controller.updateDOM();
         });
+
+        $('.ball-subtask').on('dblclick', function(event){
+            let subtaskid = parseInt($(this).closest('.t-subtask-outer').prop('id'));
+            Controller.initFromDOM();
+
+            let subtask = Controller.subtasks.find(value => value.id === subtaskid);
+            if(!subtask.changeStatus()){
+                console.log("ball-subtask.changeStatus error.");
+            }
+
+            Controller.updateDOM();
+        });
+
+
+        $('.t-task-text').on('keydown', function (event) {
+            var keynum = (event.keyCode ? event.keyCode : event.which);
+            // Subtask 列表回车换行事件
+            if (keynum === 13 && !event.shiftKey) { // Shift+Enter 正常换行
+                let taskid = parseInt($(this).closest('.t-task-outer').prop('id'));
+                Controller.initFromDOM();
+
+                let taskv2 = Controller.tasks.find(value => value.id === taskid);
+                let index = Controller.tasks.indexOf(taskv2);
+                let bInsertBefore = (Static.getCaretPosition(this) === 0 && $(this).text()); // 在行首按回车跳到上一行
+                newTask = new TaskV2();
+                newSubtask = new Subtask();
+                newTask.addSubtask(newSubtask);
+                Controller.tasks.splice(index+!bInsertBefore, 0, newTask);
+
+                Controller.updateDOM();
+
+                $('#' + newTask.id).find('.t-task-text').focus();
+                return false;
+            }
+            // 退格删行
+            else if(keynum === 8 && $(this).text() === ""){
+                let taskid = parseInt($(this).closest('.t-task-outer').prop('id'));
+                Controller.initFromDOM();
+
+                let taskv2 = Controller.tasks.find(value => value.id === taskid);
+                let index = Controller.tasks.indexOf(taskv2);
+                if(Controller.tasks.length === 1){
+                    return false;
+                }
+                if (!confirm('是否删除这个任务？！此操作可能无法恢复。')) {
+                    return false;
+                }
+                Controller.tasks.splice(index, 1);
+
+                Controller.updateDOM();
+                return false;
+            }
+        });
+
+        $('.t-subtask-text').on('keydown', function (event) {
+            var keynum = (event.keyCode ? event.keyCode : event.which);
+            // Subtask 列表回车换行事件
+            if (keynum === 13 && !event.shiftKey) { // Shift+Enter 正常换行
+                let subtaskid = parseInt($(this).closest('.t-subtask-outer').prop('id'));
+                Controller.initFromDOM();
+
+                let subtask = Controller.subtasks.find(value => value.id === subtaskid);
+                let taskv2 = subtask.parent;
+                let index = taskv2.subtasks.indexOf(subtask);
+                let bInsertBefore = (Static.getCaretPosition(this) === 0 && $(this).text()); // 在行首按回车跳到上一行
+                newSubtask = new Subtask();
+                Controller.subtasks.push(newSubtask);
+                newSubtask.parent = taskv2;
+                if (~index) {
+                    taskv2.subtasks.splice(index + !bInsertBefore, 0, newSubtask);
+                }
+                taskv2.checkStatus();
+
+                Controller.updateDOM();
+
+                $('#' + newSubtask.id).find('.t-subtask-text').focus();
+                return false;
+            }
+            // 退格删行
+            else if(keynum === 8 && $(this).text() === ""){
+                let subtaskid = parseInt($(this).closest('.t-subtask-outer').prop('id'));
+                Controller.initFromDOM();
+
+                let subtask = Controller.subtasks.find(value => value.id === subtaskid);
+                let taskv2 = subtask.parent;
+                let index = taskv2.subtasks.indexOf(subtask);
+                // 只有一个点的时候退格不删光
+                if(taskv2.subtasks.length === 1){
+                    return false;
+                }
+                taskv2.subtasks.splice(index, 1);
+                taskv2.checkStatus();
+
+                Controller.updateDOM();
+
+                if(!index){ // 如果是在第一行删除，则光标移到第二行开头
+                    $('#' + taskv2.subtasks[0].id).find('.t-subtask-text').focus();
+                }else { // 否则移到上一行的结尾
+                    let a = $('#' + taskv2.subtasks[index-1].id).find('.t-subtask-text');
+                    if (a && a.length) {
+                        Static.setCaretPosition(a[0], a.text().length);
+                    }
+                }
+                return false;
+            }
+        });
     };
 
     this.save = (auto, doAlert, callBack) => {
+        if(this.version === '10001.00'){
+            alert('旧版页面已不支持修改和保存，请新建页面，或联系管理员升级该页面。');
+            return;
+        }
+
         // 无保存权限的页面。为防止saveid伪造，后台也会进行check
         if(!Controller.saveid) return;
         // 保存
@@ -564,14 +755,14 @@ Controller = new function () {
 }();
 
 function Day(date, datestr, desc="", id=0) {
-    this.id = id?id:Controller.getid();
+    this.id = id||Controller.getid();
     this.date = new MyDate(date, datestr);
     this.desc = desc;
     this.task = null;
     this.events = [];
     this.update = () => {
-        // 把任务按时间排序的功能，没啥用且会导致问题，暂时注释掉了
         /*
+        // 把任务按时间排序的功能，没啥用且会导致问题，暂时注释掉了
         // stable sort
         for(i in this.events){
             this.events[i]._id = i;
@@ -585,7 +776,7 @@ function Day(date, datestr, desc="", id=0) {
     };
 
     this.addDesc = () => {
-        if(! this.desc) {
+        if(!this.desc) {
             this.desc = "平凡的一天....."
         }
     };
@@ -613,8 +804,8 @@ function Day(date, datestr, desc="", id=0) {
         console.log('Removed event: ');
         console.log(event);
         //this.events.remove(event);
-        this.events.find(val => val.id == eventid).day = null;
-        this.events = this.events.filter(val => val.id != eventid);
+        this.events.find(val => val.id === eventid).day = null;
+        this.events = this.events.filter(val => val.id !== eventid);
         this.update();
     };
 }
@@ -630,8 +821,6 @@ function Task() {
         this.lines.push("Example task.");
     };
     this.addItem = i => {
-        console.log(i);
-        console.log(this.check);
         this.check.splice(i+1, 0, "");
         this.lines.splice(i+1, 0, "");
     };
@@ -655,11 +844,10 @@ function Task() {
             "</div>"; //t-plan
         return ret;
     };
-
 }
 
 function Event(name, hasdesc, canedit, desc, time, id=0) {
-    this.id = id? id :Controller.getid();
+    this.id = id||Controller.getid();
     this.name = name;
     this.hasDesc = hasdesc;
     this.canEdit = true;
@@ -667,7 +855,7 @@ function Event(name, hasdesc, canedit, desc, time, id=0) {
     this.time = time;
     this.day = null;
     this.compareTime = b => {
-        /*
+        /*  Deprecated
             比较两个Event的时间
             时间格式：类似于 7:30 pm - 12:30 am
             匹配出其中的第一个时间与第二个时间（如果有），然后依次比较。
@@ -703,6 +891,97 @@ function Event(name, hasdesc, canedit, desc, time, id=0) {
         else if (b_times.length === 1) return 1;
         return a_times[1] - b_times[1];
     };
+}
+
+function TaskV2(text="", id=0){
+    this.id = id||Controller.getid();
+    this.text = text;
+    this.status = "undo";
+    this.time = new Date().valueOf();
+    this.subtasks = [];
+    this.checkStatus = () => {
+        let doneCnt = 0;
+        for(let i=0;i<this.subtasks.length;i++){
+            if(this.subtasks[i].status === 'done'){
+                doneCnt++;
+            }
+        }
+        if(doneCnt===this.subtasks.length){
+            this.status = "done";
+        }
+        else{
+            this.status = "undo";
+        }
+    };
+    this.getHtml = () => {
+        const task_ball = '<div class="ball-title ' + this.status + '"></div>';
+        let h = '<div class="t-task-outer" id="' + this.id +'" data-time="'+this.time+'"><div class="t-task-icon">' + task_ball + '</div><div class="t-task-text" contenteditable="true">' + this.text + '</div></div>';
+        for(let i=0;i<this.subtasks.length;i++){
+            let subtask = this.subtasks[i];
+            h += subtask.getHtml();
+        }
+        return h;
+    };
+    this.fromHtml = dom => { // from div.t-task-outer
+        try {
+            let $text = dom.find('.t-task-text')[0];
+            let $ball = dom.find('.ball-title')[0];
+            this.text = $text.innerHTML;
+            this.id = dom.prop('id') ? parseInt(dom.prop('id')) : Controller.getid();
+            this.status = $ball.classList[1]||"undo";
+            this.time = parseInt(dom.attr('data-time'))||new Date().valueOf();
+        }catch(err){
+            return false;
+        }
+        return true;
+    };
+    this.addSubtask = s => {
+        this.subtasks.push(s);
+    };
+}
+
+TaskV2.comp = function(a,b){
+    if(a.status === b.status){
+        return a.time - b.time;
+    }
+    if(a.status === "done")return 1;
+    return -1;
+};
+
+function Subtask(text="", id=0){
+    this.id = id||Controller.getid();
+    this.text = text;
+    this.status = "undo";
+    this.parent = null;
+    this.getHtml = () =>{
+        let subtask_ball = '<div class="ball-subtask ' + this.status + '"></div>';
+        return '<div class="t-subtask-outer" id="' + this.id + '"><div class="t-task-icon">' + subtask_ball + '</div><div class="t-subtask-text" contenteditable="true">' + this.text + '</div></div>';
+    };
+    this.fromHtml = dom => { // from div.t-subtask-outer
+        try {
+            let $text = dom.find('.t-subtask-text')[0];
+            let $ball = dom.find('.ball-subtask')[0];
+            this.text = $text.innerHTML;
+            this.id = dom.prop('id') ? parseInt(dom.prop('id')) : Controller.getid();
+            this.status = $ball.classList[1]||"undo";
+        }catch(err){
+            return false;
+        }
+        return true;
+    };
+    this.changeStatus = () => {
+        Controller.dirty = true;
+        const statusList = ["undo","done","highlit","abandon","undo"];
+        for(let i=0; i<statusList.length; i++){
+            if(this.status === statusList[i]){
+                this.status = statusList[i+1];
+                this.parent.checkStatus();
+                return true;
+            }
+        }
+        return false;
+    };
+
 }
 
 Settings = new function (){
