@@ -115,7 +115,13 @@ Controller = new function () {
         for(let i = 0; i < DOMs.length; i++) {
             dom = $(DOMs[i]);
             if (dom.prop('id') && parseInt(dom.prop('id'))){
-                maxid = Math.max(maxid,parseInt(dom.prop('id')));
+                maxid = Math.max(maxid, parseInt(dom.prop('id')));
+            }
+        }
+        for(let i = 0, d = $('#t-task-dynamic').children(); i < d.length; i++) {
+            dom = $(d[i]);
+            if (dom.prop('id') && parseInt(dom.prop('id'))){
+                maxid = Math.max(maxid, parseInt(dom.prop('id')));
             }
         }
         this._id = maxid;   // id从最大元素id+1开始标起
@@ -364,6 +370,19 @@ Controller = new function () {
         Controller.dirty = true;
     };
 
+    this.getDoneDiv = () => {
+        let cnt = 0, donecnt = 0;
+        for(let i = 0; i < this.tasks.length; i++){
+            let task = this.tasks[i];
+            cnt++;
+            if(task.status === 'done'){
+                donecnt++;
+            }
+        }
+        let donediv = '<div class="t-task-doneline"><div class="t-doneline-left" style="flex:' + donecnt + '"></div><div class="t-doneline-right" style="flex:' + (cnt-donecnt) + '"></div></div><div class="t-task-donetext">' + donecnt + ' / ' + cnt + ' done.</div>';
+        return donediv;
+    };
+
     this.updateAll = () => {
         if(this.version === '10001.00'){
             return;
@@ -457,7 +476,7 @@ Controller = new function () {
         alldiv += timelinediv;
         let tasksdiv_s = '<div class="t-task" id="t-task"><div class="t-verbar" id="t-task-bar"></div><span class="t-task-title">Tasks</span>';
         const tasksdiv_e = '</div>';
-        let donediv = '<div class="t-task-doneline"><div class="t-doneline-left"></div><div class="t-doneline-right"></div></div><div class="t-task-donetext">3 / 5 done.</div>';
+        let donediv = this.getDoneDiv();
         let tasksdiv = '<div id="t-task-dynamic">';
         for (let i = 0; i < this.tasks.length; i++) {
             let task = this.tasks[i];
@@ -684,7 +703,8 @@ Controller = new function () {
 
     this.save = (auto, doAlert, callBack) => {
         if(this.version === '10001.00'){
-            alert('旧版页面已不支持修改和保存，请新建页面，或联系管理员升级该页面。');
+            if(callBack)callBack();
+            else alert('旧版页面已不支持修改和保存，请新建页面，或联系管理员升级该页面。');
             return;
         }
 

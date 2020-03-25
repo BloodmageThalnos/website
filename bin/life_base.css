@@ -271,13 +271,14 @@
     display:flex;
     margin-left: 10px;
 }
+.t-task-dynamic{
+    margin-bottom: 20px;
+}
 .t-doneline-left{
     background-color: #00d084;
-    flex: 3;
 }
 .t-doneline-right{
     background-color: rgba(173, 173, 173, 0.5);
-    flex: 2;
 }
 .t-task-outer{
     margin-top: 20px;
