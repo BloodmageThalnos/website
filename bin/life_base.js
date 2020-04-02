@@ -196,7 +196,6 @@ Controller = new function () {
                 console.log('Something unexcepted:\n'+dom[0].outerHTML);
             }
         }
-
         this.tasks = [];
         this.subtasks = [];
         DOMs = $('#t-task-dynamic').children();
@@ -204,8 +203,8 @@ Controller = new function () {
         for(let i = 0; i < DOMs.length; i++) {
             let dom = $(DOMs[i]);
             if (dom.hasClass('t-task-outer')){
-                let task = new TaskV2();
-                if(!task.fromHtml(dom)){
+                let task = TaskV2.fromHtml(dom);
+                if(!task){
                     console.log('Something unexcepted:\n'+dom[0].outerHTML);
                     continue;
                 }
@@ -217,8 +216,8 @@ Controller = new function () {
                     console.log('Found unparented subtask.\n');
                     continue;
                 }
-                let subtask = new Subtask();
-                if(!subtask.fromHtml(dom)){
+                let subtask = Subtask.fromHtml(dom);
+                if(!subtask){
                     console.log('Something unexcepted:\n'+dom[0].outerHTML);
                     continue;
                 }
@@ -501,6 +500,15 @@ Controller = new function () {
         for (let i = 0; i < this.events.length; i++) {
             let eventid = this.events[i].id;
             let $event = $('#' + eventid);
+            // 在事件时间中按Tab，光标跳到右边的末尾
+            $event.find('.t-e-left-event').keydown(function (event) {
+                var keynum = (event.keyCode ? event.keyCode : event.which);
+                if (keynum === 9) {
+                    let a = $('#' + eventid + '_title');
+                    Static.setCaretPosition(a[0], a.text().length);
+                    return false;
+                }
+            });
 
             // 在事件标题中按回车，添加事件，并修改焦点
             $event.find('.event-title').keypress(function (event) {
@@ -577,6 +585,7 @@ Controller = new function () {
                 }
                 return false;
             }
+            // 计划时间列表Tab到最后
         });
 
         $('.t-plan-check').on('click', function(event) {
@@ -605,7 +614,6 @@ Controller = new function () {
 
             Controller.updateDOM();
         });
-
 
         $('.t-task-text').on('keydown', function (event) {
             var keynum = (event.keyCode ? event.keyCode : event.which);
@@ -937,24 +945,25 @@ function TaskV2(text="", id=0){
         }
         return h;
     };
-    this.fromHtml = dom => { // from div.t-task-outer
-        try {
-            let $text = dom.find('.t-task-text')[0];
-            let $ball = dom.find('.ball-title')[0];
-            this.text = $text.innerHTML;
-            this.id = dom.prop('id') ? parseInt(dom.prop('id')) : Controller.getid();
-            this.status = $ball.classList[1]||"undo";
-            this.time = parseInt(dom.attr('data-time'))||new Date().valueOf();
-        }catch(err){
-            return false;
-        }
-        return true;
-    };
     this.addSubtask = s => {
         this.subtasks.push(s);
     };
 }
-
+TaskV2.fromHtml = dom => { // from div.t-task-outer
+    try {
+        let $text = dom.find('.t-task-text')[0];
+        let $ball = dom.find('.ball-title')[0];
+        let task = new TaskV2(
+            /*text*/ $text.innerHTML,
+            /*id*/ dom.prop('id') ? parseInt(dom.prop('id')) : Controller.getid()
+        );
+        task.status = $ball.classList[1]||"undo";
+        task.time = parseInt(dom.attr('data-time'))||new Date().valueOf();
+        return task;
+    }catch(err){
+        return null;
+    }
+};
 TaskV2.comp = function(a,b){
     if(a.status === b.status){
         return a.time - b.time;
@@ -972,18 +981,6 @@ function Subtask(text="", id=0){
         let subtask_ball = '<div class="ball-subtask ' + this.status + '"></div>';
         return '<div class="t-subtask-outer" id="' + this.id + '"><div class="t-task-icon">' + subtask_ball + '</div><div class="t-subtask-text" contenteditable="true">' + this.text + '</div></div>';
     };
-    this.fromHtml = dom => { // from div.t-subtask-outer
-        try {
-            let $text = dom.find('.t-subtask-text')[0];
-            let $ball = dom.find('.ball-subtask')[0];
-            this.text = $text.innerHTML;
-            this.id = dom.prop('id') ? parseInt(dom.prop('id')) : Controller.getid();
-            this.status = $ball.classList[1]||"undo";
-        }catch(err){
-            return false;
-        }
-        return true;
-    };
     this.changeStatus = () => {
         Controller.dirty = true;
         const statusList = ["undo","done","highlit","abandon","undo"];
@@ -996,8 +993,21 @@ function Subtask(text="", id=0){
         }
         return false;
     };
-
 }
+Subtask.fromHtml = dom => { // from div.t-subtask-outer
+    try {
+        let $text = dom.find('.t-subtask-text')[0];
+        let $ball = dom.find('.ball-subtask')[0];
+        let subtask = new Subtask(
+            /*test*/ $text.innerHTML,
+            /*id*/ dom.prop('id') ? parseInt(dom.prop('id')) : Controller.getid()
+        );
+        subtask.status = $ball.classList[1]||"undo";
+        return subtask;
+    }catch(err){
+        return null;
+    }
+};
 
 Settings = new function (){
     this.initAll = () => {
