@@ -975,8 +975,10 @@ TaskV2.comp = function(a,b){
     if(a.status === b.status){
         return a.time - b.time;
     }
-    if(a.status === "done")return 1;
-    return -1;
+    const priority = {"highlit": 1, "undo": 2, "done":3};
+    let pa = priority[a.status] || -1;
+    let pb = priority[b.status] || -1;
+    return (pa>pb)?1:-1;
 };
 
 function Subtask(text="", id=0){
