@@ -285,33 +285,25 @@ ol {
   margin-bottom: 1em;
 }
 @media (max-width: 767px) {
-  p,
-  ul,
-  ol {
+  p {
     font-size: 1.2em;
     line-height: 1.47em;
   }
 }
 @media (min-width: 768px) and (max-width: 991px) {
-  p,
-  ul,
-  ol {
+  p {
     font-size: 1.2em;
     line-height: 1.44em;
   }
 }
 @media (min-width: 992px) and (max-width: 1199px) {
-  p,
-  ul,
-  ol {
+  p{
     font-size: 1.2em;
     line-height: 1.59em;
   }
 }
 @media (min-width: 1200px) {
-  p,
-  ul,
-  ol {
+  p {
     font-size: 1.2em;
     line-height: 1.53em;
   }
@@ -1032,10 +1024,6 @@ ul.vbar li:last-of-type {
   font-size: 1em;
   font-weight: 700;
 }
-.well ul {
-  list-style-type: square;
-  list-style-image: url('../images/bullet.gif');
-}
 .well ul li {
   position: relative;
   margin-bottom: 7px;
@@ -1245,9 +1233,6 @@ img.headshot,
 .sidebar-section .sidebar-icon {
   font-size: 12px;
 }
-.page-section {
-  margin-left: none;
-}
 .descriptor {
   font-size: 0.9em;
   font-weight: 600;
@@ -1332,46 +1317,6 @@ article aside.infobox .story-supplement-content .post-list a:hover,
 .modal .post-list a:hover {
   text-decoration: underline;
   color: #8C1515;
-}
-.unpublished-bug {
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1), 0px 0px 5px rgba(0, 0, 0, 0.1);
-  background-color: #B1040E;
-  color: #fff;
-  display: block;
-  font-family: 'Source Sans Pro', Arial, sans-serif;
-  font-size: 0.7em;
-  padding: 0.8em;
-  position: fixed;
-  right: 0;
-  top: 200px;
-  width: auto;
-  padding: 0.5em 1em 0;
-  white-space: nowrap;
-  z-index: 9999;
-  transition: all ease-in-out 250ms;
-}
-.unpublished-bug .unpublished-bug__status {
-  font-family: 'Source Sans Pro', Arial, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 1pt;
-}
-.unpublished-bug .unpublished-bug__details {
-  font-family: 'Source Sans Pro', Arial, sans-serif;
-  display: none;
-}
-.unpublished-bug:hover,
-.unpublished-bug:active,
-.unpublished-bug:focus {
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2), 0px 7px 10px rgba(0, 0, 0, 0.2);
-  right: 0;
-  overflow: hidden;
-  font-size: 1em;
-  width: auto;
-}
-.unpublished-bug:hover .unpublished-bug__details,
-.unpublished-bug:active .unpublished-bug__details,
-.unpublished-bug:focus .unpublished-bug__details {
-  display: block;
 }
 .no-underline,
 .no-underline:hover {
@@ -1546,7 +1491,6 @@ article aside.infobox .story-supplement-content .post-list a:hover,
   color: #820000;
   font-size: 0.8em;
   font-weight: 600;
-  font-size: 0.8125em;
   line-height: 1.53846154em;
   margin-bottom: 0.46153846em;
 }
@@ -1560,7 +1504,6 @@ article aside.infobox .story-supplement-content .post-list a:hover,
   padding: 0;
   font-size: 1.1875em;
   line-height: 1.10526316em;
-  margin-bottom: 0.31578947em;
 }
 @media (max-width: 767px) {
   .card .card-content h3 {
@@ -1621,12 +1564,8 @@ article aside.infobox .story-supplement-content .post-list a:hover,
 .social.card .card-content .actions a {
   display: inline-block;
   margin: 0 8px;
-  background: url('../images/social_actions.png') no-repeat 0 0;
-  background-size: 160px 61px;
   width: 23px;
   height: 16px;
-  background-position: 0px 0px;
-  background-position: var(--bgX) var(--bgY);
 }
 .instagram.social.card .card-content .actions a {
   background-position-y: -46px;
