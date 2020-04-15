@@ -923,14 +923,21 @@ function TaskV2(text="", id=0){
     this.time = new Date().valueOf();
     this.subtasks = [];
     this.checkStatus = () => {
-        let doneCnt = 0;
+        let doneCnt = 0, hasRed = false;
         for(let i=0;i<this.subtasks.length;i++){
-            if(this.subtasks[i].status === 'done'){
+            let status = this.subtasks[i].status;
+            if(status === 'done'){
                 doneCnt++;
+            }
+            else if(status === 'highlit'){
+                hasRed = true;
             }
         }
         if(doneCnt===this.subtasks.length){
             this.status = "done";
+        }
+        else if(hasRed){
+            this.status = "highlit";
         }
         else{
             this.status = "undo";

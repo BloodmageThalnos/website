@@ -306,6 +306,9 @@
 .ball-title.done{
     background-color: #979386;
 }
+.ball-title.highlit{
+    background-color: #ff6262;
+}
 .ball-subtask{
     width: 16px;
     height: 16px;
