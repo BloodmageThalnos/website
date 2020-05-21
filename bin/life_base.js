@@ -66,7 +66,7 @@ Controller = new function () {
     this.dirty = false; // 界面是否被修改
     this.updatingDom = false; // 正在updateDom等
     this.init = () => {
-        // 保存相关
+        // 保存相关start
         document.body.addEventListener("DOMCharacterDataModified",function(e){
             if(Controller.updatingDom)return;
             Controller.dirty = true;
@@ -86,6 +86,24 @@ Controller = new function () {
             if(Controller.dirty || _ldirty) Controller.save(true, false);
         }) // 关闭网站时，如果内容脏，强制保存。
         // Controller.onCloseEvent(60000); // 标签页失去焦点的时候自动保存，冷却时间1分钟。
+        // 保存相关end
+
+        // 黏贴内容时不带格式
+        $(document).on('paste', 'div', (e)=>{
+            e.stopPropagation();
+            e.preventDefault();
+            var text = '', event = (e.originalEvent || e);
+            if (event.clipboardData && event.clipboardData.getData) {
+                text = event.clipboardData.getData('text/plain');
+            } else if (window.clipboardData && window.clipboardData.getData) {
+                text = window.clipboardData.getData('Text');
+            }
+            if (document.queryCommandSupported('insertText')) {
+                document.execCommand('insertText', false, text);
+            } else {
+                document.execCommand('paste', false, text);
+            }
+        });
     };
 
     this.initFromDOM = () => {
@@ -711,8 +729,26 @@ Controller = new function () {
 
     this.save = (auto, doAlert, callBack) => {
         if(this.version === '10001.00'){
+            if(!auto && confirm('旧版页面已不支持修改和保存，请新建页面。确定要保存吗？')){
+                var formData = new FormData();
+                formData.append("content", $('#t-div').html());
+                formData.append("saveid", Controller.saveid);
+                formData.append("action", "save");
+                formData.append("page" , Controller.page);
+                $.ajax({
+                    url: URL_ACTION,
+                    type: 'post',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (msg) {
+                    },
+                    fail: function (msg) {
+                        console.log('保存失败：'+msg);
+                    }
+                });
+            }
             if(callBack)callBack();
-            else alert('旧版页面已不支持修改和保存，请新建页面，或联系管理员升级该页面。');
             return;
         }
 
