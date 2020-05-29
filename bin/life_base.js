@@ -1,6 +1,11 @@
 const URL_ACTION = "/life/__action";
 const AUTO_SAVE_INTERVAL = 3 * 1000;
-const VERSION = '10002.01';
+const VERSION = '10002.02';
+// 每次更新版本时，在这里添加版本升级代码
+function version_update(from_version){
+    if(from_version === "10001.00") return false;
+    return true;
+}
 
 Static = new function() { // static functions
     // 获取当前div在其兄弟中的index
@@ -57,35 +62,59 @@ Static = new function() { // static functions
     };
 }();
 
-Controller = new function () {
-    this.days = [];
-    this.events = [];
-    this.saveid = 0;
-    this.customScript = "";
+Controller = new class {
+    constructor(){
+        this.days = [];
+        this.events = [];
+        this.saveid = 0;
+        this.customScript = "";
 
-    this.dirty = false; // 界面是否被修改
-    this.updatingDom = false; // 正在updateDom等
-    this.init = () => {
+        this.dirty = false; // 界面是否被修改
+        this.updatingDom = false; // 正在updateDom等
+    }
+
+    init(){
         // 保存相关start
+        // 监控内容变化
         document.body.addEventListener("DOMCharacterDataModified",function(e){
             if(Controller.updatingDom)return;
             Controller.dirty = true;
         });
-        _ldirty = false;
+        this._ldirty = false;
+
+        // 如果发现内容是脏的，且X秒没有更新过了，就提交一次save。
         setTimeout(setInterval, 10000, function(e){
             if(Controller.dirty){
-                _ldirty = true;
+                Controller._ldirty = true;
                 Controller.dirty = false;
-            }else if(_ldirty){
+            }else if(Controller._ldirty){
                 Controller.try_auto_save();
-                _ldirty = false;
+                Controller._ldirty = false;
             }
-        }, AUTO_SAVE_INTERVAL); // 如果发现内容是脏的，且X秒没有更新过了，就提交一次save。
-        $('#settings-save').on('click', ()=>{Controller.save(false, true);}); // 手动保存。
+        }, AUTO_SAVE_INTERVAL);
+
+        // 手动保存。
+        $('#settings-save').on('click', ()=>{Controller.save(false, true);});
+
+        // 关闭网站时，如果内容脏，强制保存。
         $(window).unload(function(e){
             if(Controller.dirty || _ldirty) Controller.save(true, false);
-        }) // 关闭网站时，如果内容脏，强制保存。
-        // Controller.onCloseEvent(60000); // 标签页失去焦点的时候自动保存，冷却时间1分钟。
+        })
+
+        // 标签页失去焦点的时候自动保存，冷却时间1分钟。
+        // Controller.onCloseEvent(60000);
+
+        // Ctrl+S保存
+        $(document).on("keydown", function(e){
+            var keynum = (event.keyCode ? event.keyCode : event.which);
+            if (keynum === 83 && event.ctrlKey) {
+                e.preventDefault();
+                Controller.save(false, true);
+                return false;
+            }
+            return true;
+        });
+
         // 保存相关end
 
         // 黏贴内容时不带格式
@@ -104,25 +133,18 @@ Controller = new function () {
                 document.execCommand('paste', false, text);
             }
         });
-    };
+    }
 
-    this.initFromDOM = () => {
-        if(!$('#version')[0]){ // remove later
-            let h = $('#t-div').html();
-            if(h.indexOf('class="t-timeline"')===-1) {
-                h = '<div id="version" data-version="10001.00"></div><div class="t-timeline" id="t-timeline">' + h + '</div>';
-                $('#t-div').html(h)
-            }
-            else{
-                h = '<div id="version" data-version="' + VERSION + '"></div>' + h;
-                $('#t-div').html(h);
-            }
-        }
-
+    initFromDOM(){
         this.version = $('#version').attr('data-version');
-        if(this.version === '10001.00'){
-            console.log('Warning: Protected version.');
-            return;
+        if(this.version < VERSION){
+            if(version_update(this.version)){
+                this.version = VERSION;
+            }
+            if(this.version < VERSION){
+                console.log('Warning: Old version, protected.');
+                return;
+            }
         }
 
         this.days = [];
@@ -131,13 +153,13 @@ Controller = new function () {
         let DOMs = $('#t-timeline').children();
         let maxid = 0;
         for(let i = 0; i < DOMs.length; i++) {
-            dom = $(DOMs[i]);
+            let dom = $(DOMs[i]);
             if (dom.prop('id') && parseInt(dom.prop('id'))){
                 maxid = Math.max(maxid, parseInt(dom.prop('id')));
             }
         }
         for(let i = 0, d = $('#t-task-dynamic').children(); i < d.length; i++) {
-            dom = $(d[i]);
+            let dom = $(d[i]);
             if (dom.prop('id') && parseInt(dom.prop('id'))){
                 maxid = Math.max(maxid, parseInt(dom.prop('id')));
             }
@@ -250,9 +272,9 @@ Controller = new function () {
         for(let i = 0; i < this.tasks.length; i++){
             this.tasks[i].checkStatus();
         }
-    };
+    }
 
-    this.createDay = () => {
+    createDay(){
         // get last day which has a date
         let lastdate = null;
         for(let i = 0; i<this.days.length; i++){
@@ -280,9 +302,9 @@ Controller = new function () {
         this.days.splice(0, 0, day);
 
         Controller.dirty = true;
-    };
+    }
 
-    this.createEvent = obj => {
+    createEvent(obj){
         let dayid = $(obj).closest('.t-event-day').prop('id');
         let day = this.days.find(value => value.id == dayid);
 
@@ -291,34 +313,34 @@ Controller = new function () {
         this.events.push(event);
 
         Controller.dirty = true;
-    };
+    }
 
-    this.createDescript = obj => {
+    createDescript(obj){
         let dayid = $(obj).closest('.t-event-day').prop('id');
         let day = this.days.find(value => value.id == dayid);
         day.addDesc();
 
         Controller.dirty = true;
-    };
+    }
 
-    this.createTask = obj => {
+    createTask(obj){
         let dayid = $(obj).closest('.t-event-day').prop('id');
         let day = this.days.find(value => value.id == dayid);
         day.addTask();
 
         Controller.dirty = true;
-    };
+    }
 
-    this.editDate = obj => {
+    editDate(obj){
         let dayid = $(obj).closest('.t-event-day').prop('id');
         let day = this.days.find(value => value.id == dayid);
         day.date._str = day.date.show();
         day.date._date = null;
 
         Controller.dirty = true;
-    };
+    }
 
-    this.setDate = obj => {
+    setDate(obj){
         let dayid = $(obj).closest('.t-event-day').prop('id');
         let day = this.days.find(value => value.id == dayid);
         day.date._str = null;
@@ -326,17 +348,17 @@ Controller = new function () {
         day.date._date = new Date(datestr);
 
         Controller.dirty = true;
-    };
+    }
 
-    this.deleteTask = obj => {
+    deleteTask(obj){
         let dayid = $(obj).closest('.t-event-day').prop('id');
         let day = this.days.find(value => value.id == dayid);
         day.delTask();
 
         Controller.dirty = true;
-    };
+    }
 
-    this.createEventFromEvent = (obj, before=0) => {   // before=1表示在Event之前插入，否则在之后插入
+    createEventFromEvent(obj, before=0){   // before=1表示在Event之前插入，否则在之后插入
         Controller.initFromDOM();
         let eventid = parseInt($(obj).prop('id'));
         let day = this.events.find(val => val.id === eventid).day;
@@ -353,9 +375,9 @@ Controller = new function () {
         $('#' + event.id).find('.event-title').focus();
 
         Controller.dirty = true;
-    };
+    }
 
-    this.deleteEvent = obj => {
+    deleteEvent(obj){
         let eventid = $(obj).closest('.t-event').prop('id');
         let event = this.events.find(val => val.id == eventid);
         let day = event.day;
@@ -363,17 +385,17 @@ Controller = new function () {
         day.events = day.events.filter(val => val.id != eventid);
 
         Controller.dirty = true;
-    };
+    }
 
-    this.deleteDay = obj => {
+    deleteDay(obj){
         if (!confirm('是否删除此天的所有内容？！此操作可能无法恢复。')) return;
         let dayid = $(obj).closest('.t-event-day').prop('id');
         this.days = this.days.filter(val => val.id != dayid);
 
         Controller.dirty = true;
-    };
+    }
 
-    this.addDescription = obj => {
+    addDescription(obj){
         Controller.initFromDOM();
 
         let eventid = parseInt($(obj).closest('.t-event').prop('id'));
@@ -385,9 +407,9 @@ Controller = new function () {
         $('#' + event.id).find('.event-descript').focus();
 
         Controller.dirty = true;
-    };
+    }
 
-    this.getDoneDiv = () => {
+    getDoneDiv(){
         let cnt = 0, donecnt = 0;
         for(let i = 0; i < this.tasks.length; i++){
             let task = this.tasks[i];
@@ -398,10 +420,10 @@ Controller = new function () {
         }
         let donediv = '<div class="t-task-doneline"><div class="t-doneline-left" style="flex:' + donecnt + '"></div><div class="t-doneline-right" style="flex:' + (cnt-donecnt) + '"></div></div><div class="t-task-donetext">' + donecnt + ' / ' + cnt + ' done.</div>';
         return donediv;
-    };
+    }
 
-    this.updateAll = () => {
-        if(this.version === '10001.00'){
+    updateAll(){
+        if(this.version < VERSION){
             return;
         }
 
@@ -410,10 +432,10 @@ Controller = new function () {
         }
 
         Static.stable_sort(this.tasks, TaskV2.comp);
-    };
+    }
 
-    this.updateDOM = () => {
-        if(this.version === '10001.00'){
+    updateDOM(){
+        if(this.version < VERSION){
             console.log('Warning: Protected version.');
             return;
         }
@@ -521,7 +543,7 @@ Controller = new function () {
             // 在事件时间中按Tab，光标跳到右边的末尾
             $event.find('.t-e-left-event').keydown(function (event) {
                 var keynum = (event.keyCode ? event.keyCode : event.which);
-                if (keynum === 9) {
+                if (keynum === 9 && !event.shiftKey) {
                     let a = $('#' + eventid + '_title');
                     Static.setCaretPosition(a[0], a.text().length);
                     return false;
@@ -635,7 +657,7 @@ Controller = new function () {
 
         $('.t-task-text').on('keydown', function (event) {
             var keynum = (event.keyCode ? event.keyCode : event.which);
-            // Subtask 列表回车换行事件
+            // Task 列表回车换行事件
             if (keynum === 13 && !event.shiftKey) { // Shift+Enter 正常换行
                 let taskid = parseInt($(this).closest('.t-task-outer').prop('id'));
                 Controller.initFromDOM();
@@ -684,13 +706,14 @@ Controller = new function () {
                 let taskv2 = subtask.parent;
                 let index = taskv2.subtasks.indexOf(subtask);
                 let bInsertBefore = (Static.getCaretPosition(this) === 0 && $(this).text()); // 在行首按回车跳到上一行
-                newSubtask = new Subtask();
+                let newSubtask = new Subtask();
                 Controller.subtasks.push(newSubtask);
                 newSubtask.parent = taskv2;
                 if (~index) {
                     taskv2.subtasks.splice(index + !bInsertBefore, 0, newSubtask);
                 }
                 taskv2.checkStatus();
+                taskv2.mtime = new Date().valueOf();
 
                 Controller.updateDOM();
 
@@ -711,6 +734,7 @@ Controller = new function () {
                 }
                 taskv2.subtasks.splice(index, 1);
                 taskv2.checkStatus();
+                taskv2.mtime = new Date().valueOf();
 
                 Controller.updateDOM();
 
@@ -725,10 +749,10 @@ Controller = new function () {
                 return false;
             }
         });
-    };
+    }
 
-    this.save = (auto, doAlert, callBack) => {
-        if(this.version === '10001.00'){
+    save(auto, doAlert, callBack){
+        if(this.version < VERSION){
             if(!auto && confirm('旧版页面已不支持修改和保存，请新建页面。确定要保存吗？')){
                 var formData = new FormData();
                 formData.append("content", $('#t-div').html());
@@ -786,17 +810,17 @@ Controller = new function () {
                 console.log('保存失败：'+msg);
             }
         });
-        _lsave = Date.now();
-    };
+        this._lsave = Date.now();
+    }
 
     _lsave = 0;
-    this.try_auto_save = _ => {
-        if(!_lsave || Date.now() - _lsave > AUTO_SAVE_INTERVAL) {
+    try_auto_save(){
+        if(!this._lsave || Date.now() - this._lsave > AUTO_SAVE_INTERVAL) {
             Controller.save(true, false);
         }
-    };
+    }
 
-    this.onCloseEvent = _ => {
+    onCloseEvent(){
         var hiddenProperty = 'hidden' in document ? 'hidden' :'webkitHidden' in document ? 'webkitHidden' : 'mozHidden' in document ? 'mozHidden' : null;
         var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');
         _vsave = true;
@@ -805,115 +829,116 @@ Controller = new function () {
                 // something when the page goes out.
             }
         });
-    };
+    }
 
-    this._id = 1; // 会在initfromdom函数中更新。
-    this.getid = () => {
+    _id = 1; // 会在initfromdom函数中更新。
+    getid(){
         return ++this._id;
-    };
+    }
 }();
 
-function Day(date, datestr, desc="", id=0) {
-    this.id = id||Controller.getid();
-    this.date = new MyDate(date, datestr);
-    this.desc = desc;
-    this.task = null;
-    this.events = [];
-    this.update = () => {
-        /*
-        // 把任务按时间排序的功能，没啥用且会导致问题，暂时注释掉了
-        // stable sort
-        for(i in this.events){
-            this.events[i]._id = i;
-        }
-        if(!document.alibaba) {
-            console.log(this.events);
-            document.alibaba = 1;
-        }
-        this.events.sort((a, b) => a.compareTime(b));
-        */
-    };
-
-    this.addDesc = () => {
-        if(!this.desc) {
-            this.desc = "平凡的一天....."
-        }
-    };
-
-    this.addTask = () => {
-        if(this.task == null){
-            this.task = new Task();
-            this.task.init();
-            this.task.day = this;
-        }
-        // 已有task，不做改动
-    };
-
-    this.delTask = () => {
+class Day {
+    constructor(date, datestr, desc = "", id = 0) {
+        this.id = id || Controller.getid();
+        this.date = new MyDate(date, datestr);
+        this.desc = desc;
         this.task = null;
-    };
-
-    this.addEvent = event => {
-        this.events.push(event);
-        event.day = this;
-        this.update();
-    };
-
-    this.removeEvent = eventid => {
-        console.log('Removed event: ');
-        console.log(event);
-        //this.events.remove(event);
-        this.events.find(val => val.id === eventid).day = null;
-        this.events = this.events.filter(val => val.id !== eventid);
-        this.update();
-    };
+        this.events = [];
+        this.update = () => {
+            /*
+            // 把任务按时间排序的功能，没啥用且会导致问题，暂时注释掉了
+            // stable sort
+            for(i in this.events){
+                this.events[i]._id = i;
+            }
+            if(!document.alibaba) {
+                console.log(this.events);
+                document.alibaba = 1;
+            }
+            this.events.sort((a, b) => a.compareTime(b));
+            */
+        };
+        this.addDesc = () => {
+            if (!this.desc) {
+                this.desc = "平凡的一天.....";
+            }
+        };
+        this.addTask = () => {
+            if (this.task == null) {
+                this.task = new Task();
+                this.task.init();
+                this.task.day = this;
+            }
+            // 已有task，不做改动
+        };
+        this.delTask = () => {
+            this.task = null;
+        };
+        this.addEvent = event => {
+            this.events.push(event);
+            event.day = this;
+            this.update();
+        };
+        this.removeEvent = eventid => {
+            console.log('Removed event: ');
+            console.log(event);
+            //this.events.remove(event);
+            this.events.find(val => val.id === eventid).day = null;
+            this.events = this.events.filter(val => val.id !== eventid);
+            this.update();
+        };
+    }
 }
 
-function Task() {
-    this.id = 0;
-    this.day = null;
-    this.check = []; // "", "checked", "crossed"
-    this.lines = [];
-    this.init = () => {
+class Task {
+    constructor() {
+        this.id = 0;
+        this.day = null;
+        this.check = []; // "", "checked", "crossed"
+        this.lines = [];
+    }
+    init(){
         this.id = Controller.getid();
         this.check.push("");
         this.lines.push("Example task.");
-    };
-    this.addItem = i => {
-        this.check.splice(i+1, 0, "");
-        this.lines.splice(i+1, 0, "");
-    };
-    this.removeItem = i => {
+    }
+    addItem(i){
+        this.check.splice(i + 1, 0, "");
+        this.lines.splice(i + 1, 0, "");
+    }
+    removeItem(i){
         this.check.splice(i, 1);
         this.lines.splice(i, 1);
-    };
-    this.html = () => {
-        let ret =  "<div class=\"t-plan\" id=\""+ this.day.id +"_task\">" +
+    }
+    html(){
+        let ret = "<div class=\"t-plan\" id=\"" + this.day.id + "_task\">" +
             "<div class=\"t-plan-div\">" +
             "<div class=\"t-plan-title\">Todo</div>";
-        for(let i = 0; i<this.lines.length; i++){
+        for (let i = 0; i < this.lines.length; i++) {
             ret += "<div class=\"t-plan-line\">" +
                 "<div class=\"t-plan-check\">" +
                 "<div class=\"inner " + this.check[i] + "\"></div>" +
                 "</div>" +
                 "<div class=\"t-plan-text\" contenteditable=true>" + this.lines[i] + "</div>" +
-            "</div>\n";
+                "</div>\n";
         }
         ret += "</div>" + //t-plan-div
             "</div>"; //t-plan
         return ret;
-    };
+    }
 }
 
-function Event(name, hasdesc, canedit, desc, time, id=0) {
-    this.id = id||Controller.getid();
-    this.name = name;
-    this.hasDesc = hasdesc;
-    this.canEdit = true;
-    this.desc = desc;
-    this.time = time;
-    this.day = null;
-    this.compareTime = b => {
+class Event {
+    constructor(name, hasdesc, canedit, desc, time, id = 0) {
+        this.id = id || Controller.getid();
+        this.name = name;
+        this.hasDesc = hasdesc;
+        this.canEdit = true;
+        this.desc = desc;
+        this.time = time;
+        this.day = null;
+    }
+    compareTime(b){
         /*  Deprecated
             比较两个Event的时间
             时间格式：类似于 7:30 pm - 12:30 am
@@ -932,135 +957,162 @@ function Event(name, hasdesc, canedit, desc, time, id=0) {
                 s += parseInt(time[i]);
             }
             t += s;
-            while (time[i] === ' ') i++;
-            if (time[i] === 'p') t += 720;
-            else if (time[i] === 'a') i++;
-            else t = 99999;
+            while (time[i] === ' ')
+                i++;
+            if (time[i] === 'p')
+                t += 720;
+            else if (time[i] === 'a')
+                i++;
+            else
+                t = 99999;
             return t;
         };
         let a_times = this.time.match(regex);
         let b_times = b.time.match(regex);
-        if (!a_times && !b_times) return (this._id - b._id) || 0;
-        else if (!a_times) return 1;
-        else if (!b_times) return -1;
+        if (!a_times && !b_times)
+            return (this._id - b._id) || 0;
+        else if (!a_times)
+            return 1;
+        else if (!b_times)
+            return -1;
         a_times = a_times.map(cal);
         b_times = b_times.map(cal);
-        if (a_times[0] !== b_times[0]) return a_times[0] - b_times[0];
-        else if (a_times.length === 1) return -1;
-        else if (b_times.length === 1) return 1;
+        if (a_times[0] !== b_times[0])
+            return a_times[0] - b_times[0];
+        else if (a_times.length === 1)
+            return -1;
+        else if (b_times.length === 1)
+            return 1;
         return a_times[1] - b_times[1];
     };
 }
 
-function TaskV2(text="", id=0){
-    this.id = id||Controller.getid();
-    this.text = text;
-    this.status = "undo";
-    this.time = new Date().valueOf();
-    this.subtasks = [];
-    this.checkStatus = () => {
+class TaskV2 {
+    constructor(text = "", id = 0) {
+        this.id = id || Controller.getid();
+        this.text = text;
+        this.status = "undo";
+        // 创建时间
+        this.time = new Date().valueOf();
+        // 最近修改时间
+        this.mtime = this.time;
+        this.subtasks = [];
+    }
+    checkStatus(){
+        let prestate = this.status;
         let doneCnt = 0, hasRed = false;
-        for(let i=0;i<this.subtasks.length;i++){
+        for (let i = 0; i < this.subtasks.length; i++) {
             let status = this.subtasks[i].status;
-            if(status === 'done'){
+            if (status === 'done' || status == "abandon") {
                 doneCnt++;
             }
-            else if(status === 'highlit'){
+            else if (status === 'highlit') {
                 hasRed = true;
             }
         }
-        if(doneCnt===this.subtasks.length){
+        if (doneCnt === this.subtasks.length) {
             this.status = "done";
         }
-        else if(hasRed){
+        else if (hasRed) {
             this.status = "highlit";
         }
-        else{
+        else {
             this.status = "undo";
         }
+        if(this.status !== prestate){
+            this.mtime = new Date().valueOf();
+        }
     };
-    this.getHtml = () => {
+    getHtml(){
         const task_ball = '<div class="ball-title ' + this.status + '"></div>';
-        let h = '<div class="t-task-outer" id="' + this.id +'" data-time="'+this.time+'"><div class="t-task-icon">' + task_ball + '</div><div class="t-task-text" contenteditable="true">' + this.text + '</div></div>';
-        for(let i=0;i<this.subtasks.length;i++){
+        let h = '<div class="t-task-outer" id="' + this.id + '" data-time="' + this.time + ' data-mtime="' + this.mtime + '"><div class="t-task-icon">' + task_ball + '</div><div class="t-task-text" contenteditable="true">' + this.text + '</div></div>';
+        for (let i = 0; i < this.subtasks.length; i++) {
             let subtask = this.subtasks[i];
             h += subtask.getHtml();
         }
         return h;
     };
-    this.addSubtask = s => {
+    addSubtask(s){
         this.subtasks.push(s);
     };
-}
-TaskV2.fromHtml = dom => { // from div.t-task-outer
-    try {
-        let $text = dom.find('.t-task-text')[0];
-        let $ball = dom.find('.ball-title')[0];
-        let task = new TaskV2(
+    static fromHtml(dom) {
+        try {
+            let $text = dom.find('.t-task-text')[0];
+            let $ball = dom.find('.ball-title')[0];
+            let task = new TaskV2(
             /*text*/ $text.innerHTML,
-            /*id*/ dom.prop('id') ? parseInt(dom.prop('id')) : Controller.getid()
-        );
-        task.status = $ball.classList[1]||"undo";
-        task.time = parseInt(dom.attr('data-time'))||new Date().valueOf();
-        return task;
-    }catch(err){
-        return null;
+            /*id*/ dom.prop('id') ? parseInt(dom.prop('id')) : Controller.getid());
+            task.status = $ball.classList[1] || "undo";
+            task.time = parseInt(dom.attr('data-time')) || new Date().valueOf();
+            task.mtime = parseInt(dom.attr('data-mtime')) || new Date().valueOf();
+            return task;
+        }
+        catch (err) {
+            return null;
+        }
     }
-};
-TaskV2.comp = function(a,b){
-    if(a.status === b.status){
-        return a.time - b.time;
-    }
-    const priority = {"highlit": 1, "undo": 2, "done":3};
-    let pa = priority[a.status] || -1;
-    let pb = priority[b.status] || -1;
-    return (pa>pb)?1:-1;
-};
-
-function Subtask(text="", id=0){
-    this.id = id||Controller.getid();
-    this.text = text;
-    this.status = "undo";
-    this.parent = null;
-    this.getHtml = () =>{
-        let subtask_ball = '<div class="ball-subtask ' + this.status + '"></div>';
-        return '<div class="t-subtask-outer" id="' + this.id + '"><div class="t-task-icon">' + subtask_ball + '</div><div class="t-subtask-text" contenteditable="true">' + this.text + '</div></div>';
-    };
-    this.changeStatus = () => {
-        Controller.dirty = true;
-        const statusList = ["undo","done","highlit","abandon","undo"];
-        for(let i=0; i<statusList.length; i++){
-            if(this.status === statusList[i]){
-                this.status = statusList[i+1];
-                this.parent.checkStatus();
-                return true;
+    static comp(a, b) {
+        if (a.status === b.status) {
+            if(a.status === "highlit" || a.status === "undo"){
+                return a.mtime - b.mtime;
+            }
+            else{
+                return a.time - b.time;
             }
         }
-        return false;
-    };
-}
-Subtask.fromHtml = dom => { // from div.t-subtask-outer
-    try {
-        let $text = dom.find('.t-subtask-text')[0];
-        let $ball = dom.find('.ball-subtask')[0];
-        let subtask = new Subtask(
-            /*test*/ $text.innerHTML,
-            /*id*/ dom.prop('id') ? parseInt(dom.prop('id')) : Controller.getid()
-        );
-        subtask.status = $ball.classList[1]||"undo";
-        return subtask;
-    }catch(err){
-        return null;
+        const priority = { "highlit": 1, "undo": 2, "done": 3 };
+        let pa = priority[a.status] || -1;
+        let pb = priority[b.status] || -1;
+        return (pa > pb) ? 1 : -1;
     }
-};
+}
 
-Settings = new function (){
-    this.initAll = () => {
+class Subtask {
+    constructor(text = "", id = 0) {
+        this.id = id || Controller.getid();
+        this.text = text;
+        this.status = "undo";
+        this.parent = null;
+        this.getHtml = () => {
+            let subtask_ball = '<div class="ball-subtask ' + this.status + '"></div>';
+            return '<div class="t-subtask-outer" id="' + this.id + '"><div class="t-task-icon">' + subtask_ball + '</div><div class="t-subtask-text" contenteditable="true">' + this.text + '</div></div>';
+        };
+        this.changeStatus = () => {
+            Controller.dirty = true;
+            const statusList = ["undo", "done", "highlit", "abandon", "undo"];
+            for (let i = 0; i < statusList.length; i++) {
+                if (this.status === statusList[i]) {
+                    this.status = statusList[i + 1];
+                    this.parent.checkStatus();
+                    return true;
+                }
+            }
+            return false;
+        };
+    }
+    static fromHtml(dom) {
+        try {
+            let $text = dom.find('.t-subtask-text')[0];
+            let $ball = dom.find('.ball-subtask')[0];
+            let subtask = new Subtask(
+            /*test*/ $text.innerHTML,
+            /*id*/ dom.prop('id') ? parseInt(dom.prop('id')) : Controller.getid());
+            subtask.status = $ball.classList[1] || "undo";
+            return subtask;
+        }
+        catch (err) {
+            return null;
+        }
+    }
+}
+
+Settings = new class {
+    initAll(){
         setTimeout(()=>this.initRollback(), 1200); // saveid will be set after 1000 milliseconds
         setTimeout(()=>this.initPagelist(), 1200); // saveid will be set after 1000 milliseconds
     };
 
-    this.initRollback = () => {
+    initRollback(){
         if (!Controller.saveid) return;
         // 保存
         var formData = new FormData();
@@ -1081,7 +1133,7 @@ Settings = new function (){
                     console.log("Init rollback failed.");
                     console.log(msg.msg)
                 } else {
-                    content = '<ul class="list-group t-settings-ul">';
+                    let content = '<ul class="list-group t-settings-ul">';
                     for (let i = 0; i < parseInt(msg['length']); i++) {
                         content += '<li class="list-group-item t-settings-li" ' +
                             'onclick="document.location=\''+ msg['_'+i]+'\'">' + msg['' + i] + '</li>';
@@ -1091,9 +1143,9 @@ Settings = new function (){
                 }
             }
         });
-    };
+    }
 
-    this.initPagelist = () => {
+    initPagelist(){
         // 用户列表
         var formData = new FormData();
         formData.append("action", "listpage");
@@ -1112,7 +1164,7 @@ Settings = new function (){
                     console.log(msg.msg)
                 }
                 else{
-                    content = '<ul class="list-group t-settings-ul">';
+                    let content = '<ul class="list-group t-settings-ul">';
                     for(let i=1;i<=parseInt(msg['length']);i++) {
                         content += '<li class="list-group-item t-settings-li" ' +
                         'onclick="document.location=document.location.toString().split(\'?\')[0]+\'?page=' + msg['' + i] + '\'">' + msg['_' + i] + '</li>';
@@ -1125,10 +1177,12 @@ Settings = new function (){
     }
 }();
 
-Menu = new function() {
-    this.buttonClicked = false;
+Menu = new class{
+    constructor(){
+        this.buttonClicked = false;
+    }
 
-    this.init = () => {
+    init(){
         $('body').on('click', event => {
             // 左边空白处点击时关闭打开的菜单
             setTimeout(() => {
@@ -1203,7 +1257,7 @@ Menu = new function() {
         });
     };
 
-    this.show = obj => {
+    show(obj){
         this.buttonClicked = true;
         let a = $(obj).next();
         if (a.hasClass('show'))
@@ -1214,32 +1268,33 @@ Menu = new function() {
     };
 }();
 
-function MyDate(obj, str){
-    // 是对date的一层分装，主要为了兼容非日期的标题和旧标题
-    this._date = obj? new Date(obj): new Date("ybd");
-    if(!this._date.getTime()){
-        this._str = str;
+class MyDate {
+    constructor(obj, str) {
+        // 是对date的一层分装，主要为了兼容非日期的标题和旧标题
+        this._date = obj ? new Date(obj) : new Date("ybd");
+        if (!this._date.getTime()) {
+            this._str = str;
+        }
+        else {
+            this._str = null;
+        }
     }
-    else{
-        this._str = null;
-    }
-
-    this.show = () => {
-        if(this._str){
+    show(){
+        if (this._str) {
             return this._str;
         }
-        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec'];
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
         const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        return months[this._date.getMonth()]+' '+
-            this._date.getDate()+
-            '<sup>'+
-            ((this._date.getDate()===1||this._date.getDate()===21||this._date.getDate()===31)?'st':
-                (this._date.getDate()===2||this._date.getDate()===22)?'nd':
-                    (this._date.getDate()===3||this._date.getDate()===23)?'rd':
+        return months[this._date.getMonth()] + ' ' +
+            this._date.getDate() +
+            '<sup>' +
+            ((this._date.getDate() === 1 || this._date.getDate() === 21 || this._date.getDate() === 31) ? 'st' :
+                (this._date.getDate() === 2 || this._date.getDate() === 22) ? 'nd' :
+                    (this._date.getDate() === 3 || this._date.getDate() === 23) ? 'rd' :
                         'th')
-            +'</sup> &nbsp;&nbsp;'+
-            weekday[this._date.getDay()]
-    };
+            + '</sup> &nbsp;&nbsp;' +
+            weekday[this._date.getDay()];
+    }
 }
 
 $(() => {
