@@ -455,16 +455,16 @@ Controller = new class {
                 '<div class="t-e-left-day">' +
                 '</div>' +
                 '</div>' +
-                '<div class="t-e-ball ball-day" onclick="return Menu.show(this);"></div>' +
+                '<div class="t-e-ball ball-day" onmousedown="return Menu.show(this);"></div>' +
                 '<div class="t-menu dropdown-menu">' +
-                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createDay();Controller.updateDOM();">Add Day</span>' +
-                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.deleteDay(this);Controller.updateDOM();">Delete Day</span>' +
-                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.editDate(this);Controller.updateDOM();">Edit Date</span>' +
-                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.setDate(this);Controller.updateDOM();">Set Date</span>' +
-                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createEvent(this);Controller.updateDOM();">Add Event</span>' +
-                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createDescript(this);Controller.updateDOM();">Add Desc</span>' +
-                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.createTask(this);Controller.updateDOM();">Show Task</span>' +
-                '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.deleteTask(this);Controller.updateDOM();">Hide Task</span>' +
+                '<span class="dropdown-item" onmousedown="Controller.initFromDOM();Controller.createDay();Controller.updateDOM();">Add Day</span>' +
+                '<span class="dropdown-item" onmousedown="Controller.initFromDOM();Controller.deleteDay(this);Controller.updateDOM();">Delete Day</span>' +
+                '<span class="dropdown-item" onmousedown="Controller.initFromDOM();Controller.editDate(this);Controller.updateDOM();">Edit Date</span>' +
+                '<span class="dropdown-item" onmousedown="Controller.initFromDOM();Controller.setDate(this);Controller.updateDOM();">Set Date</span>' +
+                '<span class="dropdown-item" onmousedown="Controller.initFromDOM();Controller.createEvent(this);Controller.updateDOM();">Add Event</span>' +
+                '<span class="dropdown-item" onmousedown="Controller.initFromDOM();Controller.createDescript(this);Controller.updateDOM();">Add Desc</span>' +
+                '<span class="dropdown-item" onmousedown="Controller.initFromDOM();Controller.createTask(this);Controller.updateDOM();">Show Task</span>' +
+                '<span class="dropdown-item" onmousedown="Controller.initFromDOM();Controller.deleteTask(this);Controller.updateDOM();">Hide Task</span>' +
                 '</div>' +
                 '<div class="t-e-right">' +
                 '<div class="t-e-right-day" ' + (day.date._str?'contenteditable=true':"") + ' id="' + day.id + '_day">' +
@@ -488,10 +488,10 @@ Controller = new class {
                     event.time +
                     '</div>' +
                     '</div>' +
-                    '<div class="t-e-ball ball-event" onclick="return Menu.show(this);"></div>' +
+                    '<div class="t-e-ball ball-event" onmousedown="return Menu.show(this);"></div>' +
                     '<div class="t-menu dropdown-menu">' +
-                    '<span class="dropdown-item" onclick="Controller.addDescription(this);">Add Description</span>' +
-                    '<span class="dropdown-item" onclick="Controller.initFromDOM();Controller.deleteEvent(this);Controller.updateDOM();">Delete Event</span>' +
+                    '<span class="dropdown-item" onmousedown="Controller.addDescription(this);">Add Description</span>' +
+                    '<span class="dropdown-item" onmousedown="Controller.initFromDOM();Controller.deleteEvent(this);Controller.updateDOM();">Delete Event</span>' +
                     '</div>' +
                     '<div class="t-e-right">' +
                     '<div class="t-e-right-event">' +
