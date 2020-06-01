@@ -286,20 +286,17 @@ ol {
 }
 @media (max-width: 767px) {
   p {
-    font-size: 1.2em;
-    line-height: 1.47em;
+    line-height: 1.27em;
   }
 }
 @media (min-width: 768px) and (max-width: 991px) {
   p {
-    font-size: 1.2em;
-    line-height: 1.44em;
+    line-height: 1.24em;
   }
 }
 @media (min-width: 992px) and (max-width: 1199px) {
   p{
-    font-size: 1.2em;
-    line-height: 1.59em;
+    line-height: 1.39em;
   }
 }
 @media (min-width: 1200px) {
