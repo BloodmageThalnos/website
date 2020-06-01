@@ -304,8 +304,7 @@ ol {
 }
 @media (min-width: 1200px) {
   p {
-    font-size: 1.2em;
-    line-height: 1.53em;
+    line-height: 1.33em;
   }
 }
 section p:last-child,
