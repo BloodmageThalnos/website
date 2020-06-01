@@ -157,7 +157,7 @@
 
                 <div class="story-margin-top row">
 
-                    <div class="col-sm-10 col-md-12 col-lg-9 col-lg-offset-1">
+                    <div class="col-sm-12 col-md-12 col-lg-9 col-lg-offset-1">
                         <p class="byline">BY {{ author }}</p>
                         <div id="story-content">
                             {{ content|safe }}
@@ -170,9 +170,7 @@
                 <div id="main-bottom" class="container">
                     <div class="row">
                         <div class="col-xs-12 col-sm-10 col-sm-push-1 col-lg-8 col-lg-push-2">
-
                             <hr/>
-
                             <div class="pull-left hidden-print" data-ga-category="term-buttons">
                                 <div class="btn btn-category"><a
                                         href="/">Science &amp;
@@ -197,20 +195,22 @@
             <div id="bottom" class="container">
                 <div id="what-to-read-next" class="row hidden-print nocontent" data-ga-category="what-to-read-next">
                     <h2 class="text-center">What to read next:</h2>
+                        {% for r in recomm %}
                     <div class="col-md-4">
                         <div class="card short eq-height nocontent">
                             <div class="card-photo ">
-                                <a href="/article-10" aria-hidden="true">
-                                    <img src="/images/upload/imgeezMrXra25.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image"/>
+                                <a href="{{r.url}}" aria-hidden="true">
+                                    <img src="{{r.img}}" class="attachment-post-thumbnail size-post-thumbnail wp-post-image"/>
                                 </a>
                             </div>
                             <div class="card-content">
-                                <div class="meta"><a href="/article-10">算法设计</a></div>
-                                <h3><a href="/article-10">Codeforces913E 贪心思想与最短路模型</a></h3>
-                                <p class="teaser">求符合真值表的字典序最小的逻辑表达式？看贪心算法和最短路模型如何发挥作用。</p>
+                                <div class="meta"><a href="{{r.url}}">{{r.category}}</a></div>
+                                <h3><a href="{{r.url}}">{{r.title}}</a></h3>
+                                <p class="teaser">{{r.excerpt}}</p>
                             </div>
                         </div>
                     </div>
+                        {% endfor %}
                 </div>
             </div>
         </div>
