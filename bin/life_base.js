@@ -665,8 +665,8 @@ Controller = new class {
                 let taskv2 = Controller.tasks.find(value => value.id === taskid);
                 let index = Controller.tasks.indexOf(taskv2);
                 let bInsertBefore = (Static.getCaretPosition(this) === 0 && $(this).text()); // 在行首按回车跳到上一行
-                newTask = new TaskV2();
-                newSubtask = new Subtask();
+                let newTask = new TaskV2();
+                let newSubtask = new Subtask();
                 newTask.addSubtask(newSubtask);
                 Controller.tasks.splice(index+!bInsertBefore, 0, newTask);
 

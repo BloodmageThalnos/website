@@ -26,8 +26,7 @@ vi ./website/uwsgi.ini
     [...]
     plugin=python3
 
-注意！不要更新pip到10.0以上。
-万一更新了的解决方案：
+pip 报错的解决方案：
 pip3 install --upgrade pip
 sudo apt-get remove python-pip
 sudo apt-get install python-pip python-dev

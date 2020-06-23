@@ -286,22 +286,22 @@ ol {
 }
 @media (max-width: 767px) {
   p {
-    line-height: 1.27em;
+    line-height: 1.47em;
   }
 }
 @media (min-width: 768px) and (max-width: 991px) {
   p {
-    line-height: 1.24em;
+    line-height: 1.46em;
   }
 }
 @media (min-width: 992px) and (max-width: 1199px) {
   p{
-    line-height: 1.39em;
+    line-height: 1.49em;
   }
 }
 @media (min-width: 1200px) {
   p {
-    line-height: 1.33em;
+    line-height: 1.4em;
   }
 }
 section p:last-child,
