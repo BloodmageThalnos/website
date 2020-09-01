@@ -61,14 +61,28 @@ def showAssets(request, path):
 
 def showImages(request, path):
     try:
-        if path.endswith('jpg') or path.endswith('jpeg'):
-            with open('./images/'+path, mode="rb") as f:
-                html = f.read()
-            return HttpResponse(html, content_type="image/jpeg")
-        if path.endswith('png'):
-            with open('./images/'+path, mode="rb") as f:
-                html = f.read()
-            return HttpResponse(html, content_type="image/png")
+        suf2typ = {
+            'jpg': 'image/jpeg',
+            'jpe': 'image/jpeg',
+            'jpeg': 'image/jpeg',
+            'gif': 'image/gif', 
+            'ico': 'image/x-icon',
+            'tiff': 'image/tiff',
+            'tif': 'image/tiff',
+            'net': 'image/pnetvue',
+            'png': 'image/png',
+            'wbmp': 'image/vnd.wap.wbmp',
+            'pdf': 'application/pdf',
+            'mpeg': 'video/mpeg',
+            'mpg': 'video/mpeg',
+            'mp4': 'video/mpeg4',
+            'mp3': 'audio/mp3'
+        }
+        for suffix in suf2typ.keys():
+            if path.endswith(suffix):
+                with open('./images/'+path, mode="rb") as f:
+                    html = f.read()
+                return HttpResponse(html, content_type=suf2typ[suffix])
     except FileNotFoundError:
         logger.error('File not found: %s' % path)
 

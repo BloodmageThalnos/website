@@ -105,10 +105,10 @@ Controller = new class {
         // Controller.onCloseEvent(60000);
 
         // Ctrl+S保存
-        $(document).on("keydown", function(e){
+        $(document).on("keydown", function(event){
             var keynum = (event.keyCode ? event.keyCode : event.which);
             if (keynum === 83 && event.ctrlKey) {
-                e.preventDefault();
+                event.preventDefault();
                 Controller.save(false, true);
                 return false;
             }
