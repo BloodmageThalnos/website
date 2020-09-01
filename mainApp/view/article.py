@@ -48,7 +48,7 @@ def showArticlesPage(request):
         arts.append({
             'title':article.title,
             'context':excerpt,
-            'time':article.edit_date,
+            'time':article.edit_date.strftime('%b %d, %Y'),
             'img':article.get_thumb(),
             'url':'/article-'+str(article.id),
         })
