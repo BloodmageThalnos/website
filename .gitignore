@@ -8,7 +8,6 @@ db.sqlite3
 /static/planet/*.dat
 /life/*
 /music/*
-/source/*
 /test/*
 /*_backup/*
 do.txt

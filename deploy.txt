@@ -73,7 +73,7 @@ Go 环境配置+SimpleChatroom：
 wget https://dl.google.com/go/go1.12.5.linux-amd64.tar.gz
 tar -C /usr/local -xzf go1.12.5.linux-amd64.tar.gz
 export PATH=$PATH:/usr/local/go/bin
-mkdir ~/goworkspace
+mkdir ~/goworkspace && cd ~/goworkspace
 export GOPATH=~/goworkspace
 go get github.com/BloodmageThalnos/goSimpleChatroom
 cd ~/goworkspace/src/github.com/BloodmageThalnos/goSimpleChatroom/
