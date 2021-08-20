@@ -5,7 +5,7 @@ db.sqlite3
 /images/upload/*
 /images/deleted/*
 *_secret.*
-/static/planet/*.dat
+/static/*
 /life/*
 /music/*
 /test/*
