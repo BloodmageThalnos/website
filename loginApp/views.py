@@ -18,7 +18,6 @@ def showLoginPage(request, error=''):
     # 没有 next_page 时访问页面，会返回 Logout 页面（也写在 login.html 里了）
     return HttpResponse(template.render(context, request))
 
-
 def doLogout(request):
     logout(request)
     next_page = request.GET.get('next')
