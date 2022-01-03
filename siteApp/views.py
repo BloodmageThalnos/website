@@ -66,7 +66,7 @@ def doVisit(request):
         vm.save()
         return HttpResponse(vm.id)
     else:
-        pass # error act_id
+        return HttpResponse('',status=404)
 
 
 # /debug/<slug:path>

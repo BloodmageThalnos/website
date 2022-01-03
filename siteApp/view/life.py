@@ -257,7 +257,7 @@ def showPageList(request):
         if userid is None: raise LookupError
     except:
         return None
-    lifemodel = LifeModel.objects.filter(user_id=userid)
+    lifemodel = LifeModel.objects.filter(user_id=userid).order_by('-page_id')
     ret['success']='true'
     ret['length']=lifemodel.count()
     i = 0
