@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 class ArticleModel(models.Model):
     title = models.TextField()
     content = models.TextField()
-    excerpt = models.TextField(default="")
+    excerpt = models.TextField(default="", blank=True)
     create_date = models.DateTimeField(auto_now_add=True, db_index=True)
     edit_date = models.DateTimeField(auto_now=True)
     author_id = models.IntegerField()
@@ -32,7 +32,7 @@ class ArticleModel(models.Model):
 
         return self.cover_img_thumb
     type = models.IntegerField(default=1) # 1为正常文章，2为待审核，3为已删除
-    extra = models.TextField(default="")
+    extra = models.TextField(default="", blank=True)
     # url = models.CharField(max_length=64, default="")
     # related_img
 
