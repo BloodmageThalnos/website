@@ -43,6 +43,7 @@ urlpatterns = [
     path('disqus/', mainViews.showDisqus),
 
     # music
+    path('music', siteViews.showMusic),
     path('music/<str:path>', siteViews.showMusic),
     # path('addmusic', siteViews.addMusic),
 

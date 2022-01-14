@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.template import loader
 
 
-def showMusic(request, path):
+def showMusic(request, path=''):
     template = loader.get_template('music.html')
     context = {}
     musics = []
