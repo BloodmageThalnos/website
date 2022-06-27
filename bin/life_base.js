@@ -1,9 +1,10 @@
 const URL_ACTION = "/life/__action";
 const AUTO_SAVE_INTERVAL = 3 * 1000;
-const VERSION = '10002.02';
+const VERSION = '10003.01';
 // 每次更新版本时，在这里添加版本升级代码
 function version_update(from_version){
     if(from_version === "10001.00") return false;
+    if(from_version === "10002.02") return false;
     return true;
 }
 
@@ -215,22 +216,28 @@ Controller = new class {
                     let check = res?res[1]:"";
                     task.check.push(check);
 
-                    regex = /class="t-plan-text" contenteditable="true">(.*)<\/div>/g;
+                    regex = /class="t-plan-text" contenteditable="true">(.*?)<\/div>/g;
                     res = regex.exec(line);
-                    let content;
-                    if(res!= null){
+                    let content = "";
+                    if(res != null){
                         content = res[1];
-                    }else{
-                        content = "";
                     }
                     task.lines.push(content);
+                    
+                    regex = /class="t-plan-desc" contenteditable="true">(.*?)<\/div>/g;
+                    res = regex.exec(line);
+                    let desc = "";
+                    if(res != null){
+                        desc = res[1];
+                    }
+                    task.descs.push(desc);
                 }
                 task.day = lastday;
                 lastday.task = task;
             }
             else if (dom.hasClass('t-verbar')) {
             }
-            else if(dom[0].id === "custom"){// custom script, we may have a check here.
+            else if(dom[0].id === "custom"){  // custom script, we may have a check here.
             }
             else {
                 console.log('Something unexcepted:\n'+dom[0].outerHTML);
@@ -298,6 +305,8 @@ Controller = new class {
         let event = new Event('', true, true, '', '');
         day.addEvent(event);
         this.events.push(event);
+
+        day.addTask();
 
         this.days.splice(0, 0, day);
 
@@ -636,9 +645,29 @@ Controller = new class {
             let day = Controller.days.find(value => value.id === dayid);
             let task = day.task;
             let index = Static.getChildrenIndex($(this).parent()[0])-1;
-            if(task.check[index]==="")task.check[index]="checked";
-            else if(task.check[index]==="checked")task.check[index]="crossed";
-            else task.check[index] = "";
+            let value = task.check[index];
+            if(value===""){
+                task.check[index]="focused";
+                task.descs[index]="Working...";
+            }
+            else if(value==="focused"){
+                if(confirm("该任务已完成？")){
+                    task.check[index] = "checked";
+                    task.descs[index] = prompt("输入完成情况描述：");
+                }
+                else{
+                    task.check[index] = "crossed";
+                }
+            }
+            else if(value==="checked"){
+                if(confirm("清空完成状态？")){
+                    task.check[index] = "";
+                    task.descs[index] = "";
+                }
+            }
+            else {
+                task.check[index] = "";
+            }
 
             Controller.updateDOM();
         });
@@ -651,7 +680,7 @@ Controller = new class {
             if(!subtask.changeStatus()){
                 console.log("ball-subtask.changeStatus error.");
             }
-
+ 
             Controller.updateDOM();
         });
 
@@ -896,19 +925,23 @@ class Task {
         this.day = null;
         this.check = []; // "", "checked", "crossed"
         this.lines = [];
+        this.descs = [];
     }
     init(){
         this.id = Controller.getid();
         this.check.push("");
-        this.lines.push("Example task.");
+        this.lines.push("Push something further, or TRY something new!");
+        this.descs.push("");
     }
     addItem(i){
         this.check.splice(i + 1, 0, "");
         this.lines.splice(i + 1, 0, "");
+        this.descs.splice(i + 1, 0, "");
     }
     removeItem(i){
         this.check.splice(i, 1);
         this.lines.splice(i, 1);
+        this.descs.splice(i, 1);
     }
     html(){
         let ret = "<div class=\"t-plan\" id=\"" + this.day.id + "_task\">" +
@@ -917,10 +950,13 @@ class Task {
         for (let i = 0; i < this.lines.length; i++) {
             ret += "<div class=\"t-plan-line\">" +
                 "<div class=\"t-plan-check\">" +
-                "<div class=\"inner " + this.check[i] + "\"></div>" +
+                    "<div class=\"inner " + this.check[i] + "\"></div>" +
                 "</div>" +
-                "<div class=\"t-plan-text\" contenteditable=true>" + this.lines[i] + "</div>" +
-                "</div>\n";
+                "<div class=\"t-plan-text\" contenteditable=true>" + this.lines[i] + "</div>";
+            if(this.descs[i]){
+                ret += "<div class=\"t-plan-desc\" contenteditable=true>" + this.descs[i] + "</div>";
+            }
+            ret += "</div>\n"; //t-plan-line
         }
         ret += "</div>" + //t-plan-div
             "</div>"; //t-plan

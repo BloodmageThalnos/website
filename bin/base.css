@@ -2057,7 +2057,7 @@ body.site-slogan #signature #site-slogan a {
   color: #E3DFD5;
   box-shadow: inset 0 4px 8px -2px rgba(0, 0, 0, 0.2);
   /* Horizontal offset , vertical offset, blur, internal spacing */
-  padding-bottom: 7.5px;
+  padding-bottom: 15px;
 }
 #global-footer .clear {
   clear: both;

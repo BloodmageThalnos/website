@@ -10,13 +10,16 @@ from .disqus import getDisqus
 
 # 显示主页
 def showMainPage(request):
-    # 主页文章，显示最近3篇和随机的三篇
+    # 主页文章，显示最近3篇和指定的三篇 //随机的三篇
     # TODO: 文章多之后可以将这个结果缓存起来
     query = list(ArticleModel.objects.filter(type__exact=1).order_by('-create_date'))
     a = query[:3]
-    b = query[3:]
-    random.shuffle(b)
-    articleQ = a+b[:3]
+    #b = query[3:]
+    #random.shuffle(b)
+    articleQ = a #+b[:3]
+    for i in query:
+        if i.id in [20, 16, 41]:
+            articleQ.append(i)
 
     # random.shuffle(articleQ)
     articles = []

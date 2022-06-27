@@ -57,12 +57,12 @@ class CommentModel(models.Model):
 
 class DisqusModel(models.Model):
     user_id = models.IntegerField()
-    avatar = models.CharField(max_length=64, default="")
+    avatar = models.CharField(max_length=64, default="", blank=True)
     c_time = models.DateTimeField(auto_now_add=True)
     nickname = models.CharField(max_length=32)
     username = models.CharField(max_length=32)
     content = models.TextField()
-    picture = models.CharField(max_length=64, default="")
+    picture = models.CharField(max_length=64, default="", blank=True)
     reply_to = models.IntegerField()
     color = models.CharField(max_length=8, default='#ff9911')
 

@@ -32,7 +32,7 @@ urlpatterns = [
     path('captcha/img/<slug:path>', captViews.showCaptcha),
 
     # personal cv function
-    path('cv', siteViews.showCv),
+    path('cv/', siteViews.showCv),
 
     # new website
     path('home/', mainViews.showMainPage),
