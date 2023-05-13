@@ -18,7 +18,7 @@ def showMainPage(request):
     #random.shuffle(b)
     articleQ = a #+b[:3]
     for i in query:
-        if i.id in [20, 16, 41]:
+        if i.id in [20, 16, 33]:
             articleQ.append(i)
 
     # random.shuffle(articleQ)

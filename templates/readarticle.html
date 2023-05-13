@@ -68,10 +68,9 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
           type="text/css"/>
 </head>
-<body class="post-template-default single single-post postid-26689 single-format-standard">
+<body class="post-template-default single single-post single-format-standard">
 <div id="su-wrap"> <!-- used to force footer to bottom of short pages -->
     <div id="su-content"> <!-- used to force footer to bottom of short pages -->
-        <!--=== Header ===-->
         <div id="header" class="clearfix" role="banner" data-ga-category="header">
             <div class="container">
                 <div class="row">
@@ -97,12 +96,9 @@
              data-ga-action="nav">
             <div class="container">
                 <div class="navbar navbar-default">
-
-                    <!-- main navigation -->
                     <button type="button" class="navbar-toggle btn-navbar" data-toggle="collapse"
                             data-target=".navbar-collapse">Menu
                     </button>
-                    <!-- /nav-collapse -->
 
                     <div id="nav-search" role="search">
                         <form action="/search" method="get" id="search-form" accept-charset="UTF-8">
@@ -139,22 +135,21 @@
         </div>
         <!-- main content -->
 
-        <article
-                class="post-26689 post type-post status-publish format-standard has-post-thumbnail hentry category-science-technology tag-biology tag-ecology-environment tag-sustainability message-solutions custom-feed-humsci"
-                id="post-26689" data-ga-category="story">
+        <article class="post-26689 post type-post status-publish format-standard has-post-thumbnail hentry category-science-technology tag-biology tag-ecology-environment tag-sustainability message-solutions custom-feed-humsci"
+                 id="post-26689" data-ga-category="story">
             <div id="content" class="container" role="main" tabindex="0">
                 <div id="story-head" class="row">
                     <div class="col-lg-10 col-lg-offset-1 col-md-12" role="main">
                         <time>{{ create_date }}</time>
                         <h1>{{ title }}</h1>
-                        <p class="excerpt">{{ excerpt }}</p></div>
+                        <p class="excerpt">{{ excerpt }}</p>
+                    </div>
                 </div>
 
                 <div class="story-margin-top row">
-
                     <div class="col-sm-12 col-md-12 col-lg-9 col-lg-offset-1">
-                        <p class="byline">BY {{ author }}</p>
-                        <div id="story-content">
+                        <p class="byline">BY {{ author }}</p> <br/>
+                        <div id="story-content" style="font-size: 18px;">
                             {{ content|safe }}
                         </div><!-- #story-content -->
                     </div>
